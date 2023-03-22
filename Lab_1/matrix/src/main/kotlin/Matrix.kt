@@ -1,18 +1,13 @@
 class Matrix(private val matrixAsString: String) {
 
-    // Matrix is defined as "1 2 \n 3 4"
-    private val mat = matrixAsString.split("\r?\n|\r".toRegex())
-        .map { it.split(" ")
-            .map { v -> v.toInt() } }
+    private val m: List<List<Int>> =
+      matrixAsString
+          .split("\n")
+          .map { it.replace("[ ]+".toRegex(), " ") }
+          .map { it.split(" ").map { it.toInt() }.toList() }
+          .toList()
 
+  fun row(row: Int): List<Int> = m[row - 1]
 
-    fun column(colNr: Int): List<Int> {
-        val col : MutableList<Int> = ArrayList()
-        mat.forEach { col.add(it[colNr - 1]) }
-        return col
-    }
-
-    fun row(rowNr: Int): List<Int> {
-        return mat[rowNr-1]
-    }
+  fun column(col: Int): List<Int> = m.map { it[col - 1] }
 }
