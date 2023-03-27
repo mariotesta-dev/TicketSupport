@@ -1,5 +1,5 @@
 create table if not exists products(
-    ean varchar(10) primary key,
+    ean varchar(15) primary key,
     name varchar(255),
     brand varchar(255)
 )
