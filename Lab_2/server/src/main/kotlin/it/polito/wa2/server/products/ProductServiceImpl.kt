@@ -8,7 +8,7 @@ class ProductServiceImpl(private val productRepository: ProductRepository) : Pro
         return productRepository.findAll().map{ it.toDTO() }
     }
 
-    override fun getProduct(ean: String): ProductDTO? {
+    override fun getProduct(ean: String): ProductDTO {
         val response = productRepository.findById(ean).orElse(null)
             ?: throw ProductExceptions.ProductNotFoundException("Product with ean $ean not found")
 
