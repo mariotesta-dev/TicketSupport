@@ -1,6 +1,5 @@
 package it.polito.wa2.server.products
 
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,7 +9,11 @@ class ProductServiceImpl(private val productRepository: ProductRepository) : Pro
     }
 
     override fun getProduct(ean: String): ProductDTO? {
-        return productRepository.findByIdOrNull(ean)?.toDTO()
+        val response = productRepository.findById(ean).orElse(null)
+            ?: throw ProductExceptions.ProductNotFoundException("Product with ean $ean not found")
+
+        return response.toDTO()
+
     }
 
 }
