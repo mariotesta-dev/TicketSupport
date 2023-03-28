@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ReactTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-03-21T11:47:04" hostname="MacBook-Pro-di-Mario.local" time="0.017">
+<testsuite name="ReactTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-03-22T16:36:20" hostname="MacBook-Pro-di-Mario.local" time="0.016">
   <properties/>
   <testcase name="computeCellsCalculateInitialValue" classname="ReactTest" time="0.002"/>
-  <testcase name="callbacksShouldNotBeCalledIfDependenciesChangeButOutputValueDoesntChange" classname="ReactTest" time="0.003"/>
+  <testcase name="callbacksShouldNotBeCalledIfDependenciesChangeButOutputValueDoesntChange" classname="ReactTest" time="0.002"/>
   <testcase name="inputCellsValueCanBeSet" classname="ReactTest" time="0.0"/>
   <testcase name="removingACallbackMultipleTimesDoesntInterfereWithOtherCallbacks" classname="ReactTest" time="0.002"/>
-  <testcase name="computeCellsFireCallbacks" classname="ReactTest" time="0.001"/>
-  <testcase name="computeCellsTakeInputsInTheRightOrder" classname="ReactTest" time="0.0"/>
-  <testcase name="computeCellsCanDependOnOtherComputeCells" classname="ReactTest" time="0.002"/>
+  <testcase name="computeCellsFireCallbacks" classname="ReactTest" time="0.0"/>
+  <testcase name="computeCellsTakeInputsInTheRightOrder" classname="ReactTest" time="0.001"/>
+  <testcase name="computeCellsCanDependOnOtherComputeCells" classname="ReactTest" time="0.001"/>
   <testcase name="callbacksCanBeAddedAndRemoved" classname="ReactTest" time="0.002"/>
   <testcase name="inputCellsHaveValue" classname="ReactTest" time="0.0"/>
   <testcase name="callbacksShouldOnlyBeCalledOnceEvenIfMultipleDependenciesChange" classname="ReactTest" time="0.002"/>
