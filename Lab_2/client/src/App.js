@@ -1,14 +1,22 @@
-import './App.css';
-import Products from "./components/Products";
-import Profiles from "./components/Profiles";
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./views/Home";
+import CreateProfile from "./views/CreateProfile";
+
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <Home />,
+	},
+	{ path: "/createprofile", element: <CreateProfile /> },
+]);
 
 function App() {
-  return (
-    <div className="main-container">
-        <Products />
-        <Profiles />
-    </div>
-  );
+	return (
+		<>
+			<RouterProvider router={router} />
+		</>
+	);
 }
 
 export default App;

@@ -1,63 +1,98 @@
-import {useState} from "react";
+import { useState } from "react";
 
-import {productsAPI} from "../API";
+import { productsAPI } from "../API";
 
 export default function Products() {
+	const [ean, setEan] = useState("");
+	const [products, setProducts] = useState({});
+	const [error, setError] = useState(false);
 
-    const [ean, setEan] = useState("");
-    const [products, setProducts] = useState({});
+	const handleGetAllProducts = async () => {
+		try {
+			const products = await productsAPI.getProducts();
+			setError(false);
+			setProducts(products);
+		} catch (error) {
+			setProducts([]);
+			setError(error);
+		}
+	};
 
-    const handleGetAllProducts = async () => {
-        try {
-            const products = await productsAPI.getProducts();
-            setProducts(products);
-        }catch (error) {
-            console.log(error)
-        }
-    }
+	const handleGetProduct = async (e) => {
+		e.preventDefault();
 
-    const handleGetProduct = async (e) => {
-        e.preventDefault();
+		try {
+			const product = await productsAPI.getProduct(ean);
+			setError(false);
+			setProducts([product]);
+		} catch (error) {
+			setProducts([]);
+			setError(error);
+		}
+	};
 
-        try {
-            const product = await productsAPI.getProduct(ean);
-            setProducts([product]);
-        }catch (error) {
-            console.log(error)
-        }
-    }
+	const clearProducts = () => {
+		setProducts([]);
+		setError(false);
+	};
 
-    const clearProducts = () => {
-        setProducts([])
-    }
+	return (
+		<div className="products-container">
+			<div className="btn-container">
+				<h1>Products API</h1>
+				<button className="btn" onClick={() => handleGetAllProducts()}>
+					Show all products
+				</button>
 
-    return (
-        <div className="products-container">
-            <div className="btn-container">
-                <h1>Products API</h1>
-                <button className="btn" onClick={() => handleGetAllProducts()}>Show all products</button>
-
-                <form className="input-container" onSubmit={handleGetProduct}>
-                    <input value={ean} onChange={(e) => setEan(e.target.value)} type="text" placeholder="EAN" className="textbox" />
-                    <button className="btn" type={"submit"}>Search</button>
-                </form>
-            </div>
-            <div className="list-container">
-                <button className="clear-btn" onClick={() => clearProducts()}>Clear</button>
-                {products.length > 0 && products.map((product, index) => {
-                    return <Product product={product} key={index} />
-                })}
-            </div>
-        </div>
-    );
+				<form className="input-container" onSubmit={handleGetProduct}>
+					<input
+						value={ean}
+						onChange={(e) => setEan(e.target.value)}
+						type="text"
+						placeholder="EAN"
+						className="textbox"
+						required
+					/>
+					<button className="btn" type={"submit"}>
+						Search
+					</button>
+				</form>
+			</div>
+			<div className="list-container">
+				<button className="clear-btn" onClick={() => clearProducts()}>
+					Clear
+				</button>
+				{error && <Error error={error} />}
+				{products.length > 0 &&
+					products.map((product, index) => {
+						return <Product product={product} key={index} />;
+					})}
+			</div>
+		</div>
+	);
 }
 
-function Product({product}) {
-    return (
-        <div className="product-container">
-            <h2>{product.ean}</h2>
-            <p>{product.name}</p>
-            <p>{product.brand}</p>
-        </div>
-    )
+function Product({ product }) {
+	return (
+		<div className="product-container">
+			<h2>{product.ean}</h2>
+			<p>
+				Name: <b>{product.name}</b>
+			</p>
+			<p>
+				Brand: <b>{product.brand}</b>
+			</p>
+		</div>
+	);
+}
+
+function Error({ error }) {
+	const { detail, title } = error;
+
+	return (
+		<div className="error-container">
+			<h2>{title}</h2>
+			<p>{detail}</p>
+		</div>
+	);
 }
