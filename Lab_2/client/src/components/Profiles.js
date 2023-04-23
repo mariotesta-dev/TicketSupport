@@ -111,7 +111,12 @@ function ProfileEdit({ profile, setEdit, setProfile, setError }) {
 
 	const handleSave = async () => {
 		setEdit(false);
-		const modifiedProfile = { email: email, name: name, surname: surname };
+		const modifiedProfile = {
+			id: profile.id,
+			email: email,
+			name: name,
+			surname: surname,
+		};
 
 		try {
 			await profilesAPI.updateProfile(currentEmail, modifiedProfile);

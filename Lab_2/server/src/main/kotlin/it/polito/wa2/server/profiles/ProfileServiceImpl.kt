@@ -1,20 +1,31 @@
 package it.polito.wa2.server.profiles
 
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Service
 
 @Service
 class ProfileServiceImpl(private val profileRepository: ProfileRepository): ProfileService {
     override fun getProfile(email: String): ProfileDTO {
-        val response = profileRepository.findById(email).orElse(null)
+
+        val response = profileRepository.findProfileByEmail(email)
             ?: throw ProfileExceptions.ProfileNotFoundException("Profile with email $email not found")
 
         return response.toDTO()
     }
 
-    override fun createProfile(profile: Profile): ProfileDTO {
-        val profileExists = profileRepository.existsById(profile.email)
+    override fun getProfileById(profileId: Long): ProfileDTO {
 
-        if(!profileExists){
+        val response = profileRepository.findById(profileId).orElse(null)
+            ?: throw ProfileExceptions.ProfileNotFoundException("Profile with id $profileId not found")
+
+        return response.toDTO()
+    }
+
+    override fun createProfile(profile: Profile): ProfileDTO {
+        val profileFound = profileRepository.findProfileByEmail(profile.email)
+
+        if(profileFound == null){
             return profileRepository.save(profile).toDTO()
         } else {
             throw ProfileExceptions.ProfileAlreadyExistsException("Profile with email ${profile.email} already exists")
@@ -23,15 +34,10 @@ class ProfileServiceImpl(private val profileRepository: ProfileRepository): Prof
 
     override fun updateProfile(email: String, profile: Profile): ProfileDTO {
 
-        if(profileRepository.existsById(email)){
+        if(profileRepository.findProfileByEmail(email) != null){
 
-            if(email != profile.email && profileRepository.existsById(profile.email)){
+            if(email != profile.email && profileRepository.findProfileByEmail(profile.email) != null){
                 throw ProfileExceptions.ProfileAlreadyExistsException("Profile with email ${profile.email} already exists")
-            }
-
-            // If the email is changed, delete the old profile because the email is the primary key
-            if(email != profile.email){
-                profileRepository.deleteById(email)
             }
 
             return profileRepository.save(profile).toDTO()
