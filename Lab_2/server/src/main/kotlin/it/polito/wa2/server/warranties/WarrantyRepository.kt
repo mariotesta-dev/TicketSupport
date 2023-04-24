@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface WarrantyRepository : JpaRepository<Warranty, Long> {
 
-    fun getWarrantiesByCustomer(customer: Long): List<Warranty>
+    fun getWarrantiesByCustomerId(customerId: Long): List<Warranty>
 }

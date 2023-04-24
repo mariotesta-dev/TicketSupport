@@ -10,27 +10,24 @@ import jakarta.persistence.*
 data class Ticket(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var ticketId: Long? = null,
+    var ticketId: Long = 0,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "ean")
     var product: Product? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", referencedColumnName = "profile_id")
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     var customer: Profile? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "_to", referencedColumnName = "profile_id")
-    var assigned_to: Profile? = null,
+    @ManyToOne
+    @JoinColumn(name = "assigned_to", referencedColumnName = "id")
+    var assignedTo: Profile? = null,
 
-    @Column(name = "subject")
     var subject: String = "",
 
-    @Column(name = "issue")
     var issue: String = "",
 
-    @Column(name = "priority")
     var priority: String = "",
 
     @Column(name = "created_at")

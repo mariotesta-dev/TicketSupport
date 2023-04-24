@@ -10,7 +10,6 @@ import java.time.LocalDate
 class Warranty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "id", sequenceName = "warranties_id_seq", allocationSize = 1)
     var warrantyId: Long = 0
 
     @OneToOne(fetch = FetchType.LAZY)

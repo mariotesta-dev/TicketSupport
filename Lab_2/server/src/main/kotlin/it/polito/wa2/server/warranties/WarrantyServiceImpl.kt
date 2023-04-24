@@ -9,7 +9,7 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository) : 
     }
 
     override fun getAllWarrantiesByCustomer(customer: Long): List<WarrantyDTO> {
-        return warrantyRepository.getWarrantiesByCustomer(customer).map{ it.toDTO() }
+        return warrantyRepository.getWarrantiesByCustomerId(customer).map{ it.toDTO() }
     }
 
     override fun getWarranty(warrantyId: Long): WarrantyDTO {

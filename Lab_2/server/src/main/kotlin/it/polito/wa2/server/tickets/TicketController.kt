@@ -23,8 +23,8 @@ class TicketController(private val ticketService: TicketService) {
         return ticketService.getAll()
     }
 
-    @GetMapping("/API/tickets/{id}")
+    /*@GetMapping("/API/tickets/{id}")
     fun getTicket(@PathVariable id: Long) : TicketDTO {
         return ticketService.getTicket(id)
-    }
+    }*/
 }

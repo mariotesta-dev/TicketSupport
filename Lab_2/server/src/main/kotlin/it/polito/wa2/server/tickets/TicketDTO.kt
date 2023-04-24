@@ -9,16 +9,16 @@ import jakarta.persistence.ManyToOne
 import java.time.LocalDateTime
 
 data class TicketDTO(
-    val id: Long,
+    val ticketId: Long,
     val product: Product?,
     val customer: Profile?,
-    val assigned_to: Profile?,
+    val assignedTo: Profile?,
     val subject: String?,
     val issue: String?,
     val priority: String?,
-    val created_at: LocalDateTime?
+    val createdAt: LocalDateTime?
 )
 
 fun Ticket.toDTO() : TicketDTO {
-    return TicketDTO(id, product, customer, assigned_to, subject, issue, priority, created_at)
+    return TicketDTO(ticketId, product, customer, assignedTo, subject, issue, priority, createdAt)
 }
