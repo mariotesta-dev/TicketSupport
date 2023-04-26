@@ -1,11 +1,15 @@
 package it.polito.wa2.server.profiles
 
+import it.polito.wa2.server.tickets.TicketDTO
+import it.polito.wa2.server.tickets.TicketExceptions
+import it.polito.wa2.server.tickets.TicketRepository
+import it.polito.wa2.server.tickets.toDTO
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Service
 
 @Service
-class ProfileServiceImpl(private val profileRepository: ProfileRepository): ProfileService {
+class ProfileServiceImpl(private val profileRepository: ProfileRepository, private val ticketRepository: TicketRepository): ProfileService {
     override fun getProfile(email: String): ProfileDTO {
 
         val response = profileRepository.findProfileByEmail(email)

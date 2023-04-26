@@ -1,5 +1,7 @@
 package it.polito.wa2.server.profiles
 
+import it.polito.wa2.server.tickets.TicketDTO
+
 interface ProfileService {
     fun getProfile(email: String) : ProfileDTO
 

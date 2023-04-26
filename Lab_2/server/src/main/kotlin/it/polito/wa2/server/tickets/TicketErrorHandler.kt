@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 class TicketErrorHandler : ResponseEntityExceptionHandler() {
-    @ExceptionHandler(TicketExceptions.TicketNotFoundException::class)
-    fun handleNoTicketFound(e: TicketExceptions.TicketNotFoundException) =
+    @ExceptionHandler(TicketExceptions.TicketsNotFoundException::class)
+    fun handleNoTicketFound(e: TicketExceptions.TicketsNotFoundException) =
         ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 }

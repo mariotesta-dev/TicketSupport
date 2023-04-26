@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 interface TicketRepository : JpaRepository<Ticket, Long> {
 
     fun findAllByTicketId(ticketId: Long): List<Ticket>?
+
+    fun findAllByCustomerId(customerId: Long): List<Ticket>?
 }

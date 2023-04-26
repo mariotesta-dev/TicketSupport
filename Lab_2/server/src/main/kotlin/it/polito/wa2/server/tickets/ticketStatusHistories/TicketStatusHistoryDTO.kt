@@ -1,9 +1,10 @@
 package it.polito.wa2.server.tickets.ticketStatusHistories
 
+import it.polito.wa2.server.tickets.Ticket
 import java.time.LocalDateTime
 
 data class TicketStatusHistoryDTO(
-    val ticketId: Long,
+    val ticketId: Ticket?,
     val status: String,
     val updatedAt: LocalDateTime
 )

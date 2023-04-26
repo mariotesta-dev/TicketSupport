@@ -1,15 +1,13 @@
 package it.polito.wa2.server.tickets
 
+import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.TicketService
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTO
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class TicketController(private val ticketService: TicketService) {
@@ -23,8 +21,16 @@ class TicketController(private val ticketService: TicketService) {
         return ticketService.getAll()
     }
 
-    /*@GetMapping("/API/tickets/{id}")
-    fun getTicket(@PathVariable id: Long) : TicketDTO {
-        return ticketService.getTicket(id)
-    }*/
+    @GetMapping("/API/tickets/{email}")
+    fun getAllTickets(@PathVariable email: String) =
+        ticketService.getAllTickets(email)
+
+    @PostMapping("/API/tickets")
+    fun createNewTicket(@RequestBody ticket: Ticket) {
+        ticketService.createNewTicket(ticket)
+    }
+
+    @PutMapping("/API/tickets/{ticketId}")
+    fun editTicket(@PathVariable ticketId: Long, @RequestBody ticket: Ticket) =
+        ticketService.editTicket(ticketId, ticket)
 }
