@@ -1,30 +1,29 @@
 package it.polito.wa2.server.tickets
 
 import it.polito.wa2.server.products.Product
-import it.polito.wa2.server.profiles.Profile
+import it.polito.wa2.server.customers.Customer
+import it.polito.wa2.server.experts.Expert
 import java.time.LocalDateTime
 import jakarta.persistence.*
-import java.sql.Timestamp
 
 @Entity
 @Table(name = "tickets")
 data class Ticket(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ticket_id")
-    var ticketId: Long = 0,
+    var id: Long = 0,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
-    @JoinColumn(name = "product_id", referencedColumnName = "ean")
-    var product: Product? = null,
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
+    @JoinColumn(nullable = false)
+    var product: Product = Product(),
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    var customer: Profile? = null,
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
+    @JoinColumn(nullable = false)
+    var customer: Customer? = Customer(),
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
-    @JoinColumn(name = "assigned_to", referencedColumnName = "id")
-    var assignedTo: Profile? = null,
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
+    @JoinColumn(name = "assigned_to", referencedColumnName = "id", nullable = true)
+    var assignedTo: Expert? = null,
 
     var category: String = "",
 
@@ -34,7 +33,6 @@ data class Ticket(
 
     var priority: String = "",
 
-    @Column(name = "created_at")
     var createdAt: LocalDateTime = LocalDateTime.now()
 )
 

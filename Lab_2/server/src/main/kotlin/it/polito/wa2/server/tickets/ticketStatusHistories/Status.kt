@@ -6,3 +6,7 @@ data class Status(
     val status: String,
     val updatedAt: LocalDateTime
 )
+
+fun TicketStatusHistory.toStatus() : Status {
+    return Status(status = status, updatedAt = updatedAt)
+}

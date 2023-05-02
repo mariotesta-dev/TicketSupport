@@ -1,7 +1,7 @@
 package it.polito.wa2.server.warranties
 
 import it.polito.wa2.server.products.Product
-import it.polito.wa2.server.profiles.Profile
+import it.polito.wa2.server.customers.Customer
 import jakarta.persistence.*
 import java.time.LocalDate
 
@@ -10,15 +10,15 @@ import java.time.LocalDate
 class Warranty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var warrantyId: Long = 0
+    var id: Long = 0
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_ean", referencedColumnName = "ean", nullable = false)
-    var productEan: Product? = null
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
+    @JoinColumn(nullable = false)
+    var product: Product? = null
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = true)
-    var customerId: Profile? = null
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
+    @JoinColumn(nullable = true)
+    var customer: Customer? = null
 
     // generate date of Purchase when the warranty is created (now)
     var dateOfPurchase: LocalDate = LocalDate.now()

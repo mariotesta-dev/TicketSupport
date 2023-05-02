@@ -1,80 +1,64 @@
 package it.polito.wa2.server.tickets
 
 import it.polito.wa2.server.products.ProductRepository
-import it.polito.wa2.server.profiles.*
+import it.polito.wa2.server.customers.*
 import it.polito.wa2.server.tickets.ticketStatusHistories.Status
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistory
-import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTO
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryRepository
+import it.polito.wa2.server.tickets.ticketStatusHistories.toStatus
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 @Service
-class TicketServiceImpl(private val ticketRepository: TicketRepository, private val profileRepository: ProfileRepository, private val productRepository: ProductRepository, private val ticketStatusHistoryRepository: TicketStatusHistoryRepository) : TicketService {
+class TicketServiceImpl(private val ticketRepository: TicketRepository, private val ticketStatusHistoryRepository: TicketStatusHistoryRepository) : TicketService {
 
-    override fun getAll(): List<TicketDTO> {
-        return ticketRepository.findAll().map{ it.toDTO() }
+    override fun getTicketById(ticketId: Long): TicketDTO {
+        val ticket = ticketRepository.findById(ticketId).orElse(null)
+
+        println(ticket)
+
+        if (ticket != null) {
+            val status : Status? = ticketStatusHistoryRepository.findLastStatus(ticketId)?.toStatus()
+            return ticket.toDTO(status)
+        }
+        throw TicketExceptions.TicketsNotFoundException("Ticket with id $ticketId not found")
     }
 
-    override fun createNewTicket(ticket: Ticket) {
+    override fun createNewTicket(ticket: Ticket) : TicketDTO {
         try {
             val newTicket = ticketRepository.save(ticket)
             val ticketHistoryRecord = TicketStatusHistory()
-            ticketHistoryRecord.ticketId = newTicket
+            ticketHistoryRecord.ticket = newTicket
             ticketHistoryRecord.status = "OPEN"
             ticketHistoryRecord.updatedAt = LocalDateTime.now()
             ticketStatusHistoryRepository.save(ticketHistoryRecord)
 
+            return newTicket.toDTO(ticketHistoryRecord.toStatus())
         }
         catch(err: Error) {
             throw err
         }
     }
 
-    override fun editTicket(ticketId: Long, ticket: Ticket) {
-        val oldTicket = ticketRepository.findByIdOrNull(ticketId)
-        if (oldTicket != null) {
-            if(oldTicket.assignedTo == null && ticket.assignedTo != null) {
+    override fun assignTicket(ticketId: Long, assignment: TicketController.Assignment): TicketDTO {
+        val ticket = ticketRepository.findById(ticketId).orElse(null)
+        if (ticket != null) {
+            ticket.assignedTo = assignment.expert
+            ticket.priority = assignment.priority
 
-                val newHistoryRecord = TicketStatusHistory()
-                newHistoryRecord.ticketId = oldTicket
-                newHistoryRecord.status = "IN PROGRESS"
-                newHistoryRecord.updatedAt = LocalDateTime.now()
-                ticketStatusHistoryRepository.save(newHistoryRecord)
-            }
-            ticketRepository.save(ticket)
-        }
-        else {
-            //throw TicketExceptions.TicketNotFoundException("Ticket with id $ticketId does not exist")
-        }
-    }
+            val newTicket = ticketRepository.save(ticket)
 
-    override fun getAllTickets(email: String): List<TicketDTO> {
-        try {
-            val profile = profileRepository.findProfileByEmail(email)!!
-            return ticketRepository.findAllByCustomerId(profile.id)?.map {
-                val history = ticketStatusHistoryRepository.findLastStatus(it.ticketId)
-                println(history.status)
-                val lastStatus = Status(history.status, history.updatedAt)
-                it.toDTO(lastStatus)
-            }!!
-        }
-        catch(err: Error){
-            throw TicketExceptions.TicketsNotFoundException("No tickets found")
+            val history = TicketStatusHistory()
+            history.ticket = newTicket
+            history.status = "IN PROGRESS"
+            history.updatedAt = LocalDateTime.now()
+            ticketStatusHistoryRepository.save(history)
+
+            return newTicket.toDTO(history.toStatus())
+        } else {
+            throw TicketExceptions.TicketsNotFoundException("Ticket with id $ticketId not found")
         }
     }
-
-    /*override fun getTicket(ticketId: Long): List<TicketDTO> {
-        val response = ticketRepository.findAllByTicketId(ticketId)?.map{ it.toDTO() }
-            ?: throw TicketExceptions.TicketNotFoundException("Ticket for ticket $ticketId not found")
-
-        return response
-    }*/
-
-   /* override fun getTicketsByUserId(profileId: Long): List<Ticket> {
-        return ticketRepository.findByCustomerProfileId(profileId)
-    }*/
 
 }

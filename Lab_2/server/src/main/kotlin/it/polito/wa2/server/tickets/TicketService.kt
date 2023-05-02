@@ -1,9 +1,7 @@
 package it.polito.wa2.server.tickets
 
 interface TicketService {
-    fun getAll() : List<TicketDTO>
-
-    fun createNewTicket(profile: Ticket)
-    fun editTicket(ticketId: Long, ticket: Ticket)
-    fun getAllTickets(email: String): List<TicketDTO>
+    fun getTicketById(id: Long) : TicketDTO
+    fun createNewTicket(customer: Ticket) : TicketDTO
+    fun assignTicket(ticketId: Long, assignment: TicketController.Assignment) : TicketDTO
 }

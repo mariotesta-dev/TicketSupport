@@ -1,9 +1,8 @@
 package it.polito.wa2.server.warranties
 
-import it.polito.wa2.server.profiles.Profile
-
 interface WarrantyService {
-    fun getAll() : List<WarrantyDTO>
-    fun getWarranty(warrantyId: Long) : WarrantyDTO
-    fun getAllWarrantiesByCustomer(customer: Long) : List<WarrantyDTO>
+    fun getWarrantyById(warrantyId: Long) : WarrantyDTO
+    fun getWarrantyByProduct(productEan: String) : WarrantyDTO
+    fun createWarranty(warranty: Warranty) : WarrantyDTO
+    fun editWarranty(warrantyId: Long, warranty: Warranty) : WarrantyDTO
 }

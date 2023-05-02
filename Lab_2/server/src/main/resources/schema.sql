@@ -4,7 +4,7 @@ create table if not exists products(
     brand varchar(255)
 );
 
-create table if not exists profiles(
+create table if not exists customers(
     id int primary key GENERATED ALWAYS AS IDENTITY,
     email varchar(255) UNIQUE NOT NULL,
     name varchar(255) NOT NULL,
@@ -20,8 +20,8 @@ create table if not exists tickets(
     issue varchar(255) NOT NULL,
 
     FOREIGN KEY (product_ean) REFERENCES products(ean),
-    FOREIGN KEY (customer_id) REFERENCES profiles(id),
-    FOREIGN KEY (customer_id) REFERENCES profiles(id)
+    FOREIGN KEY (customer_id) REFERENCES customers(id),
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
 
@@ -32,11 +32,11 @@ create table if not exists warranties(
     date_of_purchase date NOT NULL,
     end_of_warranty date NOT NULL,
     FOREIGN KEY (product_ean) REFERENCES products(ean),
-    FOREIGN KEY (customer_id) REFERENCES profiles(id)
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
 
-create table if not exists profiles(
+create table if not exists customers(
     ticketId int primary key,
     status varchar(255) NOT NULL,
     updatedAt date NOT NULL
