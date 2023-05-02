@@ -20,12 +20,25 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository) : 
     }
 
     override fun createWarranty(warranty: Warranty): WarrantyDTO {
-        // TODO Exceptions
+        if(!warranty.endOfWarranty.isAfter(warranty.dateOfPurchase))
+        {
+            throw WarrantyExceptions.WarrantyInvalid("End of warranty has to be after date of purchase")
+        }
+
         return warrantyRepository.save(warranty).toDTO()
     }
 
     override fun editWarranty(warrantyId: Long, warranty: Warranty): WarrantyDTO {
-        // TODO Exceptions
+
+        val warrantyFound = warrantyRepository.getWarrantyById(warrantyId)
+            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
+
+        if(!warranty.endOfWarranty.isAfter(warranty.dateOfPurchase))
+        {
+            throw WarrantyExceptions.WarrantyInvalid("End of warranty has to be after date of purchase")
+        }
+
+        warranty.id = warrantyFound.id;
         return warrantyRepository.save(warranty).toDTO()
     }
 

@@ -32,16 +32,15 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository, pr
     }
 
     override fun updateCustomer(email: String, customer: Customer): CustomerDTO {
+        val customerFound = customerRepository.findCustomerByEmail(customer.email)
+            ?: throw CustomerExceptions.CustomerNotFoundException("Customer with email $email not found")
 
-        if(customerRepository.findCustomerByEmail(email) != null){
-
-            if(email != customer.email && customerRepository.findCustomerByEmail(customer.email) != null){
-                throw CustomerExceptions.CustomerAlreadyExistsException("Customer with email ${customer.email} already exists")
-            }
-
-            return customerRepository.save(customer).toDTO()
-        } else {
-            throw CustomerExceptions.CustomerNotFoundException("Customer with email $email not found")
+        if(email != customer.email){
+            throw CustomerExceptions.CustomerEmailDoesntMatch("Email ${customer.email} doesn't match $email")
         }
+
+        customer.id = customerFound.id;
+        return customerRepository.save(customer).toDTO()
+
     }
 }

@@ -18,9 +18,7 @@ class CustomerController(private val customerService: CustomerService) {
     fun createCustomer(@RequestBody customer: Customer) =
         customerService.createCustomer(customer)
 
-
     @PutMapping("/API/customers/{email}")
     fun updateCustomer(@PathVariable email: String, @RequestBody customer: Customer) =
         customerService.updateCustomer(email, customer)
-
 }

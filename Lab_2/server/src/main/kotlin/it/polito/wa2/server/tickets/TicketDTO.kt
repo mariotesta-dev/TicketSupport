@@ -1,10 +1,9 @@
 package it.polito.wa2.server.tickets
 
-import it.polito.wa2.server.products.Product
-import it.polito.wa2.server.customers.Customer
 import it.polito.wa2.server.customers.CustomerDTOWithoutWarrantiesAndTickets
 import it.polito.wa2.server.customers.toDTOWithoutWarrantiesAndTickets
 import it.polito.wa2.server.experts.Expert
+import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.tickets.ticketStatusHistories.Status
 import java.time.LocalDateTime
 

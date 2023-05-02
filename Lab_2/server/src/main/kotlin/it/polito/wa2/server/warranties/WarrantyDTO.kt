@@ -1,8 +1,8 @@
 package it.polito.wa2.server.warranties
 
 import it.polito.wa2.server.customers.CustomerDTOWithoutWarrantiesAndTickets
-import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.customers.toDTOWithoutWarrantiesAndTickets
+import it.polito.wa2.server.products.Product
 import java.time.LocalDate
 
 data class WarrantyDTO(

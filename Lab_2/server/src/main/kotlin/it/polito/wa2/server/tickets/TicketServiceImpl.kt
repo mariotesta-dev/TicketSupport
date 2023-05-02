@@ -1,12 +1,9 @@
 package it.polito.wa2.server.tickets
 
-import it.polito.wa2.server.products.ProductRepository
-import it.polito.wa2.server.customers.*
 import it.polito.wa2.server.tickets.ticketStatusHistories.Status
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistory
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryRepository
 import it.polito.wa2.server.tickets.ticketStatusHistories.toStatus
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 

@@ -1,7 +1,7 @@
 package it.polito.wa2.server.warranties
 
-import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.customers.Customer
+import it.polito.wa2.server.products.Product
 import jakarta.persistence.*
 import java.time.LocalDate
 

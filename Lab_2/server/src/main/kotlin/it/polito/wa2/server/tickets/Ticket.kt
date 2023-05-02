@@ -1,8 +1,8 @@
 package it.polito.wa2.server.tickets
 
-import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.customers.Customer
 import it.polito.wa2.server.experts.Expert
+import it.polito.wa2.server.products.Product
 import java.time.LocalDateTime
 import jakarta.persistence.*
 
