@@ -1,9 +1,6 @@
 package it.polito.wa2.server.tickets
 
-import it.polito.wa2.server.tickets.ticketStatusHistories.Status
-import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistory
-import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryRepository
-import it.polito.wa2.server.tickets.ticketStatusHistories.toStatus
+import it.polito.wa2.server.tickets.ticketStatusHistories.*
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -27,7 +24,7 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository, private 
             val newTicket = ticketRepository.save(ticket)
             val ticketHistoryRecord = TicketStatusHistory()
             ticketHistoryRecord.ticket = newTicket
-            ticketHistoryRecord.status = "OPEN"
+            ticketHistoryRecord.status = TicketStatus.OPEN
             ticketHistoryRecord.updatedAt = LocalDateTime.now()
             ticketStatusHistoryRepository.save(ticketHistoryRecord)
 
@@ -48,7 +45,7 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository, private 
 
             val history = TicketStatusHistory()
             history.ticket = newTicket
-            history.status = "IN PROGRESS"
+            history.status = TicketStatus.INPROGRESS
             history.updatedAt = LocalDateTime.now()
             ticketStatusHistoryRepository.save(history)
 

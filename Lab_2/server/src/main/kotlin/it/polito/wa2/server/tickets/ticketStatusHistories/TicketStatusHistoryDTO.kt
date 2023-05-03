@@ -7,13 +7,13 @@ import java.time.LocalDateTime
 
 data class TicketStatusHistoryDTO(
     val ticket: TicketDTOWithoutCustomer,
-    val status: String,
+    val status: TicketStatus,
     val updatedAt: LocalDateTime
 )
 
 data class TicketStatusHistoryDTOWithoutTicket(
     val ticket: Long,
-    val status: String,
+    val status: TicketStatus,
     val updatedAt: LocalDateTime
 )
 

@@ -29,7 +29,7 @@ data class Ticket(
 
     var summary: String = "",
 
-    val description: String = "",
+    var description: String = "",
 
     var priority: String = "",
 
