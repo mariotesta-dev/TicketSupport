@@ -110,11 +110,7 @@ class TicketHistoryTests : DbT1ApplicationTests() {
                     TicketDTO::class.java::class.java,
                 )
 
-                for (i in 1 until path.size) {
-                    val fromStatus = path[i - 1]
-                    val toStatus = path[i]
-
-                    //TODO: QUI SI ROMPONO I TEST: Error while extracting response for type...
+                for (toStatus in path) {
                     val response = restTemplate.postForEntity<TicketStatusHistoryDTO>(
                         "${apiPath[toStatus]}/${response.body?.id}",
                         TicketStatusHistoryDTO::class.java,
