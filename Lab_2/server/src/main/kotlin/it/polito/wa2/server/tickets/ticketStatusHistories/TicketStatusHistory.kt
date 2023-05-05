@@ -20,11 +20,11 @@ data class TicketStatusHistory (
 
 
 val statesGraph = mapOf(
-    TicketStatus.OPEN to listOf(TicketStatus.CLOSED, TicketStatus.INPROGRESS, TicketStatus.RESOLVED),
+    TicketStatus.OPEN to listOf(TicketStatus.CLOSED, TicketStatus.IN_PROGRESS, TicketStatus.RESOLVED),
     TicketStatus.CLOSED to listOf(TicketStatus.REOPENED),
     TicketStatus.RESOLVED to listOf(TicketStatus.REOPENED, TicketStatus.CLOSED),
-    TicketStatus.INPROGRESS to listOf(TicketStatus.OPEN, TicketStatus.CLOSED, TicketStatus.RESOLVED),
-    TicketStatus.REOPENED to listOf(TicketStatus.CLOSED, TicketStatus.RESOLVED, TicketStatus.INPROGRESS)
+    TicketStatus.IN_PROGRESS to listOf(TicketStatus.OPEN, TicketStatus.CLOSED, TicketStatus.RESOLVED),
+    TicketStatus.REOPENED to listOf(TicketStatus.CLOSED, TicketStatus.RESOLVED, TicketStatus.IN_PROGRESS)
 )
 
 fun isValidTransition(start: TicketStatus, end: TicketStatus): Boolean {
@@ -35,6 +35,6 @@ enum class TicketStatus {
     OPEN,
     CLOSED,
     RESOLVED,
-    INPROGRESS,
+    IN_PROGRESS,
     REOPENED
 }

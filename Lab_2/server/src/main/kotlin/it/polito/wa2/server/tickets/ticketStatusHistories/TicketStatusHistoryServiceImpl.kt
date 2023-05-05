@@ -2,7 +2,6 @@ package it.polito.wa2.server.tickets.ticketStatusHistories
 
 import it.polito.wa2.server.tickets.Ticket
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 import kotlin.reflect.full.createInstance
 
 @Service
@@ -47,7 +46,7 @@ class TicketStatusHistoryServiceImpl(private val ticketStatusHistoryRepository: 
         val lastStatus = ticketStatusHistoryRepository.findLastStatus(ticketId)
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Cannot find status history for ticket with id $ticketId")
 
-        return moveToStatus(lastStatus.ticket, lastStatus.status, TicketStatus.INPROGRESS)
+        return moveToStatus(lastStatus.ticket, lastStatus.status, TicketStatus.IN_PROGRESS)
     }
 
     override fun ticketStatusResolve(ticketId: Long): TicketStatusHistoryDTO {

@@ -21,7 +21,7 @@ data class WarrantyDTOWithoutCustomer(
 )
 
 fun Warranty.toDTO() : WarrantyDTO {
-    return WarrantyDTO(id, product, customer!!.toDTOWithoutWarrantiesAndTickets(), dateOfPurchase, endOfWarranty)
+    return WarrantyDTO(id, product, customer?.toDTOWithoutWarrantiesAndTickets(), dateOfPurchase, endOfWarranty)
 }
 
 fun Warranty.toDTOWithoutCustomer() : WarrantyDTOWithoutCustomer {

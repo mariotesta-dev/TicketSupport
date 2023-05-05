@@ -1,9 +1,13 @@
 package it.polito.wa2.server.warranties
 
+import it.polito.wa2.server.customers.Customer
+import it.polito.wa2.server.customers.CustomerExceptions
+import it.polito.wa2.server.customers.CustomerRepository
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
-class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository) : WarrantyService {
+class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, private val customerRepository: CustomerRepository) : WarrantyService {
 
     override fun getWarrantyById(warrantyId: Long): WarrantyDTO {
         val response = warrantyRepository.findById(warrantyId).orElse(null)
@@ -28,18 +32,28 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository) : 
         return warrantyRepository.save(warranty).toDTO()
     }
 
-    override fun editWarranty(warrantyId: Long, warranty: Warranty): WarrantyDTO {
-
+    override fun subscribeProduct(warrantyId: Long, customer: Customer): WarrantyDTO {
         val warrantyFound = warrantyRepository.getWarrantyById(warrantyId)
             ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
 
-        if(!warranty.endOfWarranty.isAfter(warranty.dateOfPurchase))
+        customerRepository.findById(customer.id).orElse(null)
+            ?: throw CustomerExceptions.CustomerNotFoundException("Customer with id ${customer.id} not found")
+
+        warrantyFound.customer = customer
+        return warrantyRepository.save(warrantyFound).toDTO()
+    }
+
+    override fun extendWarranty(warrantyId: Long, extension: WarrantyController.Extension): WarrantyDTO {
+        val warrantyFound = warrantyRepository.getWarrantyById(warrantyId)
+            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
+
+        if(!extension.newEndOfWarranty.isAfter(warrantyFound.endOfWarranty))
         {
-            throw WarrantyExceptions.WarrantyInvalid("End of warranty has to be after date of purchase")
+            throw WarrantyExceptions.WarrantyInvalid("New end of warranty date has to be after current one")
         }
 
-        warranty.id = warrantyFound.id;
-        return warrantyRepository.save(warranty).toDTO()
+        warrantyFound.endOfWarranty = extension.newEndOfWarranty
+        return warrantyRepository.save(warrantyFound).toDTO()
     }
 
 }

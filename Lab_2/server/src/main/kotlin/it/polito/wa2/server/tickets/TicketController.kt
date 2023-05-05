@@ -18,10 +18,10 @@ class TicketController(private val ticketService: TicketService) {
         return ticketService.createNewTicket(ticket)
     }
 
-    class Assignment(){
-        val priority: String = ""
+    data class Assignment(
+        val priority: String = "",
         val expert: Expert = Expert()
-    }
+    )
 
     @PutMapping("/API/tickets/{ticketId}/expert")
     fun assignTicketToExpert(@PathVariable ticketId: Long, @RequestBody assignment: Assignment) : TicketDTO {

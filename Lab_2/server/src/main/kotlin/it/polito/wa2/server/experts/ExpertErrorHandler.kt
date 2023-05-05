@@ -1,4 +1,4 @@
-package it.polito.wa2.server.tickets
+package it.polito.wa2.server.experts
 
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryExceptions
 
@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @RestControllerAdvice
-class TicketErrorHandler : ResponseEntityExceptionHandler() {
-    @ExceptionHandler(TicketExceptions.TicketsNotFoundException::class)
-    fun handleNoTicketFound(e: TicketExceptions.TicketsNotFoundException) =
+class ExpertErrorHandler : ResponseEntityExceptionHandler() {
+    @ExceptionHandler(ExpertExceptions.ExpertNotFoundException::class)
+    fun handleNoTicketFound(e: ExpertExceptions.ExpertNotFoundException) =
         ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 
-    @ExceptionHandler(TicketExceptions.TicketInvalid::class)
-    fun handleNoTicketFound(e: TicketExceptions.TicketInvalid) =
-        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 }

@@ -26,3 +26,4 @@ class Customer {
     @OneToMany(mappedBy = "customer", cascade = [CascadeType.MERGE])
     var tickets: Set<Ticket> = emptySet()
 }
+
