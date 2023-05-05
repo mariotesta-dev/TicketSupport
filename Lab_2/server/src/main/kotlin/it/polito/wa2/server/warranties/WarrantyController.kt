@@ -17,7 +17,7 @@ class WarrantyController(private val warrantyService: WarrantyService) {
         return warrantyService.createWarranty(warranty)
     }
 
-    @PutMapping("API/warranties/{warrantyId}/customer")
+    @PutMapping("/API/warranties/{warrantyId}/customer")
     fun subscribeProduct(@PathVariable warrantyId: Long, @RequestBody customer: Customer) : WarrantyDTO {
         return warrantyService.subscribeProduct(warrantyId, customer)
     }
@@ -26,7 +26,7 @@ class WarrantyController(private val warrantyService: WarrantyService) {
         val newEndOfWarranty: LocalDate = LocalDate.now()
     )
 
-    @PutMapping("API/warranties/{warrantyId}/extend")
+    @PutMapping("/API/warranties/{warrantyId}/extend")
     fun extendWarranty(@PathVariable warrantyId: Long, @RequestBody extension: Extension) : WarrantyDTO {
         return warrantyService.extendWarranty(warrantyId, extension)
     }
