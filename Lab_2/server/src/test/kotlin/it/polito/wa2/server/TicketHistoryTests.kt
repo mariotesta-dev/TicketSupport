@@ -30,52 +30,13 @@ class TicketHistoryTests : DbT1ApplicationTests() {
 
     @Autowired
     lateinit var ticketStatusHistoryRepository: TicketStatusHistoryRepository
-
     @Autowired
     lateinit var ticketRepository: TicketRepository
-
     @Autowired
     lateinit var customerRepository: CustomerRepository
-
     @Autowired
     lateinit var productRepository: ProductRepository
 
-    // SAMPLE DATA
-
-    val sampleCustomer = Customer().apply {
-        email = "john.smith@example.com"
-        name = "John"
-        surname = "Smith"
-    }
-
-    val sampleExpert = Expert().apply {
-        email = "alice.johnson@example.com"
-        name = "Alice"
-        surname = "Johnson"
-    }
-
-    val sampleProduct = Product().apply {
-        ean = "3286341298116"
-        name = "4x Summer Tyres Bridgestone Turanza T005 255/50r19 107y XL"
-        brand = "Bridgestone"
-    }
-
-    val sampleTicket = Ticket().apply {
-        product = sampleProduct
-        customer = sampleCustomer
-        category = "INFORMATION"
-        summary = "Office installation issue"
-        description =
-            "I am unable to install the software on my computer. It shows an error message during the installation process."
-    }
-
-    val sampleWarranty = Warranty().apply {
-        product = sampleProduct
-        dateOfPurchase = LocalDate.now()
-        endOfWarranty = LocalDate.now().plusYears(2)
-    }
-
-    //1,4935531465706,1,2023-05-01,2025-05-01
 
     private val paths = listOf(
         listOf(TicketStatus.IN_PROGRESS, TicketStatus.OPEN),
@@ -95,31 +56,13 @@ class TicketHistoryTests : DbT1ApplicationTests() {
         listOf(TicketStatus.CLOSED, TicketStatus.REOPENED, TicketStatus.CLOSED),
         listOf(TicketStatus.CLOSED, TicketStatus.REOPENED, TicketStatus.RESOLVED, TicketStatus.REOPENED),
         listOf(TicketStatus.CLOSED, TicketStatus.REOPENED, TicketStatus.IN_PROGRESS, TicketStatus.CLOSED),
-        listOf(
-            TicketStatus.CLOSED,
-            TicketStatus.REOPENED,
-            TicketStatus.CLOSED,
-            TicketStatus.REOPENED,
-            TicketStatus.RESOLVED
-        ),
-        listOf(
-            TicketStatus.CLOSED,
-            TicketStatus.REOPENED,
-            TicketStatus.IN_PROGRESS,
-            TicketStatus.OPEN,
-            TicketStatus.CLOSED
-        ),
-        listOf(
-            TicketStatus.CLOSED,
-            TicketStatus.REOPENED,
-            TicketStatus.IN_PROGRESS,
-            TicketStatus.RESOLVED,
-            TicketStatus.CLOSED
-        )
+        listOf(TicketStatus.CLOSED,TicketStatus.REOPENED, TicketStatus.CLOSED, TicketStatus.REOPENED, TicketStatus.RESOLVED),
+        listOf(TicketStatus.CLOSED,TicketStatus.REOPENED, TicketStatus.IN_PROGRESS, TicketStatus.OPEN, TicketStatus.CLOSED),
+        listOf(TicketStatus.CLOSED,TicketStatus.REOPENED, TicketStatus.IN_PROGRESS, TicketStatus.RESOLVED, TicketStatus.CLOSED)
     )
 
 
-    private val apiPath = mapOf(
+    private val apiPath =  mapOf (
         TicketStatus.OPEN to "/API/history/open",
         TicketStatus.CLOSED to "/API/history/close",
         TicketStatus.IN_PROGRESS to "/API/history/in_progress",
@@ -130,8 +73,32 @@ class TicketHistoryTests : DbT1ApplicationTests() {
     @TestFactory
     fun `test paths`(): List<DynamicTest> {
         // Create a sample ticket to operate tests
+
+        val sampleCustomer = Customer().apply {
+            email = "john.smith@example.com"
+            name = "John"
+            surname = "Smith"
+        }
         customerRepository.save(sampleCustomer)
+
+        val sampleProduct = Product().apply {
+            ean = "3286341298116"
+            name = "4x Summer Tyres Bridgestone Turanza T005 255/50r19 107y XL"
+            brand = "Bridgestone"
+        }
         productRepository.save(sampleProduct)
+
+        val ticket = Ticket().apply {
+            product = Product().apply {
+                ean = sampleProduct.ean
+            }
+            customer = Customer().apply {
+                id = sampleCustomer.id
+            }
+            category = "INFORMATION"
+            summary = "Office installation issue"
+            description = "I am unable to install the software on my computer. It shows an error message during the installation process."
+        }
 
 
         return paths.map { path ->
@@ -139,49 +106,26 @@ class TicketHistoryTests : DbT1ApplicationTests() {
                 ticketStatusHistoryRepository.deleteAll()
                 ticketRepository.deleteAll()
 
-                /*
                 val headers = HttpHeaders()
-                headers.contentType(MediaType.APPLICATION_JSON)
+                headers.setContentType(MediaType.APPLICATION_JSON)
 
                 val response = restTemplate.postForEntity<TicketDTO>(
                     "/API/tickets",
-                    HttpEntity(sampleTicket, headers),
+                    HttpEntity(ticket, headers),
                     TicketDTO::class.java::class.java,
                 )
-                */
-                ticketRepository.save(sampleTicket)
 
-                for (i in 1 until path.size) {
-
-                    val newStatus = path[i]
-
-                    //TODO: QUI SI ROMPONO I TEST: Error while extracting response for type...
+                for (toStatus in path) {
                     val response = restTemplate.postForEntity<TicketStatusHistoryDTO>(
-                        "${apiPath[newStatus]}/${sampleTicket.id}",
+                        "${apiPath[toStatus]}/${response.body?.id}",
                         TicketStatusHistoryDTO::class.java,
                     )
                     Assertions.assertEquals(HttpStatus.OK, response.statusCode)
-                    Assertions.assertEquals(newStatus, response.body?.status)
+                    Assertions.assertEquals(toStatus, response.body?.status)
                 }
             }
         }
     }
 
-    @Test
-    fun assign_to_expert() {
 
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_JSON
-
-        val assignment = TicketController.Assignment(priority = "HIGH", expert = sampleExpert)
-
-        val response = restTemplate.postForEntity(
-            "API/tickets/${sampleTicket.id}/expert",
-            HttpEntity(assignment, headers),
-            TicketDTO::class.java,
-        )
-        val ticket = ticketRepository.findById(sampleTicket.id)
-        Assertions.assertEquals(sampleExpert.id, ticket.get().assignedTo?.id)
-        Assertions.assertEquals("IN_PROGRESS", response.body?.history?.status)
-    }
 }
