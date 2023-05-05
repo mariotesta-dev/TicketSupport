@@ -27,7 +27,7 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
     }
 
     override fun createWarranty(warranty: Warranty): WarrantyDTO {
-        
+
         val response = productRepository.findById(warranty.product!!.ean).orElse(null)
             ?: throw ProductExceptions.ProductNotFoundException("Product with ean ${warranty.product?.ean} not found")
 

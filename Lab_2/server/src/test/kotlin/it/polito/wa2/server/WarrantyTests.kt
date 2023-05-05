@@ -5,10 +5,7 @@ import it.polito.wa2.server.customers.CustomerRepository
 import it.polito.wa2.server.customers.toDTOWithoutWarrantiesAndTickets
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductRepository
-import it.polito.wa2.server.warranties.Warranty
-import it.polito.wa2.server.warranties.WarrantyController
-import it.polito.wa2.server.warranties.WarrantyDTO
-import it.polito.wa2.server.warranties.WarrantyRepository
+import it.polito.wa2.server.warranties.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
