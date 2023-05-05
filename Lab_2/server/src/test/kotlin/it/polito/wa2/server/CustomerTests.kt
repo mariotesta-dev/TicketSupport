@@ -1,17 +1,23 @@
 package it.polito.wa2.server
 
-import it.polito.wa2.server.customers.*
+import it.polito.wa2.server.customers.Customer
+import it.polito.wa2.server.customers.CustomerDTO
+import it.polito.wa2.server.customers.CustomerRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.*
+import org.springframework.test.annotation.DirtiesContext
 
+
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class CustomerTests : DbT1ApplicationTests() {
 
     @Autowired
     lateinit var customerRepository: CustomerRepository
+
 
     @Test
     fun `Create new customer`() {
@@ -34,6 +40,33 @@ class CustomerTests : DbT1ApplicationTests() {
         Assertions.assertEquals(customer.email, response.body?.email)
         Assertions.assertEquals(customer.name, response.body?.name)
         Assertions.assertEquals(customer.surname, response.body?.surname)
+    }
+
+    @Test
+    fun `Create already existing customer`() {
+
+        Customer().apply {
+            email = "john.smith@example.com"
+            name = "John"
+            surname = "Smith"
+        }.also { customerRepository.save(it) }
+
+        val customer = Customer().apply {
+            email = "john.smith@example.com"
+            name = "John Jr."
+            surname = "Smith"
+        }
+
+        // Make an HTTP POST request to /API/customers
+        val headers : HttpHeaders = HttpHeaders().apply {
+            contentType = MediaType.APPLICATION_JSON
+        }
+        val request : HttpEntity<Customer> = HttpEntity(customer, headers)
+        val response = restTemplate.postForEntity<String>("/API/customers", request, String::class.java)
+
+        // Verify the response status and content
+        Assertions.assertEquals(HttpStatus.CONFLICT, response.statusCode)
+        Assertions.assertTrue(response.body?.contains("Customer with email ${customer.email} already exists") == true)
     }
 
     @Test
@@ -105,7 +138,6 @@ class CustomerTests : DbT1ApplicationTests() {
         Assertions.assertEquals(editedCustomer.surname, response.body?.surname)
     }
 
-
     @Test
     fun `Update non existing customer`() {
         // Edit name, surname and email
@@ -141,7 +173,7 @@ class CustomerTests : DbT1ApplicationTests() {
             surname = "Smith"
         }.also { customerRepository.save(it) }
 
-        val customer2 = Customer().apply {
+        Customer().apply {
             email = "barbara.smith@example.com"
             name = "Barbara"
             surname = "Smith"

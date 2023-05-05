@@ -8,6 +8,7 @@ import it.polito.wa2.server.tickets.Ticket
 import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.TicketRepository
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatus
+import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistory
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTO
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryRepository
 import org.junit.jupiter.api.Assertions
@@ -15,11 +16,13 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.web.client.postForEntity
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
+import org.junit.jupiter.api.Test
+import org.springframework.core.ParameterizedTypeReference
+import org.springframework.http.*
+import kotlin.reflect.full.createInstance
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class TicketHistoryTests : DbT1ApplicationTests() {
 
     @Autowired
@@ -120,5 +123,88 @@ class TicketHistoryTests : DbT1ApplicationTests() {
                 }
             }
         }
+    }
+
+    @Test
+    fun `Get history of ticket`() {
+
+        var sampleCustomer = Customer().apply {
+            email = "gigio.riva@example.com"
+            name = "Gigio"
+            surname = "Riva"
+        }
+        customerRepository.save(sampleCustomer)
+
+        val sampleProduct = Product().apply {
+            ean = "3286341298116"
+            name = "4x Summer Tyres Bridgestone Turanza T005 255/50r19 107y XL"
+            brand = "Bridgestone"
+        }
+        productRepository.save(sampleProduct)
+
+        val sampleTicket = Ticket::class.createInstance().apply {
+            product = sampleProduct
+            customer = sampleCustomer
+            category = "INFORMATION"
+            summary = "Office installation issue"
+            description =
+                "I am unable to install the software on my computer. It shows an error message during the installation process."
+        }.also { ticketRepository.save(it) }
+
+        val ticketStatusHistory = TicketStatusHistory::class.createInstance().apply {
+            ticket = sampleTicket
+            status = TicketStatus.OPEN
+        }.also { ticketStatusHistoryRepository.save(it) }
+
+        // Make an HTTP GET request to /API/history/{ticketId}
+        val response = restTemplate.exchange(
+        "/API/history/${sampleTicket.id}",
+        HttpMethod.GET,
+        null,
+        object : ParameterizedTypeReference<List<TicketStatusHistoryDTO>>() {}
+        )
+
+        // Verify the response status and content
+        Assertions.assertEquals(HttpStatus.OK, response.statusCode)
+        Assertions.assertEquals("OPEN", response.body?.get(0)?.status?.name)
+    }
+
+    @Test
+    fun `Get history of non-existing ticket`() {
+
+        var sampleCustomer = Customer().apply {
+            email = "gigio.riva@example.com"
+            name = "Gigio"
+            surname = "Riva"
+        }
+        customerRepository.save(sampleCustomer)
+
+        val sampleProduct = Product().apply {
+            ean = "3286341298116"
+            name = "4x Summer Tyres Bridgestone Turanza T005 255/50r19 107y XL"
+            brand = "Bridgestone"
+        }
+        productRepository.save(sampleProduct)
+
+        val ticket = Ticket::class.createInstance().apply {
+            product = sampleProduct
+            customer = sampleCustomer
+            category = "INFORMATION"
+            summary = "Office installation issue"
+            description =
+                "I am unable to install the software on my computer. It shows an error message during the installation process."
+        }.also { ticketRepository.save(it) }
+
+        val nonExistentTicketId = -1
+
+        // Make an HTTP GET request to /API/history/{ticketId}
+        val response = restTemplate.getForEntity(
+            "/API/history/${nonExistentTicketId}",
+            String::class.java
+        )
+
+        // Verify the response status and content
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        Assertions.assertTrue(response.body?.contains("Ticket with id $nonExistentTicketId not found") == true)
     }
 }

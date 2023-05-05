@@ -1,7 +1,5 @@
 package it.polito.wa2.server
 
-import it.polito.wa2.server.customers.Customer
-import it.polito.wa2.server.customers.CustomerDTO
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductDTO
 import it.polito.wa2.server.products.ProductRepository
@@ -11,7 +9,9 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.test.annotation.DirtiesContext
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class ProductTests : DbT1ApplicationTests() {
 
     @Autowired

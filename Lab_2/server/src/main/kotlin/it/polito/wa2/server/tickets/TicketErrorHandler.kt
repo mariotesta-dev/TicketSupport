@@ -15,6 +15,6 @@ class TicketErrorHandler : ResponseEntityExceptionHandler() {
         ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 
     @ExceptionHandler(TicketExceptions.TicketInvalid::class)
-    fun handleNoTicketFound(e: TicketExceptions.TicketInvalid) =
-        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+    fun handleInvalidTicket(e: TicketExceptions.TicketInvalid) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.message!!)
 }

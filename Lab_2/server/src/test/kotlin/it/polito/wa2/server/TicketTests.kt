@@ -20,8 +20,10 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import kotlin.reflect.full.createInstance
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class TicketTests : DbT1ApplicationTests() {
 
     @Autowired
@@ -142,7 +144,85 @@ class TicketTests : DbT1ApplicationTests() {
     }
 
     @Test
-    fun assign_to_expert() {
+    fun `Create ticket with invalid customer`() {
+        // Create a sample customer (but it's NOT in the database, so it's invalid and breaks the ticket creation)
+        val sampleCustomer = Customer().apply {
+            email = "john.smith@example.com"
+            name = "John"
+            surname = "Smith"
+        }
+
+        // Create a sample product
+        val sampleProduct = Product().apply {
+            ean = "3286341298116"
+            name = "4x Summer Tyres Bridgestone Turanza T005 255/50r19 107y XL"
+            brand = "Bridgestone"
+        }.also { productRepository.save(it) }
+
+
+        // Create a sample ticket
+        val ticket = Ticket::class.createInstance().apply {
+            product = sampleProduct
+            customer = sampleCustomer
+            category = "INFORMATION"
+            summary = "Office installation issue"
+            description =
+                "I am unable to install the software on my computer. It shows an error message during the installation process."
+        }
+
+        // Make an HTTP POST request to /API/tickets
+        val headers : HttpHeaders = HttpHeaders().apply {
+            contentType = MediaType.APPLICATION_JSON
+        }
+        val request : HttpEntity<Ticket> = HttpEntity(ticket, headers)
+        val response = restTemplate.postForEntity<String>("/API/tickets", request, String::class.java)
+
+        // Verify the response status and content
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        Assertions.assertTrue(response.body?.contains("Customer with id ${sampleCustomer.id} not found") == true)
+    }
+
+    @Test
+    fun `Create ticket with invalid product`() {
+        // Create a sample customer
+        val sampleCustomer = Customer().apply {
+            email = "john.smith@example.com"
+            name = "John"
+            surname = "Smith"
+        }.also { customerRepository.save(it) }
+
+        // Create a sample product (but it's NOT in the database, so it's invalid and breaks the ticket creation)
+        val sampleProduct = Product().apply {
+            ean = "3286341298116"
+            name = "4x Summer Tyres Bridgestone Turanza T005 255/50r19 107y XL"
+            brand = "Bridgestone"
+        }
+
+
+        // Create a sample ticket
+        val ticket = Ticket::class.createInstance().apply {
+            product = sampleProduct
+            customer = sampleCustomer
+            category = "INFORMATION"
+            summary = "Office installation issue"
+            description =
+                "I am unable to install the software on my computer. It shows an error message during the installation process."
+        }
+
+        // Make an HTTP POST request to /API/tickets
+        val headers : HttpHeaders = HttpHeaders().apply {
+            contentType = MediaType.APPLICATION_JSON
+        }
+        val request : HttpEntity<Ticket> = HttpEntity(ticket, headers)
+        val response = restTemplate.postForEntity<String>("/API/tickets", request, String::class.java)
+
+        // Verify the response status and content
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        Assertions.assertTrue(response.body?.contains("Product with ean ${sampleProduct.ean} not found") == true)
+    }
+
+    @Test
+    fun `Assign to expert`() {
 
         var sampleExpert = Expert().apply {
             email = "salvatore.aranzulla@example.com"
@@ -189,6 +269,109 @@ class TicketTests : DbT1ApplicationTests() {
 
         Assertions.assertEquals(HttpStatus.OK, response.statusCode)
         Assertions.assertEquals("IN_PROGRESS", response.body?.history?.status?.name)
+    }
+
+    @Test
+    fun `Assign to non existing expert`() {
+
+        var sampleExpert = Expert().apply {
+            id = -1
+            email = "salvatore.aranzulla@example.com"
+            name = "Salvatore"
+            surname = "Aranzulla"
+        }
+
+        var sampleCustomer = Customer().apply {
+            email = "gigio.riva@example.com"
+            name = "Gigio"
+            surname = "Riva"
+        }
+        customerRepository.save(sampleCustomer)
+
+        val sampleProduct = Product().apply {
+            ean = "3286341298116"
+            name = "4x Summer Tyres Bridgestone Turanza T005 255/50r19 107y XL"
+            brand = "Bridgestone"
+        }
+        productRepository.save(sampleProduct)
+
+        val ticket = Ticket::class.createInstance().apply {
+            product = sampleProduct
+            customer = sampleCustomer
+            category = "INFORMATION"
+            summary = "Office installation issue"
+            description =
+                "I am unable to install the software on my computer. It shows an error message during the installation process."
+        }.also { ticketRepository.save(it) }
+
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+
+        val assignment = TicketController.Assignment(priority = "HIGH", expert = sampleExpert)
+
+        val response = restTemplate.exchange(
+            "/API/tickets/${ticket.id}/expert",
+            HttpMethod.PUT,
+            HttpEntity(assignment, headers),
+            String::class.java
+        )
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        Assertions.assertTrue(response.body?.contains("Expert with id ${sampleExpert.id} not found") == true)
+    }
+
+    @Test
+    fun `Assign expert to non existing ticket`() {
+
+        var sampleExpert = Expert().apply {
+            email = "salvatore.aranzulla@example.com"
+            name = "Salvatore"
+            surname = "Aranzulla"
+        }.also { expertRepository.save(it) }
+
+
+        var sampleCustomer = Customer().apply {
+            email = "gigio.riva@example.com"
+            name = "Gigio"
+            surname = "Riva"
+        }
+        customerRepository.save(sampleCustomer)
+
+        val sampleProduct = Product().apply {
+            ean = "3286341298116"
+            name = "4x Summer Tyres Bridgestone Turanza T005 255/50r19 107y XL"
+            brand = "Bridgestone"
+        }
+        productRepository.save(sampleProduct)
+
+        val ticket = Ticket::class.createInstance().apply {
+            product = sampleProduct
+            customer = sampleCustomer
+            category = "INFORMATION"
+            summary = "Office installation issue"
+            description =
+                "I am unable to install the software on my computer. It shows an error message during the installation process."
+        }.also { ticketRepository.save(it) }
+
+        // Invalid ID for ticket
+        val nonExistingId = -1
+
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+
+        val assignment = TicketController.Assignment(priority = "HIGH", expert = sampleExpert)
+
+        val response = restTemplate.exchange(
+            "/API/tickets/${nonExistingId}/expert",
+            HttpMethod.PUT,
+            HttpEntity(assignment, headers),
+            String::class.java
+        )
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        Assertions.assertTrue(response.body?.contains("Ticket with id $nonExistingId not found") == true)
     }
 
 }

@@ -9,6 +9,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 class WarrantyErrorHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(WarrantyExceptions.WarrantyNotFoundException::class)
-    fun handleProductNotFound(e: WarrantyExceptions.WarrantyNotFoundException) =
+    fun handleWarrantyNotFound(e: WarrantyExceptions.WarrantyNotFoundException) =
         ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+
+    @ExceptionHandler(WarrantyExceptions.WarrantyInvalid::class)
+    fun handleInvalidWarranty(e: WarrantyExceptions.WarrantyInvalid) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.message!!)
 }

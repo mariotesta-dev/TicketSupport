@@ -1,11 +1,15 @@
 package it.polito.wa2.server.tickets.ticketStatusHistories
 
 import it.polito.wa2.server.tickets.Ticket
+import it.polito.wa2.server.tickets.TicketRepository
 import org.springframework.stereotype.Service
 import kotlin.reflect.full.createInstance
 
 @Service
-class TicketStatusHistoryServiceImpl(private val ticketStatusHistoryRepository: TicketStatusHistoryRepository) : TicketStatusHistoryService {
+class TicketStatusHistoryServiceImpl(
+    private val ticketStatusHistoryRepository: TicketStatusHistoryRepository,
+    private val ticketRepository: TicketRepository
+) : TicketStatusHistoryService {
 
     private fun setStatus(status: TicketStatus, ticket: Ticket) : TicketStatusHistoryDTO {
         val ticketHistoryRecord = TicketStatusHistory::class.createInstance()
@@ -23,6 +27,9 @@ class TicketStatusHistoryServiceImpl(private val ticketStatusHistoryRepository: 
     }
 
     override fun getHistory(ticketId: Long): List<TicketStatusHistoryDTO> {
+
+        ticketRepository.findById(ticketId).orElse(null)
+            ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Ticket with id $ticketId not found")
 
         return ticketStatusHistoryRepository.findAllByTicketId(ticketId)?.map { it.toDTO() }
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("History for ticket $ticketId not found")

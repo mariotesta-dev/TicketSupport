@@ -3,11 +3,13 @@ package it.polito.wa2.server.warranties
 import it.polito.wa2.server.customers.Customer
 import it.polito.wa2.server.customers.CustomerExceptions
 import it.polito.wa2.server.customers.CustomerRepository
+import it.polito.wa2.server.products.ProductExceptions
+import it.polito.wa2.server.products.ProductRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, private val customerRepository: CustomerRepository) : WarrantyService {
+class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, private val productRepository: ProductRepository, private val customerRepository: CustomerRepository) : WarrantyService {
 
     override fun getWarrantyById(warrantyId: Long): WarrantyDTO {
         val response = warrantyRepository.findById(warrantyId).orElse(null)
@@ -16,6 +18,7 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
         return response.toDTO()
     }
 
+    // TODO never used, and the exception is never thrown
     override fun getWarrantyByProduct(productEan: String): WarrantyDTO {
         val response = warrantyRepository.getWarrantyByProductEan(productEan)
             ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty for product $productEan not found")
@@ -24,6 +27,10 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
     }
 
     override fun createWarranty(warranty: Warranty): WarrantyDTO {
+        
+        val response = productRepository.findById(warranty.product!!.ean).orElse(null)
+            ?: throw ProductExceptions.ProductNotFoundException("Product with ean ${warranty.product?.ean} not found")
+
         if(!warranty.endOfWarranty.isAfter(warranty.dateOfPurchase))
         {
             throw WarrantyExceptions.WarrantyInvalid("End of warranty has to be after date of purchase")
