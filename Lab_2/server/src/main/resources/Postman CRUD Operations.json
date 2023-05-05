@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7f29ae8f-d04d-4306-b2a1-c1a53581e220",
+		"_postman_id": "6747a3f5-d007-4698-b112-6fc41895095b",
 		"name": "CRUD Operations",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27212465"
+		"_exporter_id": "26587271"
 	},
 	"item": [
 		{
@@ -146,7 +146,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/API/experts/6",
+							"raw": "http://localhost:8080/API/experts/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -155,7 +155,7 @@
 							"path": [
 								"API",
 								"experts",
-								"6"
+								"1"
 							]
 						}
 					},
@@ -194,7 +194,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"4935531465706\"\r\n    },\r\n    \"customer\": {\r\n        \"id\": 2\r\n    },\r\n    \"assignedTo\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": \"INFORMATION\",\r\n    \"summary\": \"Software installation issue\",\r\n    \"description\": \"I am unable to install the software on my computer. It shows an error message during the installation process.\"\r\n}",
+							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"4935531465706\"\r\n    },\r\n    \"customer\": {\r\n        \"id\": 2\r\n    },\r\n    \"category\": \"INFORMATION\",\r\n    \"summary\": \"Software installation issue\",\r\n    \"description\": \"I am unable to install the software on my computer. It shows an error message during the installation process.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -223,7 +223,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"priority\": \"HIGH\",\r\n    \"expert\": {\r\n        \"id\": 2\r\n    }\r\n}",
+							"raw": "{\r\n    \"priority\": \"HIGH\",\r\n    \"expert\": {\r\n        \"id\": 1\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -231,7 +231,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/tickets/2/expert",
+							"raw": "http://localhost:8080/API/tickets/1/expert",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -240,37 +240,8 @@
 							"path": [
 								"API",
 								"tickets",
-								"2",
+								"1",
 								"expert"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "----- PUT edit ticket",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "----- GET all tickets by customer email",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/API/tickets/mattiamazzari@mail.com",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"API",
-								"tickets",
-								"mattiamazzari@mail.com"
 							]
 						}
 					},
@@ -287,7 +258,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/API/warranties/1",
+							"raw": "http://localhost:8080/API/warranties/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -296,7 +267,7 @@
 							"path": [
 								"API",
 								"warranties",
-								"1"
+								"6"
 							]
 						}
 					},
@@ -309,7 +280,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"4935531465706\"\r\n    },\r\n    \"customer\": {\r\n        \"id\": 1\r\n    },\r\n    \"dateOfPurchase\": \"2023-05-01\",\r\n    \"endOfWarranty\": \"2025-05-01\"\r\n}",
+							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"8424445078592\"\r\n    },\r\n    \"dateOfPurchase\": \"2023-05-01\",\r\n    \"endOfWarranty\": \"2025-05-01\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -332,13 +303,13 @@
 					"response": []
 				},
 				{
-					"name": "EditWarranty",
+					"name": "SubscribeProduct",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"3165141686258\"\r\n    },\r\n    \"customer\": {\r\n        \"id\": 1\r\n    },\r\n    \"dateOfPurchase\": \"2023-05-01\",\r\n    \"endOfWarranty\": \"2025-05-01\"\r\n}",
+							"raw": "{\n    \"id\": 2,\n  \"email\": \"jane.doe@example.com\",\n  \"name\": \"Jane\",\n  \"surname\": \"Doeeeeeeee\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -346,7 +317,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/warranties/6",
+							"raw": "http://localhost:8080/API/warranties/6/customer",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -355,7 +326,39 @@
 							"path": [
 								"API",
 								"warranties",
-								"6"
+								"6",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ExtendWarranty",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newEndOfWarranty\": \"2026-05-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/API/warranties/6/extend",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"API",
+								"warranties",
+								"6",
+								"extend"
 							]
 						}
 					},
