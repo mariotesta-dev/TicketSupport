@@ -2,6 +2,7 @@ package it.polito.wa2.server.tickets
 
 import it.polito.wa2.server.customers.Customer
 import it.polito.wa2.server.experts.Expert
+import it.polito.wa2.server.messages.Message
 import it.polito.wa2.server.products.Product
 import java.time.LocalDateTime
 import jakarta.persistence.*
@@ -33,7 +34,10 @@ data class Ticket(
 
     var priority: String = "",
 
-    var createdAt: LocalDateTime = LocalDateTime.now()
+    var createdAt: LocalDateTime = LocalDateTime.now(),
+
+    @OneToMany(mappedBy = "ticket")
+    var messages: List<Message> = listOf()
 )
 
 enum class PriorityType {

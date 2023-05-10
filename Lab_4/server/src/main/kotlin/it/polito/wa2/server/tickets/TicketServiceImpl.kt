@@ -6,6 +6,8 @@ import it.polito.wa2.server.experts.ExpertExceptions
 import it.polito.wa2.server.experts.ExpertRepository
 import it.polito.wa2.server.experts.ExpertService
 import it.polito.wa2.server.experts.ExpertServiceImpl
+import it.polito.wa2.server.messages.MessageDTO
+import it.polito.wa2.server.messages.toDTO
 import it.polito.wa2.server.products.ProductExceptions
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.tickets.ticketStatusHistories.*
@@ -70,6 +72,16 @@ class TicketServiceImpl(
             ticketStatusHistoryRepository.save(history)
 
             return newTicket.toDTO(history.toStatus())
+        } else {
+            throw TicketExceptions.TicketsNotFoundException("Ticket with id $ticketId not found")
+        }
+    }
+
+    override fun getTicketMessages(ticketId: Long): List<MessageDTO> {
+        val ticket = ticketRepository.findById(ticketId).orElse(null)
+
+        if (ticket != null) {
+            return ticket.messages.map { it.toDTO() }
         } else {
             throw TicketExceptions.TicketsNotFoundException("Ticket with id $ticketId not found")
         }

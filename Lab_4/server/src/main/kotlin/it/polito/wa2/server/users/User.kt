@@ -1,21 +1,25 @@
 package it.polito.wa2.server.users
 
-import it.polito.wa2.server.tickets.Ticket
-import it.polito.wa2.server.warranties.Warranty
 import jakarta.persistence.*
-import java.io.Serializable
+
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-abstract class User {
+@Table(name="users")
+@Inheritance(strategy = InheritanceType.JOINED)
+open class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    var id: Long = 0
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
+    open var id: Long = 0
     @Column(nullable = false)
-    var email: String = ""
+    open var email: String = ""
     @Column(nullable = false)
-    var name: String = ""
+    open var name: String = ""
     @Column(nullable = false)
-    var surname: String = ""
+    open var surname: String = ""
+
+    // Role can be either "customer", "expert", or "manager"
+    @Column(nullable = false)
+    open var role: String = ""
 }
 

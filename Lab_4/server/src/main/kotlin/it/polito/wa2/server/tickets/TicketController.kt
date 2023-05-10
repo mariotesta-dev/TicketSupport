@@ -1,6 +1,7 @@
 package it.polito.wa2.server.tickets
 
 import it.polito.wa2.server.experts.Expert
+import it.polito.wa2.server.messages.MessageDTO
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -11,6 +12,11 @@ class TicketController(private val ticketService: TicketService) {
     @GetMapping("/API/tickets/{ticketId}")
     fun getTicketById(@PathVariable ticketId: Long) : TicketDTO {
         return ticketService.getTicketById(ticketId)
+    }
+
+    @GetMapping("/API/tickets/{ticketId}/messages")
+    fun getTicketMessages(@PathVariable ticketId: Long) : List<MessageDTO> {
+        return ticketService.getTicketMessages(ticketId)
     }
 
     @PostMapping("/API/tickets")

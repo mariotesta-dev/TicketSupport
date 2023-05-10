@@ -25,6 +25,7 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository, pr
         val customerFound = customerRepository.findCustomerByEmail(customer.email)
 
         if(customerFound == null){
+            customer.role = "customer" // Role is set server-side, not in the JSON!
             return customerRepository.save(customer).toDTO()
         } else {
             throw CustomerExceptions.CustomerAlreadyExistsException("Customer with email ${customer.email} already exists")

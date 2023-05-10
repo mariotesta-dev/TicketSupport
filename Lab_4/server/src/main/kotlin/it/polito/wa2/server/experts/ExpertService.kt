@@ -6,4 +6,5 @@ import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTO
 
 interface ExpertService {
     fun getExpertHistoriesForEvaluation(expertId: Long) : List<TicketStatusHistoryDTOWithoutTicket>
+    fun createExpert(expert: Expert) : ExpertDTO
 }

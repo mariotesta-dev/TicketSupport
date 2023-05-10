@@ -11,4 +11,6 @@ interface ExpertRepository : JpaRepository<Expert, Long>{
     // TODO implement GROUP BY by ticket_id
     @Query(value = "SELECT h from TicketStatusHistory h WHERE h.ticket.assignedTo.id = :expertId")
     fun getExpertHistoriesForEvaluation(expertId: Long) : List<TicketStatusHistory>
+
+    fun findExpertByEmail(email: String) : Expert?
 }

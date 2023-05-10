@@ -13,4 +13,16 @@ class ExpertServiceImpl(val expertRepository: ExpertRepository) : ExpertService 
 
         return expertRepository.getExpertHistoriesForEvaluation(expertId).map { it.toDTOWithoutTicket() }
     }
+
+    override fun createExpert(expert: Expert): ExpertDTO {
+
+        val expertFound = expertRepository.findExpertByEmail(expert.email)
+
+        if(expertFound != null)
+            throw ExpertExceptions.ExpertAlreadyExistsException("Expert with email ${expert.email} already exists")
+        else {
+            expert.role = "expert" // Role is set server-side, not in the JSON!
+            return expertRepository.save(expert).toDTO()
+        }
+    }
 }

@@ -11,7 +11,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 class ExpertErrorHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(ExpertExceptions.ExpertNotFoundException::class)
-    fun handleNoTicketFound(e: ExpertExceptions.ExpertNotFoundException) =
+    fun handleNoExpertFound(e: ExpertExceptions.ExpertNotFoundException) =
         ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+
+    @ExceptionHandler(ExpertExceptions.ExpertAlreadyExistsException::class)
+    fun handleExpertAlreadyExists(e: ExpertExceptions.ExpertAlreadyExistsException) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.message!!)
 
 }
