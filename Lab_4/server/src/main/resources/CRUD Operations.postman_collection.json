@@ -61,7 +61,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/API/customers/jane.doe@example.com",
+							"raw": "http://localhost:8080/API/customers/john.doe@example.com",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -70,7 +70,7 @@
 							"path": [
 								"API",
 								"customers",
-								"jane.doe@example.com"
+								"john.doe@example.com"
 							]
 						}
 					},
@@ -160,6 +160,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Expert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"barbara.smith@example.com\",\n  \"name\": \"Barbara\",\n  \"surname\": \"Smith\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/API/experts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"API",
+								"experts"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -188,13 +217,35 @@
 					"response": []
 				},
 				{
+					"name": "Get Ticket Messages By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/API/tickets/1/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"API",
+								"tickets",
+								"1",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CreateNewTicket",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"4935531465706\"\r\n    },\r\n    \"customer\": {\r\n        \"id\": 2\r\n    },\r\n    \"category\": \"INFORMATION\",\r\n    \"summary\": \"Software installation issue\",\r\n    \"description\": \"I am unable to install the software on my computer. It shows an error message during the installation process.\"\r\n}",
+							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"4935531465706\"\r\n    },\r\n    \"customer\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": \"INFORMATION\",\r\n    \"summary\": \"Software installation issue\",\r\n    \"description\": \"I am unable to install the software on my computer. It shows an error message during the installation process.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -223,7 +274,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"priority\": \"HIGH\",\r\n    \"expert\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"raw": "{\r\n    \"priority\": \"HIGH\",\r\n    \"expert\": {\r\n        \"id\": 6\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -359,6 +410,40 @@
 								"warranties",
 								"6",
 								"extend"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Create Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"ticket\": {\n       \"id\": 1\n   },\n   \"customer\": {\n       \"id\": 1\n   },\n   \"expert\": {\n       \"id\": 6\n   }, \n   \"sentBy\": \"expert\",\n   \"text\": \"Hi, thank you for contacting customer support!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/API/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"API",
+								"messages"
 							]
 						}
 					},
