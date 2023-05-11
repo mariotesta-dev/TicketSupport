@@ -10,10 +10,12 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
 @Entity
+@Table(name = "messages")
 class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

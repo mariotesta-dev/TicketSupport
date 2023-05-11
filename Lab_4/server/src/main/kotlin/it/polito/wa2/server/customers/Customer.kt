@@ -7,7 +7,6 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name="customers")
-@SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
 class Customer : User() {
     @OneToMany(mappedBy = "customer", cascade = [CascadeType.MERGE])
     var warranties: Set<Warranty> = emptySet()
