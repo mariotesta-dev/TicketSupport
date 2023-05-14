@@ -27,6 +27,7 @@ repositories {
 dependencyManagement {
     imports {
         mavenBom("org.testcontainers:testcontainers-bom:1.16.3")
+        mavenBom("org.keycloak.bom:keycloak-adapter-bom:21.1.1")
     }
 }
 
@@ -40,9 +41,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     compileOnly("org.projectlombok:lombok")
 
-    //implementation("org.springframework.boot:spring-boot-starter-security")
-    //implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    //implementation("org.springframework.security:spring-security-config:5.6.4")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     //implementation("org.keycloak:keycloak-spring-boot-starter")
+    //implementation ("org.keycloak:keycloak-admin-client:12.0.2")
+    //implementation("org.keycloak:keycloak-spring-security-adapter:12.0.2")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

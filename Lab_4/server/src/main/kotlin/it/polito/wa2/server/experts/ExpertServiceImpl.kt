@@ -14,6 +14,10 @@ class ExpertServiceImpl(val expertRepository: ExpertRepository) : ExpertService 
         return expertRepository.getExpertHistoriesForEvaluation(expertId).map { it.toDTOWithoutTicket() }
     }
 
+    override fun getAllExperts(): List<ExpertDTO> {
+        return expertRepository.findAll().map { it.toDTO() }
+    }
+
     override fun createExpert(expert: Expert): ExpertDTO {
 
         val expertFound = expertRepository.findExpertByEmail(expert.email)

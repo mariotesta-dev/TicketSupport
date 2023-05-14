@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa:
+    show-sql: true
+    defer-datasource-initialization: true
+    sql-init.mode: always
+    hibernate:
+      ddl-auto: validate
+
+  server:
+    port: 8081
+
+  keycloak:
+    auth-server-url: http://localhost:8080
+    realm: ticketing
+    resource: springboot-keycloak-client
+    public-client: true
+    bearer-only: true
+    # ssl-required: external
+    # cors: true
+
+  application:
+    name: server
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/ticketing
+          jwk-set-uri: http://localhost:8080/realms/ticketing/protocol/openid-connect/certs
+
+  logging:
+    level:
+      org.springframework.security: trace
