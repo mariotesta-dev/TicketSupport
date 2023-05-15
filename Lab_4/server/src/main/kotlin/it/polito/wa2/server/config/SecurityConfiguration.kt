@@ -11,11 +11,7 @@ import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtDecoders
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @Configuration
 @EnableWebSecurity
