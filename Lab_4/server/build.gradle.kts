@@ -41,12 +41,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     compileOnly("org.projectlombok:lombok")
 
-    //implementation("org.springframework.security:spring-security-config:5.6.4")
+    implementation("org.springframework.security:spring-security-config:6.0.2")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-    //implementation("org.keycloak:keycloak-spring-boot-starter")
-    //implementation ("org.keycloak:keycloak-admin-client:12.0.2")
-    //implementation("org.keycloak:keycloak-spring-security-adapter:12.0.2")
+    implementation("org.keycloak:keycloak-spring-boot-starter")
+    implementation ("org.keycloak:keycloak-admin-client:12.0.2")
+    implementation("org.keycloak:keycloak-spring-security-adapter:21.0.1")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
