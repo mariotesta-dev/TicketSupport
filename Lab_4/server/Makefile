@@ -16,3 +16,6 @@ update-ticketing:
 
 update-auth:
 	docker-compose up -d --build keycloak
+
+update-proxy:
+	docker-compose up -d --build nginx
