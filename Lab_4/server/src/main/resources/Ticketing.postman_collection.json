@@ -1,0 +1,721 @@
+{
+	"info": {
+		"_postman_id": "1a0a8ee8-0c58-447b-802d-0edd1b42e159",
+		"name": "Ticketing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27212465",
+		"_collection_link": "https://orange-firefly-12508.postman.co/workspace/Ticketing-App---Duplicate~2ba56987-15ff-46df-9215-580a7acc1ed8/collection/27212465-1a0a8ee8-0c58-447b-802d-0edd1b42e159?action=share&creator=27212465&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/API/products",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/API/products/3276424505859",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"products",
+								"3276424505859"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "GetCustomer",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "{{access_token_url}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{customer_username}}",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token Name",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "password_credentials",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{client_id}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/API/customers/john.doe@example.com",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"customers",
+								"john.doe@example.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateCustomer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john.smith@example.com\",\r\n  \"name\": \"John\",\r\n  \"surname\": \"Smith\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/customers",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCustomer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"jane.doe@example.com\",\r\n  \"name\": \"Jane\",\r\n  \"surname\": \"Doeeeeeeee\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/customers/jane.doe@example.com",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"customers",
+								"jane.doe@example.com"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Experts",
+			"item": [
+				{
+					"name": "GetExpertHistoriesForEvaluation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/API/experts/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"experts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Experts",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/API/experts/test",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"experts",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Expert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"barbara.smith@example.com\",\n  \"name\": \"Barbara\",\n  \"surname\": \"Smith\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/experts",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"experts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tickets",
+			"item": [
+				{
+					"name": "GetTicketById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/API/tickets/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"tickets",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ticket Messages By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/API/tickets/1/messages",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"tickets",
+								"1",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateNewTicket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"4935531465706\"\r\n    },\r\n    \"customer\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": \"INFORMATION\",\r\n    \"summary\": \"Software installation issue\",\r\n    \"description\": \"I am unable to install the software on my computer. It shows an error message during the installation process.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/tickets",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignTicketToExpert",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"priority\": \"HIGH\",\r\n    \"expert\": {\r\n        \"id\": 6\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/tickets/1/expert",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"tickets",
+								"1",
+								"expert"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Warranties",
+			"item": [
+				{
+					"name": "GetWarrantyById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/API/warranties/6",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"warranties",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateWarranty",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"8424445078592\"\r\n    },\r\n    \"dateOfPurchase\": \"2023-05-01\",\r\n    \"endOfWarranty\": \"2025-05-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/warranties",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"warranties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SubscribeProduct",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n  \"email\": \"jane.doe@example.com\",\n  \"name\": \"Jane\",\n  \"surname\": \"Doeeeeeeee\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/warranties/6/customer",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"warranties",
+								"6",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ExtendWarranty",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newEndOfWarranty\": \"2026-05-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/warranties/6/extend",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"warranties",
+								"6",
+								"extend"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Create Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"ticket\": {\n       \"id\": 1\n   },\n   \"customer\": {\n       \"id\": 1\n   },\n   \"expert\": {\n       \"id\": 6\n   }, \n   \"sentBy\": \"expert\",\n   \"text\": \"Hi, thank you for contacting customer support!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/API/messages",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"API",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "*******Authentication******",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"access_token\",pm.response.json().access_token);\r",
+									"pm.environment.set(\"refresh_token\",pm.response.json().refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{customer_username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/realms/ticketing/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"realms",
+								"ticketing",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Access Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloak}}/auth/realms/ticketing/protocol/openid-connect/token",
+							"host": [
+								"{{keycloak}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"ticketing",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloak}}/auth/realms/ticketing/protocol/openid-connect/logout",
+							"host": [
+								"{{keycloak}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"ticketing",
+								"protocol",
+								"openid-connect",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guest Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"access_token\",pm.response.json().access_token);\r",
+									"pm.environment.set(\"refresh_token\",pm.response.json().refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{client_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloak}}/auth/realms/ticketing/protocol/openid-connect/token",
+							"host": [
+								"{{keycloak}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"ticketing",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Keycloak Endpoints",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{keycloak}}/auth/realms/ticketing/.well-known/openid-configuration",
+							"host": [
+								"{{keycloak}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"ticketing",
+								".well-known",
+								"openid-configuration"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
