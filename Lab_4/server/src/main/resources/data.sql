@@ -1,4 +1,5 @@
-/* INSERT INTO users (id, email, name, surname, role) VALUES (1, 'john.doe@example.com', 'John', 'Doe', 'customer');
+/*
+INSERT INTO users (id, email, name, surname, role) VALUES (1, 'john.doe@example.com', 'John', 'Doe', 'customer');
 INSERT INTO users (id, email, name, surname, role) VALUES (2, 'jane.doe@example.com', 'Jane', 'Doe', 'customer');
 INSERT INTO users (id, email, name, surname, role) VALUES (3, 'jim.smith@example.com', 'Jim', 'Smith', 'customer');
 INSERT INTO users (id, email, name, surname, role) VALUES (4, 'emma.jones@example.com', 'Emma', 'Jones', 'customer');
