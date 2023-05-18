@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "82e44147-0c70-4178-81ab-6d0c0d3d6677",
+		"_postman_id": "2608662f-4f10-4f36-9fdc-f4529ee91d61",
 		"name": "CRUD Operations",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26587271"
+		"_exporter_id": "27212465",
+		"_collection_link": "https://orange-firefly-12508.postman.co/workspace/Ticketing-App---Duplicate~2ba56987-15ff-46df-9215-580a7acc1ed8/collection/27212465-2608662f-4f10-4f36-9fdc-f4529ee91d61?action=share&creator=27212465&source=collection_link"
 	},
 	"item": [
 		{
@@ -32,19 +33,29 @@
 				{
 					"name": "GetOne",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/API/products/3276424505859",
+							"raw": "http://localhost:8081/API/products/4935531465706",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"products",
-								"3276424505859"
+								"4935531465706"
 							]
 						}
 					},
@@ -59,36 +70,11 @@
 					"name": "GetCustomer",
 					"request": {
 						"auth": {
-							"type": "oauth2",
-							"oauth2": [
+							"type": "bearer",
+							"bearer": [
 								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8080/realms/ticketing/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "password",
-									"value": "password",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "{{customer_username}}",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "{{client_id}}",
-									"type": "string"
-								},
-								{
-									"key": "grant_type",
-									"value": "password_credentials",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
+									"key": "token",
+									"value": "{{access_token}}",
 									"type": "string"
 								}
 							]
@@ -114,6 +100,9 @@
 				{
 					"name": "CreateCustomer",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -143,6 +132,16 @@
 				{
 					"name": "UpdateCustomer",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -293,19 +292,29 @@
 				{
 					"name": "GetTicketById",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/API/tickets/1",
+							"raw": "http://localhost:8081/API/tickets/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"tickets",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -314,19 +323,29 @@
 				{
 					"name": "Get Ticket Messages By Id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/API/tickets/1/messages",
+							"raw": "http://localhost:8081/API/tickets/2/messages",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"tickets",
-								"1",
+								"2",
 								"messages"
 							]
 						}
@@ -336,6 +355,16 @@
 				{
 					"name": "CreateNewTicket",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -348,12 +377,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/tickets",
+							"raw": "http://localhost:8081/API/tickets",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"tickets"
@@ -365,11 +394,21 @@
 				{
 					"name": "AssignTicketToExpert",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"priority\": \"HIGH\",\r\n    \"expert\": {\r\n        \"id\": 6\r\n    }\r\n}",
+							"raw": "{\r\n    \"priority\": \"HIGH\",\r\n    \"expert\": {\r\n        \"id\": 7\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -377,16 +416,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/tickets/1/expert",
+							"raw": "http://localhost:8081/API/tickets/2/expert",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"tickets",
-								"1",
+								"2",
 								"expert"
 							]
 						}
@@ -401,15 +440,25 @@
 				{
 					"name": "GetWarrantyById",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/API/warranties/6",
+							"raw": "http://localhost:8081/API/warranties/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"warranties",
@@ -422,11 +471,21 @@
 				{
 					"name": "CreateWarranty",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"8424445078592\"\r\n    },\r\n    \"dateOfPurchase\": \"2023-05-01\",\r\n    \"endOfWarranty\": \"2025-05-01\"\r\n}",
+							"raw": "{\r\n    \"product\": {\r\n        \"ean\": \"4935531465706\"\r\n    },\r\n    \"dateOfPurchase\": \"2023-05-01\",\r\n    \"endOfWarranty\": \"2025-05-01\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -434,12 +493,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/warranties",
+							"raw": "http://localhost:8081/API/warranties",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"warranties"
@@ -451,11 +510,21 @@
 				{
 					"name": "SubscribeProduct",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 2,\n  \"email\": \"jane.doe@example.com\",\n  \"name\": \"Jane\",\n  \"surname\": \"Doeeeeeeee\"\n}",
+							"raw": "{\n  \"id\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -463,17 +532,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/warranties/6/customer",
+							"raw": "http://localhost:8081/API/warranties/8/subscribe",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"warranties",
-								"6",
-								"customer"
+								"8",
+								"subscribe"
 							]
 						}
 					},
@@ -482,6 +551,16 @@
 				{
 					"name": "ExtendWarranty",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -494,12 +573,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/warranties/6/extend",
+							"raw": "http://localhost:8081/API/warranties/6/extend",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"warranties",
@@ -518,11 +597,21 @@
 				{
 					"name": "Create Message",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"ticket\": {\n       \"id\": 1\n   },\n   \"customer\": {\n       \"id\": 1\n   },\n   \"expert\": {\n       \"id\": 6\n   }, \n   \"sentBy\": \"expert\",\n   \"text\": \"Hi, thank you for contacting customer support!\"\n}",
+							"raw": "{\n   \"ticket\": {\n       \"id\": 2\n   },\n   \"sentBy\": \"expert\",\n   \"text\": \"Hi, thank you for contacting customer support!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -530,12 +619,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/messages",
+							"raw": "http://localhost:8081/API/messages",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"messages"
@@ -551,12 +640,24 @@
 			"item": [
 				{
 					"name": "auth/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"access_token\",pm.response.json().access_token);\r",
+									"pm.environment.set(\"refresh_token\",pm.response.json().refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"john.doe@example.com\",\n    \"password\": \"password\"\n}",
+							"raw": "{\n    \"username\": \"{{manager_username}}\",\n    \"password\": \"password\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -581,8 +682,32 @@
 				{
 					"name": "auth/logout",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh_token\": \"{{refresh_token}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
 					},
 					"response": []
 				}

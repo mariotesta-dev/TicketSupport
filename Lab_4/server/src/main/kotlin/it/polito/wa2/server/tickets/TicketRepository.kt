@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 interface TicketRepository : JpaRepository<Ticket, Long> {
 
     @Query(value = "SELECT t FROM Ticket t WHERE t.customer.email = :email")
-    fun findAllByCustomerId(email: String): List<Ticket>?
+    fun findAllTicketsByCustomerEmail(email: String): List<Ticket>?
 }

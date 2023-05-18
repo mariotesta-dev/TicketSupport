@@ -6,4 +6,6 @@ class WarrantyExceptions {
 
     class WarrantyInvalid(message: String) : RuntimeException(message)
 
+    class WarrantyNotOwned(message: String) : RuntimeException(message)
+
 }

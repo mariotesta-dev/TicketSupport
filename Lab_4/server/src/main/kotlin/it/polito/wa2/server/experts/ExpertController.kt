@@ -1,6 +1,7 @@
 package it.polito.wa2.server.experts
 
 
+import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTOWithoutTicket
 import it.polito.wa2.server.tickets.ticketStatusHistories.toDTO
 import jakarta.annotation.security.RolesAllowed
@@ -25,8 +26,9 @@ class ExpertController(private val expertService: ExpertService) {
         return expertService.getAllExperts()
     }
 
-    @PostMapping("/API/experts")
+    // this method can be accessed by user whose role is manager
+    /*@PostMapping("/API/experts")
     fun createExpert(@RequestBody expert: Expert) : ExpertDTO {
         return expertService.createExpert(expert)
-    }
+    }*/
 }

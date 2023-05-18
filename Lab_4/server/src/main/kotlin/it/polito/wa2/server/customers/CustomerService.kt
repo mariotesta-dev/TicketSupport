@@ -1,5 +1,7 @@
 package it.polito.wa2.server.customers
 
+import it.polito.wa2.server.tickets.TicketDTO
+
 interface CustomerService {
     fun getCustomer(email: String) : CustomerDTO
 

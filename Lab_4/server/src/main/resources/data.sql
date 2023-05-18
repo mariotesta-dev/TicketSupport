@@ -1,4 +1,3 @@
-/*
 INSERT INTO users (id, email, name, surname, role) VALUES (1, 'john.doe@example.com', 'John', 'Doe', 'customer');
 INSERT INTO users (id, email, name, surname, role) VALUES (2, 'jane.doe@example.com', 'Jane', 'Doe', 'customer');
 INSERT INTO users (id, email, name, surname, role) VALUES (3, 'jim.smith@example.com', 'Jim', 'Smith', 'customer');
@@ -39,10 +38,8 @@ INSERT INTO products (ean, name, brand) VALUES ('5013879835005', 'Kent Bag of Ra
 INSERT INTO products (ean, name, brand) VALUES ('5051747498761', 'Sealey Tools VS3815 Suspension Arm Lever', 'Sealey');
 INSERT INTO products (ean, name, brand) VALUES ('4007817331927', 'Staedtler Lumocolor Medium Tip Water Soluble OHP Black Pen St33192', 'Staedtler');
 
-INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES ('1', '4935531465706', '1', '2023-05-01', '2025-05-01');
-INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES ('2', '3528701753911', '2', '2023-05-01', '2025-05-01');
-INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES ('3', '5013879835005', '3', '2023-05-02', '2025-05-02');
-INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES ('4', '5051747498761', '1', '2023-05-02', '2025-05-02');
-INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES ('5', '4007817331927', '4', '2023-05-02', '2025-05-02');
-
- */
+INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES (nextval('warranties_id_seq'), '4935531465706', '1', '2023-05-01', '2025-05-01');
+INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES (nextval('warranties_id_seq'), '3528701753911', '2', '2023-05-01', '2025-05-01');
+INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES (nextval('warranties_id_seq'), '5013879835005', '3', '2023-05-02', '2025-05-02');
+INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES (nextval('warranties_id_seq'), '5051747498761', '1', '2023-05-02', '2025-05-02');
+INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES (nextval('warranties_id_seq'), '4007817331927', '4', '2023-05-02', '2025-05-02');

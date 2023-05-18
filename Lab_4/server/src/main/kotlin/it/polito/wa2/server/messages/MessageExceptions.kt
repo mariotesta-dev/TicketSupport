@@ -7,4 +7,5 @@ class MessageExceptions {
     class MessageAlreadyExistsException(message: String) : RuntimeException(message)
 
     class MessageEmailDoesntMatch(message: String) : RuntimeException(message)
+
 }

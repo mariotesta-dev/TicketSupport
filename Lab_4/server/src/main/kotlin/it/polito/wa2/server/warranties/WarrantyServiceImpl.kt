@@ -5,6 +5,9 @@ import it.polito.wa2.server.customers.CustomerExceptions
 import it.polito.wa2.server.customers.CustomerRepository
 import it.polito.wa2.server.products.ProductExceptions
 import it.polito.wa2.server.products.ProductRepository
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.jwt.Jwt
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
@@ -12,8 +15,26 @@ import java.time.LocalDate
 class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, private val productRepository: ProductRepository, private val customerRepository: CustomerRepository) : WarrantyService {
 
     override fun getWarrantyById(warrantyId: Long): WarrantyDTO {
+
+        val jwt = SecurityContextHolder.getContext().authentication as JwtAuthenticationToken
+        val u = jwt.principal as Jwt
+
+       /* "resource_access": {
+            "ticketing": {
+            "roles": ["customer" ]
+        },*/
+
         val response = warrantyRepository.findById(warrantyId).orElse(null)
             ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
+
+        if(u.getClaim<Map<String,Map<String,List<String>>>>("resource_access")["ticketing"]
+                ?.get("roles")
+                ?.contains("customer") == true) {
+
+                if(response.customer?.email != u.getClaim<String>("email")) {
+                    throw WarrantyExceptions.WarrantyNotOwned("You are not authorized to see this warranty")
+                }
+        }
 
         return response.toDTO()
     }
@@ -43,10 +64,10 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
         val warrantyFound = warrantyRepository.getWarrantyById(warrantyId)
             ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
 
-        customerRepository.findById(customer.id).orElse(null)
+        val customerFound = customerRepository.findById(customer.id).orElse(null)
             ?: throw CustomerExceptions.CustomerNotFoundException("Customer with id ${customer.id} not found")
 
-        warrantyFound.customer = customer
+        warrantyFound.customer = customerFound
         return warrantyRepository.save(warrantyFound).toDTO()
     }
 

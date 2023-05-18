@@ -1,5 +1,6 @@
 package it.polito.wa2.server.experts
 
+import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTOWithoutTicket
 import it.polito.wa2.server.tickets.ticketStatusHistories.toDTOWithoutTicket
 import org.springframework.stereotype.Service

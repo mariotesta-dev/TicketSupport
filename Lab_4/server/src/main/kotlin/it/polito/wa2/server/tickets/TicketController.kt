@@ -10,16 +10,27 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class TicketController(private val ticketService: TicketService) {
 
+    // This must be accessible only by the manager
+    @GetMapping("/API/tickets")
+    fun getAllTickets() : List<TicketDTO> {
+        return ticketService.getAllTickets()
+    }
+
+    //TODO does this method make sense?
+    // This must be accessible only by the manager
     @GetMapping("/API/tickets/{ticketId}")
     fun getTicketById(@PathVariable ticketId: Long) : TicketDTO {
         return ticketService.getTicketById(ticketId)
     }
 
+    // This must be accessible by the customer and the expert associated to the ticket
+    // and the customer must be the one that is authenticated
     @GetMapping("/API/tickets/{ticketId}/messages")
     fun getTicketMessages(@PathVariable ticketId: Long) : List<MessageDTO> {
         return ticketService.getTicketMessages(ticketId)
     }
 
+    // This must be accessible by a customer
     @PostMapping("/API/tickets")
     fun createNewTicket(@RequestBody ticket: Ticket) : TicketDTO {
         return ticketService.createNewTicket(ticket)
@@ -30,8 +41,8 @@ class TicketController(private val ticketService: TicketService) {
         val expert: Expert = Expert()
     )
 
+    // This must be accessible only by the manager
     @PutMapping("/API/tickets/{ticketId}/expert")
-    @RolesAllowed("manager")
     fun assignTicketToExpert(@PathVariable ticketId: Long, @RequestBody assignment: Assignment) : TicketDTO {
         return ticketService.assignTicket(ticketId, assignment)
     }

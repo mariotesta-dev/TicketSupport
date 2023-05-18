@@ -7,17 +7,20 @@ import java.time.LocalDate
 @RestController
 class WarrantyController(private val warrantyService: WarrantyService) {
 
+    // This must be accessible by all authenticated users
     @GetMapping("/API/warranties/{warrantyId}")
     fun getWarrantyById(@PathVariable warrantyId: Long) : WarrantyDTO {
         return warrantyService.getWarrantyById(warrantyId)
     }
 
+    // This must be accessible only by the customer (?)
     @PostMapping("/API/warranties")
     fun createWarranty(@RequestBody warranty: Warranty) : WarrantyDTO {
         return warrantyService.createWarranty(warranty)
     }
 
-    @PutMapping("/API/warranties/{warrantyId}/customer")
+    // This must be accessible only by the customer
+    @PutMapping("/API/warranties/{warrantyId}/subscribe")
     fun subscribeProduct(@PathVariable warrantyId: Long, @RequestBody customer: Customer) : WarrantyDTO {
         return warrantyService.subscribeProduct(warrantyId, customer)
     }
@@ -26,6 +29,7 @@ class WarrantyController(private val warrantyService: WarrantyService) {
         val newEndOfWarranty: LocalDate = LocalDate.now()
     )
 
+    // This must be accessible only by the expert
     @PutMapping("/API/warranties/{warrantyId}/extend")
     fun extendWarranty(@PathVariable warrantyId: Long, @RequestBody extension: Extension) : WarrantyDTO {
         return warrantyService.extendWarranty(warrantyId, extension)

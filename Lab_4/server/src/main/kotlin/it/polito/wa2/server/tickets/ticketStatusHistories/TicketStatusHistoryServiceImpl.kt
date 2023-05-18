@@ -1,7 +1,11 @@
 package it.polito.wa2.server.tickets.ticketStatusHistories
 
 import it.polito.wa2.server.tickets.Ticket
+import it.polito.wa2.server.tickets.TicketExceptions
 import it.polito.wa2.server.tickets.TicketRepository
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.jwt.Jwt
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Service
 import kotlin.reflect.full.createInstance
 
@@ -19,6 +23,14 @@ class TicketStatusHistoryServiceImpl(
     }
 
     private fun moveToStatus(ticket: Ticket, last: TicketStatus, next: TicketStatus) : TicketStatusHistoryDTO {
+
+        val jwt = SecurityContextHolder.getContext().authentication as JwtAuthenticationToken
+        val u = jwt.principal as Jwt
+
+        if(u.getClaim<String>("email") != ticket.assignedTo?.email) {
+            throw TicketExceptions.TicketNotOwnedException("You are not authorized to change the status of this ticket")
+        }
+
         if (!isValidTransition(last, next)){
             throw TicketStatusHistoryExceptions.UncompatibleHistoryException("Can't go from $last to $next")
         }
@@ -27,6 +39,8 @@ class TicketStatusHistoryServiceImpl(
     }
 
     override fun getHistory(ticketId: Long): List<TicketStatusHistoryDTO> {
+
+
 
         ticketRepository.findById(ticketId).orElse(null)
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Ticket with id $ticketId not found")

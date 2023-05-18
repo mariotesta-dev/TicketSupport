@@ -1,6 +1,8 @@
 package it.polito.wa2.server.customers
 
+import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.TicketRepository
+import it.polito.wa2.server.tickets.toDTO
 import org.springframework.stereotype.Service
 
 @Service

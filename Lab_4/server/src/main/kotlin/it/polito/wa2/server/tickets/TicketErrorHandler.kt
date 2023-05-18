@@ -17,4 +17,8 @@ class TicketErrorHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(TicketExceptions.TicketInvalid::class)
     fun handleInvalidTicket(e: TicketExceptions.TicketInvalid) =
         ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.message!!)
+
+    @ExceptionHandler(TicketExceptions.TicketNotOwnedException::class)
+    fun handleTicketNotOwned(e: TicketExceptions.TicketNotOwnedException) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.message!!)
 }

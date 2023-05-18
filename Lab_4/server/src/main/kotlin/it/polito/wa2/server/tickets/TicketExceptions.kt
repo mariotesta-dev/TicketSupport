@@ -6,4 +6,6 @@ class TicketExceptions {
 
     class TicketInvalid(message: String) : RuntimeException(message)
 
+    class TicketNotOwnedException(message: String) : RuntimeException(message)
+
 }

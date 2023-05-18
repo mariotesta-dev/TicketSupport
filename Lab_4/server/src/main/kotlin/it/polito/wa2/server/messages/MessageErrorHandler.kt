@@ -16,4 +16,8 @@ class MessageErrorHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(MessageExceptions.MessageAlreadyExistsException::class)
     fun handleMessageAlreadyExists(e: MessageExceptions.MessageAlreadyExistsException) =
         ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.message!!)
+
+    @ExceptionHandler(MessageExceptions.MessageEmailDoesntMatch::class)
+    fun handleMessageAlreadyExists(e: MessageExceptions.MessageEmailDoesntMatch) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.message!!)
 }

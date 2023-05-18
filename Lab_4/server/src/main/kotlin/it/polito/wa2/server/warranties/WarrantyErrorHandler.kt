@@ -15,4 +15,8 @@ class WarrantyErrorHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(WarrantyExceptions.WarrantyInvalid::class)
     fun handleInvalidWarranty(e: WarrantyExceptions.WarrantyInvalid) =
         ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.message!!)
+
+    @ExceptionHandler(WarrantyExceptions.WarrantyNotOwned::class)
+    fun handleWarrantyNotOwned(e: WarrantyExceptions.WarrantyNotOwned) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.message!!)
 }

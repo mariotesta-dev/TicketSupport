@@ -8,6 +8,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name="customers")
 class Customer : User() {
+
     @OneToMany(mappedBy = "customer", cascade = [CascadeType.MERGE])
     var warranties: Set<Warranty> = emptySet()
 
