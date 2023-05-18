@@ -1,5 +1,6 @@
 package it.polito.wa2.server.tickets
 
+import it.polito.wa2.server.config.JwtUtils
 import it.polito.wa2.server.customers.CustomerExceptions
 import it.polito.wa2.server.customers.CustomerRepository
 import it.polito.wa2.server.experts.ExpertExceptions
@@ -44,14 +45,15 @@ class TicketServiceImpl(
         throw TicketExceptions.TicketsNotFoundException("Ticket with id $ticketId not found")
     }
 
-    override fun createNewTicket(ticket: Ticket) : TicketDTO {
+    override fun createNewTicket(ticket: Ticket, jwt: Jwt) : TicketDTO {
 
-        customerRepository.findById(ticket.customer!!.id).orElse(null)
-            ?: throw CustomerExceptions.CustomerNotFoundException("Customer with id ${ticket.customer?.id} not found")
+        val customerEmail = JwtUtils.getEmail(jwt)!!;
+        val customer = customerRepository.findCustomerByEmail(customerEmail)
 
         productRepository.findById(ticket.product.ean).orElse(null)
             ?: throw ProductExceptions.ProductNotFoundException("Product with ean ${ticket.product?.ean} not found")
 
+        ticket.customer = customer;
         val newTicket = ticketRepository.save(ticket)
 
         val ticketHistoryRecord = TicketStatusHistory::class.createInstance()

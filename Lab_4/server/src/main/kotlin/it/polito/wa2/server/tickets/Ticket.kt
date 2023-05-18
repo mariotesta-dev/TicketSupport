@@ -4,6 +4,7 @@ import it.polito.wa2.server.customers.Customer
 import it.polito.wa2.server.experts.Expert
 import it.polito.wa2.server.messages.Message
 import it.polito.wa2.server.products.Product
+import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatus
 import java.time.LocalDateTime
 import jakarta.persistence.*
 
@@ -26,7 +27,8 @@ data class Ticket(
     @JoinColumn(name = "assigned_to", referencedColumnName = "id", nullable = true)
     var assignedTo: Expert? = null,
 
-    var category: String = "",
+    @Enumerated(EnumType.STRING)
+    var category: CategoryType = CategoryType.INFORMATION,
 
     var summary: String = "",
 

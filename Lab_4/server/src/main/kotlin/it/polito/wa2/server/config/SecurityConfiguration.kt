@@ -1,5 +1,6 @@
 package it.polito.wa2.server.config
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
@@ -21,6 +22,8 @@ import javax.ws.rs.HttpMethod
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 class SecurityConfiguration {
 
+    @Autowired
+    private lateinit var securityConfigurers: List<SecurityConfigurerInterface>
 
     @Bean
     fun jwtDecoder(): JwtDecoder {
@@ -40,25 +43,15 @@ class SecurityConfiguration {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+
+        securityConfigurers.forEach {
+            it.configure(http)
+        }
+
         http.csrf().disable()
             .authorizeHttpRequests()
-            .requestMatchers("auth/**").permitAll()
-            .requestMatchers(HttpMethod.PUT,"/API/customers/**").hasRole("CUSTOMER")
-            .requestMatchers(HttpMethod.GET, "/API/experts/**").hasRole("MANAGER")
-            .requestMatchers(HttpMethod.POST, "/API/messages/**").hasAnyRole("CUSTOMER","EXPERT")
-
-            .requestMatchers(HttpMethod.GET, "/API/tickets/*/messages").hasAnyRole("CUSTOMER","EXPERT")
-            .requestMatchers(HttpMethod.GET, "/API/tickets/**").hasRole("MANAGER")
-            .requestMatchers(HttpMethod.POST, "/API/tickets/**").hasRole("CUSTOMER")
-            .requestMatchers(HttpMethod.PUT, "/API/tickets/*/expert").hasRole("MANAGER")
-            .requestMatchers(HttpMethod.PUT, "/API/history/in_progress/**").hasRole("MANAGER")
-            .requestMatchers(HttpMethod.PUT, "/API/history/**").hasAnyRole("EXPERT","MANAGER")
-
-            .requestMatchers(HttpMethod.POST, "/API/warranties/**").hasRole("CUSTOMER")
-            .requestMatchers(HttpMethod.PUT, "/API/warranties/*/extend").hasRole("EXPERT")
-            .requestMatchers(HttpMethod.PUT, "/API/warranties/*/subscribe").hasRole("CUSTOMER") // subscribeProduct
-
-            .anyRequest().authenticated()
+            .anyRequest()
+            .authenticated()
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -66,6 +59,7 @@ class SecurityConfiguration {
             .oauth2ResourceServer()
             .jwt()
             .jwtAuthenticationConverter(jwtAuthenticationConverter())
+
         return http.build()
     }
 }

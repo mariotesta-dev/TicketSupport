@@ -5,6 +5,8 @@ import it.polito.wa2.server.messages.MessageDTO
 import jakarta.annotation.security.RolesAllowed
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -32,8 +34,8 @@ class TicketController(private val ticketService: TicketService) {
 
     // This must be accessible by a customer
     @PostMapping("/API/tickets")
-    fun createNewTicket(@RequestBody ticket: Ticket) : TicketDTO {
-        return ticketService.createNewTicket(ticket)
+    fun createNewTicket(@RequestBody ticket: Ticket, @AuthenticationPrincipal jwt: Jwt) : TicketDTO {
+        return ticketService.createNewTicket(ticket, jwt)
     }
 
     data class Assignment(
