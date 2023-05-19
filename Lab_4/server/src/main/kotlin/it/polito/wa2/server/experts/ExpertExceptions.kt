@@ -5,4 +5,6 @@ class ExpertExceptions {
 
     class ExpertAlreadyExistsException(message: String) : RuntimeException(message)
 
+    class ExpertNotSuitableException(message: String) : RuntimeException(message)
+
 }

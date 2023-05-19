@@ -1,27 +1,21 @@
 version: '3.1'
 
-volumes:
-  postgres_data:
-    driver: local
-
 services:
-  API:
-    image: 'server-0.1.jar'
-    ports:
-      - '8081:8081'
-    depends_on:
-      PostgreSQL:
-        condition: service_healthy
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  #API:
+  #  image: 'server-0.1.jar'
+  #  ports:
+  #    - '8081:8081'
+  #  depends_on:
+  #    PostgreSQL:
+  #      condition: service_healthy
+  #  environment:
+  #    - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
+  #    - SPRING_DATASOURCE_USERNAME=postgres
+  #    - SPRING_DATASOURCE_PASSWORD=postgres
+  #    - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   PostgreSQL:
     image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     environment:
@@ -29,10 +23,10 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
     healthcheck:
-        test: ["CMD", "pg_isready -U postgres"]
-        interval: 10s
-        timeout: 5s
-        retries: 5
+      test: ["CMD", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest

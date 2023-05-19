@@ -1,11 +1,7 @@
-get:
-	docker pull postgres
-
-postgres:
-	docker run --name postgres-db -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
-
-compose-from-scratch:
+compose:
 	docker-compose up -d
 
-update-auth:
-	docker-compose up -d --build keycloak
+keycloak:
+	docker cp ticketing-realm.json server-keycloak-1:tmp/ticketing-realm.json
+	docker exec -it server-keycloak-1 opt/keycloak/bin/kc.sh import --file tmp/ticketing-realm.json
+	docker restart server-keycloak-1

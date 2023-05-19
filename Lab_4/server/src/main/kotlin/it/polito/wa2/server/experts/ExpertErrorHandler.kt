@@ -18,4 +18,7 @@ class ExpertErrorHandler : ResponseEntityExceptionHandler() {
     fun handleExpertAlreadyExists(e: ExpertExceptions.ExpertAlreadyExistsException) =
         ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.message!!)
 
+    @ExceptionHandler(ExpertExceptions.ExpertNotSuitableException::class)
+    fun handleExpertNotSuitable(e: ExpertExceptions.ExpertNotSuitableException) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.message!!)
 }

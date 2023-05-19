@@ -68,8 +68,12 @@ class TicketServiceImpl(
     override fun assignTicket(ticketId: Long, assignment: TicketController.Assignment): TicketDTO {
         val ticket = ticketRepository.findById(ticketId).orElse(null)
 
-        expertRepository.findById(assignment.expert.id).orElse(null)
+        val expert = expertRepository.findById(assignment.expert.id).orElse(null)
             ?: throw ExpertExceptions.ExpertNotFoundException("Expert with id ${assignment.expert.id} not found")
+
+        if(expert.expertise != ticket.category) {
+            throw ExpertExceptions.ExpertNotSuitableException("Expert with id ${assignment.expert.id} not suitable for category ${ticket.category}")
+        }
 
         if (ticket != null) {
 

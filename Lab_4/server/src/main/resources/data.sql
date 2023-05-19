@@ -1,4 +1,4 @@
-/*INSERT INTO users (id, email, name, surname, role) VALUES (1, 'john.doe@example.com', 'John', 'Doe', 'customer');
+INSERT INTO users (id, email, name, surname, role) VALUES (1, 'john.doe@example.com', 'John', 'Doe', 'customer');
 INSERT INTO users (id, email, name, surname, role) VALUES (2, 'jane.doe@example.com', 'Jane', 'Doe', 'customer');
 INSERT INTO users (id, email, name, surname, role) VALUES (3, 'jim.smith@example.com', 'Jim', 'Smith', 'customer');
 INSERT INTO users (id, email, name, surname, role) VALUES (4, 'emma.jones@example.com', 'Emma', 'Jones', 'customer');
@@ -43,5 +43,3 @@ INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_w
 INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES (nextval('warranties_id_seq'), '5013879835005', '3', '2023-05-02', '2025-05-02');
 INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES (nextval('warranties_id_seq'), '5051747498761', '1', '2023-05-02', '2025-05-02');
 INSERT INTO warranties (id, product_ean, customer_id, date_of_purchase, end_of_warranty) VALUES (nextval('warranties_id_seq'), '4007817331927', '4', '2023-05-02', '2025-05-02');
-
- */
