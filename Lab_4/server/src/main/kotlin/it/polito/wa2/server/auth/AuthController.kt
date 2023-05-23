@@ -1,18 +1,20 @@
 package it.polito.wa2.server.auth
-import org.springframework.http.HttpEntity
+import io.micrometer.observation.annotation.Observed
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.client.RestTemplate
 
 @RestController
+@Observed
 class AuthController(private val authService: AuthService) {
 
     @PostMapping("/auth/login")
     fun login(@RequestBody credentials: AuthData.Credentials) : ResponseEntity<String> {
+        val log: Logger = LoggerFactory.getLogger("logger")
+        log.info("received login request, credentials = {}.", credentials);
         return authService.login(credentials)
     }
 
