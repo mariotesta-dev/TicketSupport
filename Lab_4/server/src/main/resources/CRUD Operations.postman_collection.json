@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2608662f-4f10-4f36-9fdc-f4529ee91d61",
-		"name": "CRUD Operations",
+		"_postman_id": "37be0187-f8f0-48e1-b4f4-2ad4db5a3647",
+		"name": "CRUD Operations Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27212465",
-		"_collection_link": "https://orange-firefly-12508.postman.co/workspace/Ticketing-App---Duplicate~2ba56987-15ff-46df-9215-580a7acc1ed8/collection/27212465-2608662f-4f10-4f36-9fdc-f4529ee91d61?action=share&creator=27212465&source=collection_link"
+		"_exporter_id": "26587271"
 	},
 	"item": [
 		{
@@ -258,11 +257,21 @@
 				{
 					"name": "Create Expert",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"barbara.smith@example.com\",\n  \"name\": \"Barbara\",\n  \"surname\": \"Smith\"\n}",
+							"raw": "{\n    \"username\": \"test.expert\",\n    \"password\": \"password\",\n    \"email\": \"test_expert@example.com\",\n    \"firstName\": \"TestName\",\n    \"lastName\": \"TestSurname\",\n    \"expertise\": \"SOFTWARE\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -270,12 +279,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/API/experts",
+							"raw": "http://localhost:8081/API/experts",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"API",
 								"experts"

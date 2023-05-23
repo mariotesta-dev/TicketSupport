@@ -11,26 +11,19 @@ import org.springframework.web.client.RestTemplate
 @RestController
 class AuthController(private val authService: AuthService) {
 
-    data class Credentials(
-        val grant_type: String = "password",
-        val client_id: String = "ticketing",
-        val username: String,
-        val password: String
-    )
-
     @PostMapping("/auth/login")
-    fun login(@RequestBody credentials: Credentials) : ResponseEntity<String> {
+    fun login(@RequestBody credentials: AuthData.Credentials) : ResponseEntity<String> {
         return authService.login(credentials)
     }
 
+    @PostMapping("/auth/signup")
+    fun signup(@RequestBody customerRegistration: AuthData.CustomerRegistration) : ResponseEntity<String> {
+        return authService.signup(customerRegistration)
+    }
 
-    data class RefreshToken(
-        val clientId: String = "ticketing",
-        val refresh_token: String
-    )
 
     @PostMapping("/auth/logout")
-    fun logout(@RequestBody refreshToken: RefreshToken) : ResponseEntity<String> {
+    fun logout(@RequestBody refreshToken: AuthData.RefreshToken) : ResponseEntity<String> {
         return authService.logout(refreshToken)
     }
 

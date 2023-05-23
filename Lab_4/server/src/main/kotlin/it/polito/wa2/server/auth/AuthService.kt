@@ -4,7 +4,11 @@ import org.springframework.http.ResponseEntity
 
 interface AuthService {
 
-    fun login(credentials: AuthController.Credentials): ResponseEntity<String>
+    fun login(credentials: AuthData.Credentials): ResponseEntity<String>
 
-    fun logout(refreshToken: AuthController.RefreshToken): ResponseEntity<String>
+    fun logout(refreshToken: AuthData.RefreshToken): ResponseEntity<String>
+
+    fun signup(customerRegistration: AuthData.CustomerRegistration): ResponseEntity<String>
+
+    fun createExpert(customerRegistration: AuthData.ExpertRegistration): ResponseEntity<String>
 }

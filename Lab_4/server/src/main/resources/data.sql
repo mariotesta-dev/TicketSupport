@@ -1,36 +1,47 @@
-INSERT INTO users (id, email, name, surname, role) VALUES (1, 'john.doe@example.com', 'John', 'Doe', 'customer');
-INSERT INTO users (id, email, name, surname, role) VALUES (2, 'jane.doe@example.com', 'Jane', 'Doe', 'customer');
-INSERT INTO users (id, email, name, surname, role) VALUES (3, 'jim.smith@example.com', 'Jim', 'Smith', 'customer');
-INSERT INTO users (id, email, name, surname, role) VALUES (4, 'emma.jones@example.com', 'Emma', 'Jones', 'customer');
-INSERT INTO users (id, email, name, surname, role) VALUES (5, 'lucas.miller@example.com', 'Lucas', 'Miller', 'customer');
-INSERT INTO users (id, email, name, surname, role) VALUES (6, 'alice.johnson@example.com', 'Alice', 'Johnson', 'expert');
-INSERT INTO users (id, email, name, surname, role) VALUES (7, 'bob.williams@example.com', 'Bob', 'Williams', 'expert');
-INSERT INTO users (id, email, name, surname, role) VALUES (8, 'charlie.brown@example.com', 'Charlie', 'Brown', 'expert');
-INSERT INTO users (id, email, name, surname, role) VALUES (9, 'diana.davis@example.com', 'Diana', 'Davis', 'expert');
-INSERT INTO users (id, email, name, surname, role) VALUES (10, 'edward.martinez@example.com', 'Edward', 'Martinez', 'expert');
-INSERT INTO users (id, email, name, surname, role) VALUES (11, 'olivia.jackson@example.com', 'Olivia', 'Jackson', 'manager');
-INSERT INTO users (id, email, name, surname, role) VALUES (12, 'liam.taylor@example.com', 'Liam', 'Taylor', 'manager');
-INSERT INTO users (id, email, name, surname, role) VALUES (13, 'ava.lee@example.com', 'Ava', 'Lee', 'manager');
-INSERT INTO users (id, email, name, surname, role) VALUES (14, 'james.harris@example.com', 'James', 'Harris', 'manager');
-INSERT INTO users (id, email, name, surname, role) VALUES (15, 'sophia.clark@example.com', 'Sophia', 'Clark', 'manager');
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'john.doe@example.com', 'John', 'Doe', 'customer');
+INSERT INTO customers (id) VALUES (currval('user_sequence'));
 
-INSERT INTO customers (id) VALUES (1);
-INSERT INTO customers (id) VALUES (2);
-INSERT INTO customers (id) VALUES (3);
-INSERT INTO customers (id) VALUES (4);
-INSERT INTO customers (id) VALUES (5);
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'jane.doe@example.com', 'Jane', 'Doe', 'customer');
+INSERT INTO customers (id) VALUES (currval('user_sequence'));
 
-INSERT INTO experts (id, expertise) VALUES (6, 'INFORMATION');
-INSERT INTO experts (id, expertise) VALUES (7, 'HARDWARE');
-INSERT INTO experts (id, expertise) VALUES (8, 'MAINTENANCE');
-INSERT INTO experts (id, expertise) VALUES (9, 'NETWORK');
-INSERT INTO experts (id, expertise) VALUES (10, 'SOFTWARE');
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'jim.smith@example.com', 'Jim', 'Smith', 'customer');
+INSERT INTO customers (id) VALUES (currval('user_sequence'));
 
-INSERT INTO managers (id) VALUES (11);
-INSERT INTO managers (id) VALUES (12);
-INSERT INTO managers (id) VALUES (13);
-INSERT INTO managers (id) VALUES (14);
-INSERT INTO managers (id) VALUES (15);
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'emma.jones@example.com', 'Emma', 'Jones', 'customer');
+INSERT INTO customers (id) VALUES (currval('user_sequence'));
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'lucas.miller@example.com', 'Lucas', 'Miller', 'customer');
+INSERT INTO customers (id) VALUES (currval('user_sequence'));
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'alice.johnson@example.com', 'Alice', 'Johnson', 'expert');
+INSERT INTO experts (id, expertise) VALUES (currval('user_sequence'), 'INFORMATION');
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'bob.williams@example.com', 'Bob', 'Williams', 'expert');
+INSERT INTO experts (id, expertise) VALUES (currval('user_sequence'), 'HARDWARE');
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'charlie.brown@example.com', 'Charlie', 'Brown', 'expert');
+INSERT INTO experts (id, expertise) VALUES (currval('user_sequence'), 'MAINTENANCE');
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'diana.davis@example.com', 'Diana', 'Davis', 'expert');
+INSERT INTO experts (id, expertise) VALUES (currval('user_sequence'), 'NETWORK');
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'edward.martinez@example.com', 'Edward', 'Martinez', 'expert');
+INSERT INTO experts (id, expertise) VALUES (currval('user_sequence'), 'SOFTWARE');
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'olivia.jackson@example.com', 'Olivia', 'Jackson', 'manager');
+INSERT INTO managers (id) VALUES (currval('user_sequence'));
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'liam.taylor@example.com', 'Liam', 'Taylor', 'manager');
+INSERT INTO managers (id) VALUES (currval('user_sequence'));
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'ava.lee@example.com', 'Ava', 'Lee', 'manager');
+INSERT INTO managers (id) VALUES (currval('user_sequence'));
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'james.harris@example.com', 'James', 'Harris', 'manager');
+INSERT INTO managers (id) VALUES (currval('user_sequence'));
+
+INSERT INTO users (id, email, name, surname, role) VALUES (nextval('user_sequence'), 'sophia.clark@example.com', 'Sophia', 'Clark', 'manager');
+INSERT INTO managers (id) VALUES (currval('user_sequence'));
 
 INSERT INTO products (ean, name, brand) VALUES ('4935531465706', 'JMT X-ring 530x2 Gold 104 Open Chain With Rivet Link for Kawasaki KH 400 a 1976', 'JMT');
 INSERT INTO products (ean, name, brand) VALUES ('3528701753911', '1x Summer Tyre Michelin Pilot Sport 4 255/40zr17 98y El', 'Michelin');

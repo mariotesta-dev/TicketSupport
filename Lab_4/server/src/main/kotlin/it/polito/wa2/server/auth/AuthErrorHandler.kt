@@ -16,4 +16,8 @@ class AuthErrorHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(AuthExceptions.InvalidLogoutRequestException::class)
     fun handleCustomerNotFound(e: AuthExceptions.InvalidLogoutRequestException) =
         ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.message!!)
+
+    @ExceptionHandler(AuthExceptions.UnableToSignUpException::class)
+    fun handleCustomerNotFound(e: AuthExceptions.UnableToSignUpException) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.message!!)
 }
