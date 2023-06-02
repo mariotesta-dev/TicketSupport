@@ -20,12 +20,16 @@ class AuthController(private val authService: AuthService) {
 
     @PostMapping("/auth/signup")
     fun signup(@RequestBody customerRegistration: AuthData.CustomerRegistration) : ResponseEntity<String> {
+        val log: Logger = LoggerFactory.getLogger("logger")
+        log.info("received signup request, customerRegistration = {}.", customerRegistration);
         return authService.signup(customerRegistration)
     }
 
 
     @PostMapping("/auth/logout")
     fun logout(@RequestBody refreshToken: AuthData.RefreshToken) : ResponseEntity<String> {
+        val log: Logger = LoggerFactory.getLogger("logger")
+        log.info("received signup request, refreshToken = {}.", refreshToken);
         return authService.logout(refreshToken)
     }
 

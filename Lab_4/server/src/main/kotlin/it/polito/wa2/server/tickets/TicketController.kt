@@ -1,15 +1,14 @@
 package it.polito.wa2.server.tickets
 
+import io.micrometer.observation.annotation.Observed
 import it.polito.wa2.server.experts.Expert
 import it.polito.wa2.server.messages.MessageDTO
-import jakarta.annotation.security.RolesAllowed
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@Observed
 class TicketController(private val ticketService: TicketService) {
 
     // This must be accessible only by the manager
