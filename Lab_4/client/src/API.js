@@ -58,6 +58,36 @@ const createProfile = async (profile) => {
 	}
 };
 
+const login = async (credentials) => {
+	const response = await fetch(`/auth/login`, {
+		method: "POST",
+		headers: { "Content-type": "application/json" },
+		body: JSON.stringify(credentials),
+	});
+	const data = await response.json();
+	if (response.ok) {
+		return data;
+	} else {
+		throw data;
+	}
+};
+
+const signUp = async (userInfo) => {
+	const response = await fetch(`/auth/signup`, {
+		method: "POST",
+		headers: { "Content-type": "application/json" },
+		body: JSON.stringify(userInfo),
+	});
+	const data = await response.json();
+	if (response.ok) {
+		return data;
+	} else {
+		throw data;
+	}
+};
+
+export const authAPI = { login, signUp };
+
 export const productsAPI = { getProducts, getProduct };
 
 export const profilesAPI = { getProfile, updateProfile, createProfile };

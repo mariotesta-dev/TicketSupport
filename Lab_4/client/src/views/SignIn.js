@@ -19,7 +19,7 @@ import {
 import toast from "react-hot-toast";
 import Backbutton from "../components/Backbutton";
 
-export default function Login() {
+export default function SignIn() {
 	const [username, setUsername] = useState("");
 	const [passowrd, setPassowrd] = useState("");
 

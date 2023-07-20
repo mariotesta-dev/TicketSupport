@@ -1,14 +1,15 @@
 import React from "react";
-import Products from "../components/Products";
-import Profiles from "../components/Profiles";
 import "../App.css";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import { Stack } from "@chakra-ui/react";
 
 function Home() {
 	return (
-		<div className="main-container">
-			<Products />
-			<Profiles />
-		</div>
+		<Stack>
+			<Navbar />
+			<Hero />
+		</Stack>
 	);
 }
 
