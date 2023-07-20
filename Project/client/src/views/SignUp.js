@@ -18,6 +18,8 @@ import {
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import Backbutton from "../components/Backbutton";
+import { authAPI } from "../API";
+import toast from "react-hot-toast";
 
 export default function SignUp() {
 	return <SignupCard />;
@@ -25,6 +27,30 @@ export default function SignUp() {
 
 function SignupCard() {
 	const [showPassword, setShowPassword] = useState(false);
+
+	const [loading, setLoading] = useState(false);
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+
+	const handleSignUp = async () => {
+		setLoading(true);
+		// TODO validation
+		try {
+			await authAPI.signUp({
+				username: email,
+				password: password,
+				email: email,
+				firstName: firstName,
+				lastName: lastName,
+			});
+			toast.success("Sign up successful");
+		} catch (error) {
+			toast.error(error.detail);
+		}
+		setLoading(false);
+	};
 
 	return (
 		<Flex
@@ -49,24 +75,40 @@ function SignupCard() {
 							<Box>
 								<FormControl id="firstName" isRequired>
 									<FormLabel>First Name</FormLabel>
-									<Input type="text" />
+									<Input
+										type="text"
+										value={firstName}
+										onChange={(event) => setFirstName(event.target.value)}
+									/>
 								</FormControl>
 							</Box>
 							<Box>
 								<FormControl id="lastName">
 									<FormLabel>Last Name</FormLabel>
-									<Input type="text" />
+									<Input
+										type="text"
+										value={lastName}
+										onChange={(event) => setLastName(event.target.value)}
+									/>
 								</FormControl>
 							</Box>
 						</HStack>
 						<FormControl id="email" isRequired>
 							<FormLabel>Email address</FormLabel>
-							<Input type="email" />
+							<Input
+								type="email"
+								value={email}
+								onChange={(event) => setEmail(event.target.value)}
+							/>
 						</FormControl>
 						<FormControl id="password" isRequired>
 							<FormLabel>Password</FormLabel>
 							<InputGroup>
-								<Input type={showPassword ? "text" : "password"} />
+								<Input
+									type={showPassword ? "text" : "password"}
+									value={password}
+									onChange={(event) => setPassword(event.target.value)}
+								/>
 								<InputRightElement h={"full"}>
 									<Button
 										variant={"ghost"}
@@ -86,7 +128,9 @@ function SignupCard() {
 								color={"white"}
 								_hover={{
 									bg: "blue.500",
-								}}>
+								}}
+								onClick={() => handleSignUp()}
+								isLoading={loading}>
 								Sign up
 							</Button>
 						</Stack>

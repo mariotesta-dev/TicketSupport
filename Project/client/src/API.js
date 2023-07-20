@@ -60,7 +60,6 @@ const createProfile = async (profile) => {
 };
 
 const login = async (credentials) => {
-	console.log(credentials);
 	const response = await fetch(DOMAIN_URL + `/auth/login`, {
 		method: "POST",
 		headers: { "Content-type": "application/json" },
@@ -75,6 +74,7 @@ const login = async (credentials) => {
 };
 
 const signUp = async (userInfo) => {
+	console.log(userInfo);
 	const response = await fetch(DOMAIN_URL + `/auth/signup`, {
 		method: "POST",
 		headers: { "Content-type": "application/json" },
