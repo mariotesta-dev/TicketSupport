@@ -29,14 +29,16 @@ import {
 } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
-export default function Dashbar() {
-	return <WithSubnavigation />;
+export default function Dashbar({ jwtToken, user }) {
+	return <WithSubnavigation jwtToken={jwtToken} user={user} />;
 }
 
-function WithSubnavigation() {
+function WithSubnavigation({ jwtToken, user }) {
 	const { isOpen, onToggle } = useDisclosure();
 
 	const navigate = useNavigate();
+
+	console.log(user);
 
 	const handleLogOut = () => {
 		localStorage.removeItem("jwtToken");
@@ -95,7 +97,10 @@ function WithSubnavigation() {
 								variant={"link"}
 								cursor={"pointer"}
 								minW={0}>
-								<Avatar size={"sm"} name="John Doe" />
+								<Avatar
+									size={"sm"}
+									name={`${user.given_name} ${user.family_name}`}
+								/>
 							</MenuButton>
 							<MenuList>
 								<MenuItem>Your Profile</MenuItem>
