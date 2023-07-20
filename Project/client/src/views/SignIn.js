@@ -18,8 +18,12 @@ import {
 } from "@chakra-ui/react";
 import toast from "react-hot-toast";
 import Backbutton from "../components/Backbutton";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export default function SignIn() {
+export default function SignIn({ jwtToken }) {
+	if (jwtToken) {
+		return <Navigate to="/dashboard" replace />;
+	}
 	return <SimpleCard />;
 }
 
@@ -28,17 +32,23 @@ function SimpleCard() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
+	const navigate = useNavigate();
+
 	const handleSignIn = async () => {
 		setLoading(true);
 		// TODO validation
 		try {
-			await authAPI.login({
+			const res = await authAPI.login({
 				grant_type: "password",
 				client_id: "ticketing",
 				username: username,
 				password: password,
 			});
+			localStorage.setItem("jwtToken", res.access_token);
 			toast.success("Login successful");
+			setInterval(() => {
+				navigate(0); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence
+			}, 500);
 		} catch (error) {
 			toast.error(error.detail);
 		}

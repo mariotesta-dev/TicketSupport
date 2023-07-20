@@ -14,6 +14,12 @@ import {
 	useColorModeValue,
 	useBreakpointValue,
 	useDisclosure,
+	Menu,
+	MenuButton,
+	Avatar,
+	MenuList,
+	MenuItem,
+	MenuDivider,
 } from "@chakra-ui/react";
 import {
 	HamburgerIcon,
@@ -21,6 +27,7 @@ import {
 	ChevronDownIcon,
 	ChevronRightIcon,
 } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashbar() {
 	return <WithSubnavigation />;
@@ -28,6 +35,13 @@ export default function Dashbar() {
 
 function WithSubnavigation() {
 	const { isOpen, onToggle } = useDisclosure();
+
+	const navigate = useNavigate();
+
+	const handleLogOut = () => {
+		localStorage.removeItem("jwtToken");
+		navigate(0);
+	};
 
 	return (
 		<Box>
@@ -60,7 +74,7 @@ function WithSubnavigation() {
 						fontFamily={"heading"}
 						color={useColorModeValue("gray.800", "white")}
 						fontWeight={"bold"}>
-						Ticket Support
+						Dashboard
 					</Text>
 
 					<Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -73,27 +87,24 @@ function WithSubnavigation() {
 					justify={"flex-end"}
 					direction={"row"}
 					spacing={6}>
-					<Button
-						as={"a"}
-						fontSize={"sm"}
-						fontWeight={400}
-						variant={"link"}
-						href={"signin"}>
-						Sign In
-					</Button>
-					<Button
-						as={"a"}
-						display={{ base: "none", md: "inline-flex" }}
-						fontSize={"sm"}
-						fontWeight={600}
-						color={"white"}
-						bg={"blue.400"}
-						href={"/signup"}
-						_hover={{
-							bg: "blue.300",
-						}}>
-						Sign Up
-					</Button>
+					<Flex alignItems={"center"}>
+						<Menu>
+							<MenuButton
+								as={Button}
+								rounded={"full"}
+								variant={"link"}
+								cursor={"pointer"}
+								minW={0}>
+								<Avatar size={"sm"} name="John Doe" />
+							</MenuButton>
+							<MenuList>
+								<MenuItem>Your Profile</MenuItem>
+								<MenuItem>Settings</MenuItem>
+								<MenuDivider />
+								<MenuItem onClick={() => handleLogOut()}>Log out</MenuItem>
+							</MenuList>
+						</Menu>
+					</Flex>
 				</Stack>
 			</Flex>
 
@@ -159,12 +170,12 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 			display={"block"}
 			p={2}
 			rounded={"md"}
-			_hover={{ bg: useColorModeValue("pink.50", "gray.900") }}>
+			_hover={{ bg: useColorModeValue("blue.50", "gray.900") }}>
 			<Stack direction={"row"} align={"center"}>
 				<Box>
 					<Text
 						transition={"all .3s ease"}
-						_groupHover={{ color: "pink.400" }}
+						_groupHover={{ color: "blue.400" }}
 						fontWeight={500}>
 						{label}
 					</Text>
@@ -178,7 +189,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 					justify={"flex-end"}
 					align={"center"}
 					flex={1}>
-					<Icon color={"pink.400"} w={5} h={5} as={ChevronRightIcon} />
+					<Icon color={"blue.400"} w={5} h={5} as={ChevronRightIcon} />
 				</Flex>
 			</Stack>
 		</Link>
@@ -250,41 +261,37 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
 	{
-		label: "Inspiration",
+		label: "Tickets",
 		children: [
 			{
-				label: "Explore Design Work",
+				label: "Link 1",
 				subLabel: "Trending Design to inspire you",
 				href: "#",
 			},
 			{
-				label: "New & Noteworthy",
+				label: "Link 2",
 				subLabel: "Up-and-coming Designers",
 				href: "#",
 			},
 		],
 	},
 	{
-		label: "Find Work",
+		label: "Your Products",
 		children: [
 			{
-				label: "Job Board",
+				label: "Link 1",
 				subLabel: "Find your dream design job",
 				href: "#",
 			},
 			{
-				label: "Freelance Projects",
+				label: "Link 2",
 				subLabel: "An exclusive list for contract work",
 				href: "#",
 			},
 		],
 	},
 	{
-		label: "Learn Design",
-		href: "#",
-	},
-	{
-		label: "Hire Designers",
+		label: "Link 3",
 		href: "#",
 	},
 ];

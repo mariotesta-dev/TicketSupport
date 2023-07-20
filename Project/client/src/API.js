@@ -74,7 +74,6 @@ const login = async (credentials) => {
 };
 
 const signUp = async (userInfo) => {
-	console.log(userInfo);
 	const response = await fetch(DOMAIN_URL + `/auth/signup`, {
 		method: "POST",
 		headers: { "Content-type": "application/json" },

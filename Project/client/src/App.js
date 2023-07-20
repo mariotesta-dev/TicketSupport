@@ -5,9 +5,10 @@ import SignIn from "./views/SignIn";
 import SignUp from "./views/SignUp";
 import Dashboard from "./views/Dashboard";
 import { Toaster } from "react-hot-toast";
-
-// 1. import `ChakraProvider` component
+import ProtectedRoute from "./components/ProtectedRoute";
 import { ChakraProvider } from "@chakra-ui/react";
+
+const jwtToken = localStorage.getItem("jwtToken");
 
 const router = createBrowserRouter([
 	{
@@ -16,15 +17,19 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/signin",
-		element: <SignIn />,
+		element: <SignIn jwtToken={jwtToken} />,
 	},
 	{
 		path: "/signup",
-		element: <SignUp />,
+		element: <SignUp jwtToken={jwtToken} />,
 	},
 	{
 		path: "/dashboard",
-		element: <Dashboard />,
+		element: (
+			<ProtectedRoute jwtToken={jwtToken}>
+				<Dashboard />
+			</ProtectedRoute>
+		),
 	},
 ]);
 

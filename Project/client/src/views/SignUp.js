@@ -20,8 +20,12 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import Backbutton from "../components/Backbutton";
 import { authAPI } from "../API";
 import toast from "react-hot-toast";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export default function SignUp() {
+export default function SignUp({ jwtToken }) {
+	if (jwtToken) {
+		return <Navigate to="/dashboard" replace />;
+	}
 	return <SignupCard />;
 }
 
@@ -34,11 +38,13 @@ function SignupCard() {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 
+	const navigate = useNavigate();
+
 	const handleSignUp = async () => {
 		setLoading(true);
 		// TODO validation
 		try {
-			await authAPI.signUp({
+			const res = await authAPI.signUp({
 				username: email,
 				password: password,
 				email: email,
@@ -46,6 +52,11 @@ function SignupCard() {
 				lastName: lastName,
 			});
 			toast.success("Sign up successful");
+			localStorage.setItem("jwtToken", res.access_token);
+			toast.success("Login successful");
+			setInterval(() => {
+				navigate(0); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence
+			}, 500);
 		} catch (error) {
 			toast.error(error.detail);
 		}
