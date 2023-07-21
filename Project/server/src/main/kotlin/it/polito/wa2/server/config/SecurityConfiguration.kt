@@ -46,7 +46,9 @@ class SecurityConfiguration {
             it.configure(http)
         }
 
-        http.csrf().disable()
+        http.
+        cors().and().
+        csrf().disable()
             .authorizeHttpRequests()
             .requestMatchers("/actuator/prometheus").permitAll()
             .anyRequest()
