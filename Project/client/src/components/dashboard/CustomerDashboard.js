@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Box, CircularProgress, Flex, Stack } from "@chakra-ui/react";
 import UserCard from "../UserCard";
 import Backbutton from "../Backbutton";
+import { Outlet } from "react-router-dom";
 
 export default function CustomerDashboard({ decodedJWT }) {
 	const [user, setUser] = useState();
@@ -34,7 +35,7 @@ export default function CustomerDashboard({ decodedJWT }) {
 						size="50px"
 					/>
 				) : (
-					<UserCard user={user} />
+					<Outlet context={[user, setUser]} />
 				)}
 			</Flex>
 		</Stack>

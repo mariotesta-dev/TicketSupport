@@ -1,25 +1,22 @@
 import React from "react";
-import Dashbar from "../components/Dashbar";
-import { Box, Stack } from "@chakra-ui/react";
-import jwt_decode from "jwt-decode";
+import { Box, Flex, Stack } from "@chakra-ui/react";
 import NewTicketButton from "../components/NewTicketButton";
 import TicketsTable from "../components/TicketsTable";
+import Backbutton from "../components/Backbutton";
+import { useOutletContext } from "react-router-dom";
 
 function TicketDashboard() {
-	const jwtToken = localStorage.getItem("jwtToken");
-	const user = jwt_decode(jwtToken);
+	// You can use the useOutletContext hook to get the current outlet's context (e.g. user, setUser, etc.. coming from /dashboard).
+	const [user, setUser] = useOutletContext();
 
 	return (
-		<Stack direction='column'>
-			<Dashbar jwtToken={jwtToken} user={user} />
-			<Box
-				px={300}
-				py={12}
-  			>
-				<TicketsTable/>
-				<NewTicketButton/>
-			</Box>
-		</Stack>
+		<>
+			<Backbutton href={"/dashboard"} />
+			<Stack>
+				<TicketsTable />
+				<NewTicketButton />
+			</Stack>
+		</>
 	);
 }
 

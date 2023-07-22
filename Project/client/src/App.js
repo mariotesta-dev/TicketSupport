@@ -32,23 +32,17 @@ const router = createBrowserRouter([
 				<Dashboard />
 			</ProtectedRoute>
 		),
+		children: [
+			{
+				path: "tickets",
+				element: <TicketDashboard />,
+			},
+			{
+				path: "tickets/new",
+				element: <NewTicket />,
+			},
+		],
 	},
-	{
-		path: "/dashboard/tickets",
-		element: (
-			<ProtectedRoute jwtToken={jwtToken}>
-				<TicketDashboard/>
-			</ProtectedRoute>
-		),
-	},
-	{
-		path: "/dashboard/tickets/new",
-		element: (
-			<ProtectedRoute jwtToken={jwtToken}>
-				<NewTicket/>
-			</ProtectedRoute>
-		),
-	}
 ]);
 
 function App() {
