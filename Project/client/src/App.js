@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ChakraProvider } from "@chakra-ui/react";
 import NewTicket from "./views/NewTicket";
+import DashHero from "./components/dashboard/DashHero";
 
 const jwtToken = localStorage.getItem("jwtToken");
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
 			</ProtectedRoute>
 		),
 		children: [
+			{
+				path: "",
+				element: <DashHero />,
+			},
 			{
 				path: "tickets",
 				element: <TicketDashboard />,

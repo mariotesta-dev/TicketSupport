@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 import NewTicketButton from "../components/NewTicketButton";
 import TicketsTable from "../components/TicketsTable";
 import Backbutton from "../components/Backbutton";
