@@ -270,31 +270,16 @@ const NAV_ITEMS = [
 		href: "/dashboard/tickets",
 	},
 	{
-		label: "Tickets",
+		label: "My Products",
 		children: [
 			{
-				label: "Link 1",
-				subLabel: "Trending Design to inspire you",
+				label: "Manage my products",
+				subLabel: "Manage and add a warranty to your products",
 				href: "#",
 			},
 			{
-				label: "Link 2",
-				subLabel: "Up-and-coming Designers",
-				href: "#",
-			},
-		],
-	},
-	{
-		label: "Your Products",
-		children: [
-			{
-				label: "Link 1",
-				subLabel: "Find your dream design job",
-				href: "#",
-			},
-			{
-				label: "Link 2",
-				subLabel: "An exclusive list for contract work",
+				label: "Check a warranty",
+				subLabel: "Check if you're still covered by a warranty",
 				href: "#",
 			},
 		],

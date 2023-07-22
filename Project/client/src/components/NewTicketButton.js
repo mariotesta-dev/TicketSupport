@@ -7,7 +7,6 @@ function NewTicketButton() {
 		<Button
 			as="a"
 			width={180}
-			mt={4}
 			leftIcon={<PlusSquareIcon />}
 			colorScheme="blue"
 			variant="solid"

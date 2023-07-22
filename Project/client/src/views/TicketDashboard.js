@@ -1,6 +1,5 @@
 import React from "react";
-import { Stack } from "@chakra-ui/react";
-import NewTicketButton from "../components/NewTicketButton";
+import { Box, Flex } from "@chakra-ui/react";
 import TicketsTable from "../components/TicketsTable";
 import Backbutton from "../components/Backbutton";
 import { useOutletContext } from "react-router-dom";
@@ -10,13 +9,18 @@ function TicketDashboard() {
 	const [user, setUser] = useOutletContext();
 
 	return (
-		<>
-			<Backbutton href={"/dashboard"} />
-			<Stack>
-				<TicketsTable />
-				<NewTicketButton />
-			</Stack>
-		</>
+		<Flex width={"full"} flexGrow={1} alignContent={"stretch"}>
+			<Flex
+				flexGrow={10}
+				minWidth={"135px"}
+				maxWidth={"400px"}
+				height={"full"}
+				bg={"gray.100"}
+				position={"relative"}>
+				<Backbutton href={"/dashboard"} />
+			</Flex>
+			<TicketsTable />
+		</Flex>
 	);
 }
 

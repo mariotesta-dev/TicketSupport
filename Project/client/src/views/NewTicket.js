@@ -17,6 +17,7 @@ import {
 	Link,
 	Textarea,
 	Select,
+	Center,
 } from "@chakra-ui/react";
 
 import {
@@ -97,9 +98,9 @@ function NewTicketCard() {
 	};
 
 	return (
-		<>
+		<Center height={"full"} width={"full"}>
 			<Backbutton href="/dashboard/tickets" />
-			<Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+			<Stack spacing={8} mx={"auto"} maxW={"lg"} mb={10} py={12} px={6}>
 				<Stack align={"center"}>
 					<Heading fontSize={"4xl"} textAlign={"center"}>
 						Create a new ticket
@@ -180,6 +181,6 @@ function NewTicketCard() {
 					</Stack>
 				</Box>
 			</Stack>
-		</>
+		</Center>
 	);
 }

@@ -11,7 +11,7 @@ function Dashboard() {
 	const decodedJWT = jwt_decode(jwtToken);
 	const role = decodedJWT.resource_access.ticketing.roles[0];
 	return (
-		<Stack height={"100vh"}>
+		<Stack height={"100vh"} spacing={0}>
 			<Dashbar jwtToken={jwtToken} user={decodedJWT} />
 			{role.match("customer") && <CustomerDashboard decodedJWT={decodedJWT} />}
 
