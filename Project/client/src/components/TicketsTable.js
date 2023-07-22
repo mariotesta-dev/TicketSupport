@@ -14,12 +14,23 @@ import {
 } from "@chakra-ui/react";
 
 import React from "react";
+import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Status from "./Status";
 import NewTicketButton from "./NewTicketButton";
+import Pagination from "./Pagination";
 
 function TicketsTable(props) {
 	const [user] = useOutletContext();
+
+	const [currentPage, setCurrentPage] = useState(1);
+	const [ticketsPerPage] = useState(2);
+
+	const indexOfLastTicket = currentPage * ticketsPerPage;
+	const indexOfFirstTicket = indexOfLastTicket - ticketsPerPage;
+	const currentTickets = user.tickets.slice(indexOfFirstTicket, indexOfLastTicket);
+
+	const paginate = pageNumber => setCurrentPage(pageNumber);
 
 	return (
 		<Flex flexGrow={1} overflowX={"scroll"}>
@@ -35,12 +46,23 @@ function TicketsTable(props) {
 				</Flex>
 
 				<Divider />
-				<Text fontSize={"sm"} color={"gray.500"} fontWeight={"medium"}>
-					{user.tickets.length} tickets
-				</Text>
+
+				<Flex
+					direction={"row"}
+					justifyContent={"space-between"}
+					alignItems={"center"}>
+					<Text fontSize={"sm"} color={"gray.500"} fontWeight={"medium"}>
+						{user.tickets.length} tickets
+					</Text>
+					<Pagination ticketsPerPage={ticketsPerPage} totalTickets={user.tickets.length} paginate={paginate} />
+				</Flex>
+	
+
 				<Divider />
 				<TableContainer>
-					<Table variant="simple">
+					<Table 
+						variant="simple"
+					>
 						<Thead>
 							<Tr>
 								<Th>#</Th>
@@ -62,7 +84,7 @@ function TicketsTable(props) {
 									</Td>
 								</Tr>
 							)}
-							{user.tickets.map((ticket, key) => (
+							{currentTickets.map((ticket, key) => (
 								<Tr key={key}>
 									<Td>{key + 1}</Td>
 									<Td maxW={"180px"} overflow={"scroll"} isTruncated>
@@ -72,7 +94,7 @@ function TicketsTable(props) {
 									<Td>{ticket.category}</Td>
 									<Td>
 										{ticket.assignedTo
-											? ticket.assignedTo.name || ticket.assignedTo.username
+											? (ticket.assignedTo.name + " " + ticket.assignedTo.surname)
 											: "unassigned"}
 									</Td>
 									<Td>

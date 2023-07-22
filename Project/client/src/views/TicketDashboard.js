@@ -3,6 +3,8 @@ import { Box, Flex } from "@chakra-ui/react";
 import TicketsTable from "../components/TicketsTable";
 import Backbutton from "../components/Backbutton";
 import { useOutletContext } from "react-router-dom";
+import Pagination from "../components/Pagination";
+import { useState } from "react";
 
 function TicketDashboard() {
 	// You can use the useOutletContext hook to get the current outlet's context (e.g. user, setUser, etc.. coming from /dashboard).
@@ -19,7 +21,7 @@ function TicketDashboard() {
 				position={"relative"}>
 				<Backbutton href={"/dashboard"} />
 			</Flex>
-			<TicketsTable />
+			<TicketsTable/>
 		</Flex>
 	);
 }
