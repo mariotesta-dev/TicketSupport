@@ -35,7 +35,7 @@ export default function CustomerDashboard({ decodedJWT }) {
 						size="50px"
 					/>
 				) : (
-					<Outlet context={[user, setUser]} />
+					user && <Outlet context={[user, setUser]} />
 				)}
 			</Flex>
 		</Stack>
