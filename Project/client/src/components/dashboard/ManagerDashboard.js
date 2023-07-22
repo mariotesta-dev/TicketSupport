@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { CircularProgress, Flex } from "@chakra-ui/react";
+import * as session from '../../utils/SessionUtils.js'; 
 
-export default function ManagerDashboard({ decodedJWT }) {
+
+export default function ManagerDashboard() {
+	const decodedJWT = session.getDecodedJwtToken()
 	const [loading, setLoading] = useState(false);
 
 	return (

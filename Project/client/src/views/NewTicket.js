@@ -22,15 +22,17 @@ import {
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
-import { ticketsAPI } from "../API";
-import { productsAPI } from "../API";
+import { ticketsAPI } from "../api/API";
+import { productsAPI } from "../api/API";
 import toast from "react-hot-toast";
 import { Navigate, useNavigate } from "react-router-dom";
+import * as session from '../utils/SessionUtils.js'; 
 
-export default function NewTicket({ jwtToken }) {
-	if (jwtToken) {
-		return <Navigate to="/dashboard" replace />;
-	}
+export default function NewTicket() {
+	// This is already wrapped in protected route, do we need also this?
+	// if (session.getJwtToken()) {
+	// 	return <Navigate to="/dashboard" replace />;
+	// }
 	return <NewTicketCard />;
 }
 

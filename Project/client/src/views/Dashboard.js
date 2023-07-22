@@ -1,23 +1,23 @@
 import React from "react";
 import Dashbar from "../components/Dashbar";
 import { Stack } from "@chakra-ui/react";
-import jwt_decode from "jwt-decode";
 import CustomerDashboard from "../components/dashboard/CustomerDashboard";
 import ManagerDashboard from "../components/dashboard/ManagerDashboard";
 import ExpertDashboard from "../components/dashboard/ExpertDashboard";
+import * as session from "../utils/SessionUtils.js"
 
 function Dashboard() {
-	const jwtToken = localStorage.getItem("jwtToken");
-	const decodedJWT = jwt_decode(jwtToken);
-	const role = decodedJWT.resource_access.ticketing.roles[0];
+	const jwtToken = session.getJwtToken();
+	const decodedJwt = session.getDecodedJwtToken();
+	const role = session.getUserRole();
 	return (
 		<Stack height={"100vh"} spacing={0}>
-			<Dashbar jwtToken={jwtToken} user={decodedJWT} />
-			{role.match("customer") && <CustomerDashboard decodedJWT={decodedJWT} />}
+			<Dashbar />
+			{role.match("customer") && <CustomerDashboard />}
 
-			{role.match("expert") && <ExpertDashboard decodedJWT={decodedJWT} />}
+			{role.match("expert") && <ExpertDashboard />}
 
-			{role.match("manager") && <ManagerDashboard decodedJWT={decodedJWT} />}
+			{role.match("manager") && <ManagerDashboard />}
 		</Stack>
 	);
 }

@@ -11,7 +11,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import NewTicket from "./views/NewTicket";
 import DashHero from "./components/dashboard/DashHero";
 
-const jwtToken = localStorage.getItem("jwtToken");
 
 const router = createBrowserRouter([
 	{
@@ -20,16 +19,16 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/signin",
-		element: <SignIn jwtToken={jwtToken} />,
+		element: <SignIn />,
 	},
 	{
 		path: "/signup",
-		element: <SignUp jwtToken={jwtToken} />,
+		element: <SignUp />,
 	},
 	{
 		path: "/dashboard",
 		element: (
-			<ProtectedRoute jwtToken={jwtToken}>
+			<ProtectedRoute>
 				<Dashboard />
 			</ProtectedRoute>
 		),

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { authAPI } from "../API";
+import { authAPI } from "../api/API";
 
 import {
 	Flex,
@@ -19,9 +19,10 @@ import {
 import toast from "react-hot-toast";
 import Backbutton from "../components/Backbutton";
 import { Navigate, useNavigate } from "react-router-dom";
+import * as session from '../utils/SessionUtils.js'; 
 
-export default function SignIn({ jwtToken }) {
-	if (jwtToken) {
+export default function SignIn() {
+	if (session.getJwtToken()) {
 		return <Navigate to="/dashboard" replace />;
 	}
 	return <SimpleCard />;
@@ -44,7 +45,7 @@ function SimpleCard() {
 				username: username,
 				password: password,
 			});
-			localStorage.setItem("jwtToken", res.access_token);
+			session.setJwtToken(res.access_token);
 			toast.success("Login successful");
 			setInterval(() => {
 				navigate(0); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence

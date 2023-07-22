@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { customersAPI } from "../../API";
+import { customersAPI } from "../../api/API";
 import toast from "react-hot-toast";
 import { CircularProgress, Flex } from "@chakra-ui/react";
+import * as session from '../../utils/SessionUtils.js'; 
 
-export default function ExpertDashboard({ decodedJWT }) {
+export default function ExpertDashboard() {
+	const decodedJWT = session.getDecodedJwtToken()
 	const [user, setUser] = useState();
 	const [loading, setLoading] = useState(true);
 

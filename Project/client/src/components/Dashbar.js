@@ -28,20 +28,23 @@ import {
 	ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import * as session from '../utils/SessionUtils.js'; 
 
-export default function Dashbar({ jwtToken, user }) {
-	return <WithSubnavigation jwtToken={jwtToken} user={user} />;
+export default function Dashbar() {
+	return <WithSubnavigation/>;
 }
 
-function WithSubnavigation({ jwtToken, user }) {
+function WithSubnavigation() {
+	const user = session.getDecodedJwtToken();
+	
 	const { isOpen, onToggle } = useDisclosure();
 
 	const navigate = useNavigate();
 
-	console.log(user);
+	//console.log(user);
 
 	const handleLogOut = () => {
-		localStorage.removeItem("jwtToken");
+		session.cleanSession();
 		navigate(0);
 	};
 

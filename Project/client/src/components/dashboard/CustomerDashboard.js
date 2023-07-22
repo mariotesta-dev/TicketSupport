@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { customersAPI } from "../../API";
+import { customersAPI } from "../../api/API";
 import toast from "react-hot-toast";
 import { Center, CircularProgress, Flex, Stack } from "@chakra-ui/react";
 //import UserCard from "../UserCard";
 import { Outlet } from "react-router-dom";
+import * as session from '../../utils/SessionUtils.js'; 
 
-export default function CustomerDashboard({ decodedJWT }) {
+export default function CustomerDashboard() {
+	const decodedJWT = session.getDecodedJwtToken()
 	const [user, setUser] = useState();
 	const [loading, setLoading] = useState(true);
 
