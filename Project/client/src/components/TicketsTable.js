@@ -8,46 +8,67 @@ import {
 	Td,
 	TableCaption,
 	TableContainer,
+	Box,
+	Stack,
+	Divider,
+	Text,
 } from "@chakra-ui/react";
 
 import React from "react";
 import { useOutletContext } from "react-router-dom";
+import Status from "./Status";
 
 function TicketsTable(props) {
 	const [user, setUser] = useOutletContext();
 
 	return (
-		<TableContainer>
-			<Table variant="striped">
-				<Thead>
-					<Tr>
-						<Th>#</Th>
-						<Th>Product EAN</Th>
-						<Th>Category</Th>
-						<Th>Summary</Th>
-						<Th>Description</Th>
-					</Tr>
-				</Thead>
-				<Tbody>
-					{user.tickets.length === 0 && (
+		<Stack width={"full"}>
+			<Text fontSize={"lg"} fontWeight={"bold"}>
+				All tickets
+			</Text>
+			<Divider />
+			<Text fontSize={"sm"} color={"gray.500"} fontWeight={"medium"}>
+				{user.tickets.length} tickets
+			</Text>
+			<Divider />
+			<TableContainer>
+				<Table variant="simple">
+					<Thead>
 						<Tr>
-							<Td colSpan={5} textAlign={"center"}>
-								No tickets.
-							</Td>
+							<Th>#</Th>
+							<Th>Product EAN</Th>
+							<Th>Summary</Th>
+							<Th>Category</Th>
+							<Th>Status</Th>
+							<Th>Last Update</Th>
 						</Tr>
-					)}
-					{user.tickets.map((ticket, key) => (
-						<Tr key={key}>
-							<Td>{key + 1}</Td>
-							<Td>{ticket.product.ean}</Td>
-							<Td>{ticket.category}</Td>
-							<Td>{ticket.summary}</Td>
-							<Td>{ticket.description}</Td>
-						</Tr>
-					))}
-				</Tbody>
-			</Table>
-		</TableContainer>
+					</Thead>
+					<Tbody>
+						{user.tickets.length === 0 && (
+							<Tr>
+								<Td colSpan={5} textAlign={"center"}>
+									<Text fontSize={"sm"} color={"gray.800"}>
+										No tickets.
+									</Text>
+								</Td>
+							</Tr>
+						)}
+						{user.tickets.map((ticket, key) => (
+							<Tr key={key}>
+								<Td>{key + 1}</Td>
+								<Td>{ticket.product.ean}</Td>
+								<Td>{ticket.summary}</Td>
+								<Td>{ticket.category}</Td>
+								<Td>
+									<Status status={ticket.history || "OPEN"} />
+								</Td>
+								<Td>{ticket.history || ticket.createdAt}</Td>
+							</Tr>
+						))}
+					</Tbody>
+				</Table>
+			</TableContainer>
+		</Stack>
 	);
 }
 
