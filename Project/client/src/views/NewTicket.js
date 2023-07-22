@@ -48,9 +48,8 @@ function NewTicketCard() {
 		setLoading(true);
 		// TODO validation
 		try {
-
 			await ticketsAPI.createNewTicket({
-				product: { ean: product.ean },
+				product: { ean: product.product.ean },
 				category: category,
 				summary: summary,
 				description: description,
@@ -58,7 +57,8 @@ function NewTicketCard() {
 			toast.success("Ticket created successfully");
 
 			setInterval(() => {
-				navigate("/dashboard/tickets"); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence
+				navigate("/dashboard/tickets");
+				navigate(0); //to force refresh
 			}, 500);
 		} catch (error) {
 			toast.error(error.detail);
