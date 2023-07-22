@@ -19,14 +19,6 @@ import {
 	Select,
 	Center,
 } from "@chakra-ui/react";
-
-import {
-	AutoComplete,
-	AutoCompleteInput,
-	AutoCompleteItem,
-	AutoCompleteList,
-} from "@choc-ui/chakra-autocomplete";
-
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
@@ -44,21 +36,6 @@ export default function NewTicket({ jwtToken }) {
 
 function NewTicketCard() {
 	const [user, setUser] = useOutletContext();
-
-	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const res = await productsAPI.getProducts();
-				setProducts(res);
-				console.log(res);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		fetchProducts();
-	}, []);
-
-	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [product, setProduct] = useState("");
 	const [category, setCategory] = useState("");
@@ -71,7 +48,6 @@ function NewTicketCard() {
 		setLoading(true);
 		// TODO validation
 		try {
-			console.log("EAN = " + product.ean);
 
 			await ticketsAPI.createNewTicket({
 				product: { ean: product.ean },
@@ -91,8 +67,8 @@ function NewTicketCard() {
 	};
 
 	const handleProductSelection = (selectedProductName) => {
-		const selectedProduct = products.find(
-			(p) => p.name === selectedProductName
+		const selectedProduct = user.warranties.find(
+			(w) => w.product.name === selectedProductName
 		);
 		setProduct(selectedProduct);
 	};

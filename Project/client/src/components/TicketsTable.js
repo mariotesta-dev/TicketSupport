@@ -70,7 +70,11 @@ function TicketsTable(props) {
 									</Td>
 									<Td>{ticket.summary}</Td>
 									<Td>{ticket.category}</Td>
-									<Td>{ticket.assignedTo || "unassigned"}</Td>
+									<Td>
+										{ticket.assignedTo
+											? ticket.assignedTo.name || ticket.assignedTo.username
+											: "unassigned"}
+									</Td>
 									<Td>
 										<Status status={ticket.history || "OPEN"} />
 									</Td>
