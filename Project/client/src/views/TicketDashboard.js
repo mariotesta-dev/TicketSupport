@@ -1,12 +1,12 @@
 import React from "react";
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import TicketsTable from "../components/TicketsTable";
 import Backbutton from "../components/Backbutton";
-import { useOutletContext } from "react-router-dom";
+//import { useOutletContext } from "react-router-dom";
 
 function TicketDashboard() {
 	// You can use the useOutletContext hook to get the current outlet's context (e.g. user, setUser, etc.. coming from /dashboard).
-	const [user, setUser] = useOutletContext();
+	//const [user, setUser] = useOutletContext();
 
 	return (
 		<Flex width={"full"} flexGrow={1} alignContent={"stretch"}>

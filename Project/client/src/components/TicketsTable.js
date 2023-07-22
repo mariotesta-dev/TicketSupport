@@ -6,7 +6,6 @@ import {
 	Th,
 	Td,
 	TableContainer,
-	Box,
 	Stack,
 	Divider,
 	Text,

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { customersAPI } from "../../API";
 import toast from "react-hot-toast";
-import { Box, Center, CircularProgress, Flex, Stack } from "@chakra-ui/react";
-import UserCard from "../UserCard";
+import { Center, CircularProgress, Flex, Stack } from "@chakra-ui/react";
+//import UserCard from "../UserCard";
 import { Outlet } from "react-router-dom";
 
 export default function CustomerDashboard({ decodedJWT }) {
