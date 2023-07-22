@@ -11,14 +11,18 @@ import {
   } from '@chakra-ui/react'
 
   import React from "react";
+import { useOutletContext } from 'react-router-dom';
 
   function TicketsTable(props) {
+
+    const [user, setUser] = useOutletContext();
+
       return (
         <TableContainer>
         <Table variant='striped'>
           <Thead>
             <Tr>
-              <Th>Ticket Id</Th>
+              <Th>#</Th>
               <Th>Product EAN</Th>
               <Th>Category</Th>
               <Th>Summary</Th>
@@ -26,27 +30,17 @@ import {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>1</Td>
-              <Td>ean</Td>
-              <Td>category</Td>
-              <Td>summary</Td>
-              <Td>description</Td>
-            </Tr>
-            <Tr>
-              <Td>2</Td>
-              <Td>ean</Td>
-              <Td>category</Td>
-              <Td>summary</Td>
-              <Td>description</Td>
-            </Tr>
-            <Tr>
-              <Td>3</Td>
-              <Td>ean</Td>
-              <Td>category</Td>
-              <Td>summary</Td>
-              <Td>description</Td>
-            </Tr>
+            {user.tickets.map((ticket, key) => 
+                (<Tr key={key}>
+                    <Td>{key+1}</Td>
+                    <Td>{ticket.product.ean}</Td>
+                    <Td>{ticket.category}</Td>
+                    <Td>{ticket.summary}</Td>
+                    <Td>{ticket.description}</Td>
+                </Tr>
+                )
+            )
+            }
           </Tbody>
         </Table>
       </TableContainer>

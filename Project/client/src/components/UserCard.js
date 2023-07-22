@@ -45,13 +45,13 @@ function SocialProfileSimple({
 
 				<Stack direction={"row"} justify={"center"} spacing={6}>
 					<Stack spacing={0} align={"center"}>
-						<Text fontWeight={600}>{warranties.length}</Text>
+						{/* <Text fontWeight={600}>{warranties.length}</Text> */}
 						<Text fontSize={"sm"} color={"gray.500"}>
 							Warranties
 						</Text>
 					</Stack>
 					<Stack spacing={0} align={"center"}>
-						<Text fontWeight={600}>{tickets.length}</Text>
+						{/* <Text fontWeight={600}>{tickets.length}</Text> */}
 						<Text fontSize={"sm"} color={"gray.500"}>
 							Tickets
 						</Text>

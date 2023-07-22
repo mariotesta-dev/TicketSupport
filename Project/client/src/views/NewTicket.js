@@ -27,7 +27,7 @@ import {
 } from "@choc-ui/chakra-autocomplete";
 
 import { useState } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useOutletContext } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
 import { ticketsAPI } from "../API";
 import { productsAPI } from "../API";
@@ -43,10 +43,12 @@ export default function NewTicket({ jwtToken }) {
 
 function NewTicketCard() {
 
+	const [user, setUser] = useOutletContext();
+
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
-				const res = await productsAPI.getAllProducts();
+				const res = await productsAPI.getProducts();
 				setProducts(res);
 				console.log(res);
 			} catch (error) {
@@ -57,7 +59,6 @@ function NewTicketCard() {
 	}, []);
 
 	const [products, setProducts] = useState([]);
-
 	const [loading, setLoading] = useState(false);
 	const [product, setProduct] = useState("");
 	const [category, setCategory] = useState("");
@@ -70,8 +71,11 @@ function NewTicketCard() {
 		setLoading(true);
 		// TODO validation
 		try {
+
+			console.log("EAN = " + product.ean)
+
 			const res = await ticketsAPI.createNewTicket({
-				product: product,
+				product: {ean: product.ean},
 				category: category,
 				summary: summary,
 				description: description
@@ -79,13 +83,18 @@ function NewTicketCard() {
 			toast.success("Ticket created successfully");
 
 			setInterval(() => {
-				navigate('/tickets'); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence
+				navigate('/dashboard/tickets'); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence
 			}, 500);
 		} catch (error) {
 			toast.error(error.detail);
 		}
 		setLoading(false);
 	};
+
+	const handleProductSelection = (selectedProductName) => {
+		const selectedProduct = products.find((p) => p.name === selectedProductName);
+		setProduct(selectedProduct);
+	  };
 
 	return (
 		<Flex
@@ -108,14 +117,17 @@ function NewTicketCard() {
 					<Stack spacing={4}>
 						<HStack>
 							<Box>
-								<FormControl id="product" isRequired>
-									<FormLabel>Product</FormLabel>
-									<Input
-										type="text"
-										value={product}
-										onChange={(event) => setProduct(event.target.value)}
-									/>
-								</FormControl>
+							<FormControl w="60">
+								<FormLabel>Product</FormLabel>
+								<Select
+									placeholder="Select a product"
+									onChange={(event) => handleProductSelection(event.target.value)}
+									>
+									{user.warranties.map((warranty) =>
+										<option key={warranty.product.ean}>{warranty.product.name}</option>
+									)}
+								</Select>
+							</FormControl>
 							</Box>
 							<Box>
 								<FormControl id="category">
@@ -129,8 +141,8 @@ function NewTicketCard() {
 										<option>MAINTENANCE</option>
 										<option>NETWORK</option>
 										<option>SOFTWARE</option>
-										<option>PAYMENT ISSUES</option>
-										<option>BUG REPORTS</option>
+										<option>PAYMENT_ISSUES</option>
+										<option>BUG_REPORTS</option>
 										<option>OTHER</option>
 									</Select>
 								</FormControl>

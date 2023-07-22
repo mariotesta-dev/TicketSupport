@@ -6,7 +6,10 @@ const jwtToken = localStorage.getItem("jwtToken");
 const createNewTicket = async (ticket) => {
 	const response = await fetch(API_URL + "/tickets", {
 		method: "POST",
-		headers: { "Content-type": "application/json" },
+		headers: { 
+			"Content-type": "application/json",
+			Authorization: `Bearer ${jwtToken}`,
+		},
 		body: JSON.stringify(ticket),
 	});
 	const data = await response.json();
@@ -18,7 +21,12 @@ const createNewTicket = async (ticket) => {
 };
 
 const getProducts = async () => {
-	const response = await fetch(API_URL + "/products");
+	const response = await fetch(API_URL + `/products`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${jwtToken}`,
+		},
+	});
 	const data = await response.json();
 	if (response.ok) {
 		return data;
