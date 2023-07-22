@@ -1,26 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import TicketsTable from "../components/TicketsTable";
-import Backbutton from "../components/Backbutton";
-
-//import { useOutletContext } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import { useOutletContext } from "react-router-dom";
 
 function TicketDashboard() {
-	// You can use the useOutletContext hook to get the current outlet's context (e.g. user, setUser, etc.. coming from /dashboard).
-	//const [user, setUser] = useOutletContext();
+	const [user] = useOutletContext();
+	const [tickets, setTickets] = useState(user.tickets);
+	const [filter, setFilter] = useState("All");
 
 	return (
 		<Flex width={"full"} flexGrow={1} alignContent={"stretch"}>
-			<Flex
-				flexGrow={10}
-				minWidth={"135px"}
-				maxWidth={"400px"}
-				height={"full"}
-				bg={"gray.100"}
-				position={"relative"}>
-				<Backbutton href={"/dashboard"} />
-			</Flex>
-			<TicketsTable/>
+			<Sidebar
+				user={user}
+				setTickets={setTickets}
+				filter={filter}
+				setFilter={setFilter}
+			/>
+			<TicketsTable tickets={tickets} filter={filter} />
 		</Flex>
 	);
 }

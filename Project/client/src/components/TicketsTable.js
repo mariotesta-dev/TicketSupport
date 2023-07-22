@@ -12,24 +12,13 @@ import {
 	Flex,
 } from "@chakra-ui/react";
 
-import React from "react";
-import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import React, { useState } from "react";
 import Status from "./Status";
 import NewTicketButton from "./NewTicketButton";
 import Pagination from "./Pagination";
 
-function TicketsTable(props) {
-	const [user] = useOutletContext();
-
-	const [currentPage, setCurrentPage] = useState(1);
-	const [ticketsPerPage] = useState(2);
-
-	const indexOfLastTicket = currentPage * ticketsPerPage;
-	const indexOfFirstTicket = indexOfLastTicket - ticketsPerPage;
-	const currentTickets = user.tickets.slice(indexOfFirstTicket, indexOfLastTicket);
-
-	const paginate = pageNumber => setCurrentPage(pageNumber);
+function TicketsTable({ tickets, filter }) {
+	const [paginatedTickets, setPaginatedTickets] = useState([]);
 
 	return (
 		<Flex flexGrow={1} overflowX={"scroll"}>
@@ -39,7 +28,7 @@ function TicketsTable(props) {
 					justifyContent={"space-between"}
 					alignItems={"center"}>
 					<Text fontSize={"lg"} fontWeight={"bold"}>
-						All tickets
+						{filter} tickets
 					</Text>
 					<NewTicketButton />
 				</Flex>
@@ -51,17 +40,18 @@ function TicketsTable(props) {
 					justifyContent={"space-between"}
 					alignItems={"center"}>
 					<Text fontSize={"sm"} color={"gray.500"} fontWeight={"medium"}>
-						{user.tickets.length} tickets
+						{tickets.length} tickets
 					</Text>
-					<Pagination ticketsPerPage={ticketsPerPage} totalTickets={user.tickets.length} paginate={paginate} />
+					<Pagination
+						tickets={tickets}
+						setCurrentTickets={setPaginatedTickets}
+						filter={filter}
+					/>
 				</Flex>
-	
 
 				<Divider />
 				<TableContainer>
-					<Table 
-						variant="simple"
-					>
+					<Table variant="simple">
 						<Thead>
 							<Tr>
 								<Th>#</Th>
@@ -74,7 +64,7 @@ function TicketsTable(props) {
 							</Tr>
 						</Thead>
 						<Tbody>
-							{user.tickets.length === 0 && (
+							{tickets.length === 0 && (
 								<Tr>
 									<Td colSpan={7} textAlign={"center"}>
 										<Text fontSize={"sm"} color={"gray.800"}>
@@ -83,7 +73,7 @@ function TicketsTable(props) {
 									</Td>
 								</Tr>
 							)}
-							{currentTickets.map((ticket, key) => (
+							{paginatedTickets.map((ticket, key) => (
 								<Tr key={key}>
 									<Td>{key + 1}</Td>
 									<Td maxW={"180px"} overflow={"scroll"} isTruncated>
@@ -93,7 +83,7 @@ function TicketsTable(props) {
 									<Td>{ticket.category}</Td>
 									<Td>
 										{ticket.assignedTo
-											? (ticket.assignedTo.name + " " + ticket.assignedTo.surname)
+											? ticket.assignedTo.name + " " + ticket.assignedTo.surname
 											: "unassigned"}
 									</Td>
 									<Td>
