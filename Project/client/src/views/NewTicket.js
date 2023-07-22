@@ -20,10 +20,10 @@ import {
 } from "@chakra-ui/react";
 
 import {
-  AutoComplete,
-  AutoCompleteInput,
-  AutoCompleteItem,
-  AutoCompleteList,
+	AutoComplete,
+	AutoCompleteInput,
+	AutoCompleteItem,
+	AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
 
 import { useState } from "react";
@@ -42,7 +42,6 @@ export default function NewTicket({ jwtToken }) {
 }
 
 function NewTicketCard() {
-
 	const [user, setUser] = useOutletContext();
 
 	useEffect(() => {
@@ -71,19 +70,18 @@ function NewTicketCard() {
 		setLoading(true);
 		// TODO validation
 		try {
+			console.log("EAN = " + product.ean);
 
-			console.log("EAN = " + product.ean)
-
-			const res = await ticketsAPI.createNewTicket({
-				product: {ean: product.ean},
+			await ticketsAPI.createNewTicket({
+				product: { ean: product.ean },
 				category: category,
 				summary: summary,
-				description: description
+				description: description,
 			});
 			toast.success("Ticket created successfully");
 
 			setInterval(() => {
-				navigate('/dashboard/tickets'); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence
+				navigate("/dashboard/tickets"); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence
 			}, 500);
 		} catch (error) {
 			toast.error(error.detail);
@@ -92,17 +90,15 @@ function NewTicketCard() {
 	};
 
 	const handleProductSelection = (selectedProductName) => {
-		const selectedProduct = products.find((p) => p.name === selectedProductName);
+		const selectedProduct = products.find(
+			(p) => p.name === selectedProductName
+		);
 		setProduct(selectedProduct);
-	  };
+	};
 
 	return (
-		<Flex
-			minH={"100vh"}
-			align={"center"}
-			justify={"center"}
-			bg={useColorModeValue("gray.50", "gray.800")}>
-			<Backbutton href="/dashboard/tickets"/>
+		<>
+			<Backbutton href="/dashboard/tickets" />
 			<Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
 				<Stack align={"center"}>
 					<Heading fontSize={"4xl"} textAlign={"center"}>
@@ -117,25 +113,27 @@ function NewTicketCard() {
 					<Stack spacing={4}>
 						<HStack>
 							<Box>
-							<FormControl w="60">
-								<FormLabel>Product</FormLabel>
-								<Select
-									placeholder="Select a product"
-									onChange={(event) => handleProductSelection(event.target.value)}
-									>
-									{user.warranties.map((warranty) =>
-										<option key={warranty.product.ean}>{warranty.product.name}</option>
-									)}
-								</Select>
-							</FormControl>
+								<FormControl w="60">
+									<FormLabel>Product</FormLabel>
+									<Select
+										placeholder="Select a product"
+										onChange={(event) =>
+											handleProductSelection(event.target.value)
+										}>
+										{user.warranties.map((warranty) => (
+											<option key={warranty.product.ean}>
+												{warranty.product.name}
+											</option>
+										))}
+									</Select>
+								</FormControl>
 							</Box>
 							<Box>
 								<FormControl id="category">
 									<FormLabel>Category</FormLabel>
 									<Select
-										placeholder='Select a category'
-										onChange={(event) => setCategory(event.target.value)}
-									>
+										placeholder="Select a category"
+										onChange={(event) => setCategory(event.target.value)}>
 										<option>INFORMATION</option>
 										<option>HARDWARE</option>
 										<option>MAINTENANCE</option>
@@ -182,6 +180,6 @@ function NewTicketCard() {
 					</Stack>
 				</Box>
 			</Stack>
-		</Flex>
+		</>
 	);
 }
