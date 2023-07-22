@@ -18,7 +18,7 @@ import React from "react";
 import { useOutletContext } from "react-router-dom";
 import Status from "./Status";
 
-function TicketsTable(props) {
+function TicketsTable() {
 	const [user, setUser] = useOutletContext();
 
 	return (
@@ -62,7 +62,7 @@ function TicketsTable(props) {
 								</Td>
 								<Td>{ticket.summary}</Td>
 								<Td>{ticket.category}</Td>
-								<Td>{ticket.assignedTo || "unassigned"}</Td>
+								<Td>{ticket.assignedTo ? (ticket.assignedTo.name + " " + ticket.assignedTo.surname) : "unassigned"}</Td>
 								<Td>
 									<Status status={ticket.history || "OPEN"} />
 								</Td>
