@@ -1,6 +1,20 @@
 const DOMAIN_URL = "http://localhost:8081";
 const API_URL = DOMAIN_URL + "/API";
 
+const createNewTicket = async (ticket) => {
+	const response = await fetch(API_URL + "/tickets", {
+		method: "POST",
+		headers: { "Content-type": "application/json" },
+		body: JSON.stringify(ticket),
+	});
+	const data = await response.json();
+	if (response.ok) {
+		return data;
+	} else {
+		throw data;
+	}
+};
+
 const getProducts = async () => {
 	const response = await fetch(API_URL + "/products");
 	const data = await response.json();
@@ -45,20 +59,6 @@ const updateProfile = async (email, profile) => {
 	}
 };
 
-const createProfile = async (profile) => {
-	const response = await fetch(API_URL + `/profiles`, {
-		method: "POST",
-		headers: { "Content-type": "application/json" },
-		body: JSON.stringify(profile),
-	});
-	const data = await response.json();
-	if (response.ok) {
-		return data;
-	} else {
-		throw data;
-	}
-};
-
 const login = async (credentials) => {
 	const response = await fetch(DOMAIN_URL + `/auth/login`, {
 		method: "POST",
@@ -91,4 +91,6 @@ export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
 
-export const profilesAPI = { getProfile, updateProfile, createProfile };
+export const profilesAPI = { getProfile, updateProfile };
+
+export const ticketsAPI = { createNewTicket };
