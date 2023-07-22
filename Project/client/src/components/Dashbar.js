@@ -266,6 +266,10 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
 	{
+		label: "My Tickets",
+		href: "/dashboard/tickets",
+	},
+	{
 		label: "Tickets",
 		children: [
 			{

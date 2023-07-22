@@ -3,6 +3,20 @@ const API_URL = DOMAIN_URL + "/API";
 
 const jwtToken = localStorage.getItem("jwtToken");
 
+const createNewTicket = async (ticket) => {
+	const response = await fetch(API_URL + "/tickets", {
+		method: "POST",
+		headers: { "Content-type": "application/json" },
+		body: JSON.stringify(ticket),
+	});
+	const data = await response.json();
+	if (response.ok) {
+		return data;
+	} else {
+		throw data;
+	}
+};
+
 const getProducts = async () => {
 	const response = await fetch(API_URL + "/products");
 	const data = await response.json();
@@ -15,44 +29,6 @@ const getProducts = async () => {
 
 const getProduct = async (ean) => {
 	const response = await fetch(API_URL + `/products/${ean}`);
-	const data = await response.json();
-	if (response.ok) {
-		return data;
-	} else {
-		throw data;
-	}
-};
-
-const getProfile = async (email) => {
-	const response = await fetch(API_URL + `/profiles/${email}`);
-	const data = await response.json();
-	if (response.ok) {
-		return data;
-	} else {
-		throw data;
-	}
-};
-
-const updateProfile = async (email, profile) => {
-	const response = await fetch(API_URL + `/profiles/${email}`, {
-		method: "PUT",
-		headers: { "Content-type": "application/json" },
-		body: JSON.stringify(profile),
-	});
-	const data = await response.json();
-	if (response.ok) {
-		return data;
-	} else {
-		throw data;
-	}
-};
-
-const createProfile = async (profile) => {
-	const response = await fetch(API_URL + `/profiles`, {
-		method: "POST",
-		headers: { "Content-type": "application/json" },
-		body: JSON.stringify(profile),
-	});
 	const data = await response.json();
 	if (response.ok) {
 		return data;
@@ -126,6 +102,6 @@ export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
 
-export const profilesAPI = { getProfile, updateProfile, createProfile };
-
 export const customersAPI = { getCustomer, getExpert };
+
+export const ticketsAPI = { createNewTicket };
