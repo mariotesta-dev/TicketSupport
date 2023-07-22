@@ -102,7 +102,7 @@ function NewTicketCard() {
 			align={"center"}
 			justify={"center"}
 			bg={useColorModeValue("gray.50", "gray.800")}>
-			<Backbutton />
+			<Backbutton href="/dashboard/tickets"/>
 			<Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
 				<Stack align={"center"}>
 					<Heading fontSize={"4xl"} textAlign={"center"}>
@@ -181,12 +181,6 @@ function NewTicketCard() {
 						</Stack>
 					</Stack>
 				</Box>
-				<Text fontSize={"lg"} color={"gray.600"} textAlign={"center"}>
-					Already a user?{" "}
-					<Link href="/signin" color={"blue.400"}>
-						Sign In
-					</Link>
-				</Text>
 			</Stack>
 		</Flex>
 	);
