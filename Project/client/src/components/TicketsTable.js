@@ -36,9 +36,10 @@ function TicketsTable(props) {
 					<Thead>
 						<Tr>
 							<Th>#</Th>
-							<Th>Product EAN</Th>
+							<Th>Product</Th>
 							<Th>Summary</Th>
 							<Th>Category</Th>
+							<Th>Assignee</Th>
 							<Th>Status</Th>
 							<Th>Last Update</Th>
 						</Tr>
@@ -46,7 +47,7 @@ function TicketsTable(props) {
 					<Tbody>
 						{user.tickets.length === 0 && (
 							<Tr>
-								<Td colSpan={5} textAlign={"center"}>
+								<Td colSpan={7} textAlign={"center"}>
 									<Text fontSize={"sm"} color={"gray.800"}>
 										No tickets.
 									</Text>
@@ -56,9 +57,12 @@ function TicketsTable(props) {
 						{user.tickets.map((ticket, key) => (
 							<Tr key={key}>
 								<Td>{key + 1}</Td>
-								<Td>{ticket.product.ean}</Td>
+								<Td maxW={"180px"} overflow={"scroll"} isTruncated>
+									{ticket.product.name}
+								</Td>
 								<Td>{ticket.summary}</Td>
 								<Td>{ticket.category}</Td>
+								<Td>{ticket.assignedTo || "unassigned"}</Td>
 								<Td>
 									<Status status={ticket.history || "OPEN"} />
 								</Td>

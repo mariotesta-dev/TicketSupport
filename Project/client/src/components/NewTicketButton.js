@@ -5,14 +5,14 @@ import React from "react";
 function NewTicketButton() {
 	return (
 		<Button
-            as="a"
-            width={180}
-            mt={4}
+			as="a"
+			width={180}
+			mt={4}
 			leftIcon={<PlusSquareIcon />}
 			colorScheme="blue"
-			variant="outline"
+			variant="solid"
 			href="tickets/new">
-			Create a new ticket
+			New ticket
 		</Button>
 	);
 }
