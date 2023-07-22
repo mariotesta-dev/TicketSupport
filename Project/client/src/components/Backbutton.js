@@ -2,7 +2,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import React from "react";
 
-function Backbutton() {
+function Backbutton({ href }) {
 	return (
 		<Button
 			as="a"
@@ -12,7 +12,7 @@ function Backbutton() {
 			leftIcon={<ArrowBackIcon />}
 			colorScheme="blue"
 			variant="outline"
-			href="/">
+			href={href}>
 			Back
 		</Button>
 	);

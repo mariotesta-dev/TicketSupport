@@ -5,9 +5,6 @@ import {
 	Center,
 	Text,
 	Stack,
-	Button,
-	Link,
-	Badge,
 	useColorModeValue,
 } from "@chakra-ui/react";
 
@@ -27,7 +24,7 @@ function SocialProfileSimple({
 		<Center py={6}>
 			<Box
 				maxW={"320px"}
-				w={"full"}
+				w={"lg"}
 				bg={useColorModeValue("white", "gray.900")}
 				boxShadow={"2xl"}
 				rounded={"lg"}

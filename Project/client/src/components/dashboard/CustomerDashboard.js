@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { customersAPI } from "../../API";
 import toast from "react-hot-toast";
-import { CircularProgress, Flex } from "@chakra-ui/react";
+import { Box, CircularProgress, Flex, Stack } from "@chakra-ui/react";
+import UserCard from "../UserCard";
+import Backbutton from "../Backbutton";
 
 export default function CustomerDashboard({ decodedJWT }) {
-	const [user, setUser] = useState("");
-	const [loading, setLoading] = useState("");
+	const [user, setUser] = useState();
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const handleGetUser = async () => {
@@ -22,19 +24,19 @@ export default function CustomerDashboard({ decodedJWT }) {
 	}, [decodedJWT.email]);
 
 	return (
-		<div>
-			{loading ? (
-				<Flex flexGrow={1} justifyContent={"center"} alignItems={"center"}>
+		<Stack height={"100%"} width={"100%"} position={"relative"}>
+			<Flex height={"full"} justifyContent={"center"} alignItems={"center"}>
+				{loading ? (
 					<CircularProgress
 						isIndeterminate
 						color="blue.400"
 						thickness="4px"
 						size="50px"
 					/>
-				</Flex>
-			) : (
-				<p>Hello customer, {user.name}!</p>
-			)}
-		</div>
+				) : (
+					<UserCard user={user} />
+				)}
+			</Flex>
+		</Stack>
 	);
 }

@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 import { CircularProgress, Flex } from "@chakra-ui/react";
 
 export default function ExpertDashboard({ decodedJWT }) {
-	const [user, setUser] = useState("");
-	const [loading, setLoading] = useState("");
+	const [user, setUser] = useState();
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const handleGetUser = async () => {
