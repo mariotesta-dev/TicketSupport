@@ -1,6 +1,8 @@
 const DOMAIN_URL = "http://localhost:8081";
 const API_URL = DOMAIN_URL + "/API";
 
+const jwtToken = localStorage.getItem("jwtToken");
+
 const getProducts = async () => {
 	const response = await fetch(API_URL + "/products");
 	const data = await response.json();
@@ -87,8 +89,43 @@ const signUp = async (userInfo) => {
 	}
 };
 
+const getCustomer = async (email) => {
+	const response = await fetch(API_URL + `/customers/${email}`, {
+		method: "GET",
+		headers: {
+			"Content-type": "application/json",
+			Authorization: `Bearer ${jwtToken}`,
+		},
+	});
+	const data = await response.json();
+	if (response.ok) {
+		return data;
+	} else {
+		throw data;
+	}
+};
+
+// TODO: IMPLEMENT GET EXPERT ON BACKEND
+const getExpert = async (email) => {
+	const response = await fetch(API_URL + `/experts/get/${email}`, {
+		method: "GET",
+		headers: {
+			"Content-type": "application/json",
+			Authorization: `Bearer ${jwtToken}`,
+		},
+	});
+	const data = await response.json();
+	if (response.ok) {
+		return data;
+	} else {
+		throw data;
+	}
+};
+
 export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
 
 export const profilesAPI = { getProfile, updateProfile, createProfile };
+
+export const customersAPI = { getCustomer, getExpert };

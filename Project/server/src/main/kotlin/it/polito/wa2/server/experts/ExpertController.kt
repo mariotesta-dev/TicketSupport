@@ -1,6 +1,5 @@
 package it.polito.wa2.server.experts
 
-
 import it.polito.wa2.server.auth.AuthData
 import it.polito.wa2.server.auth.AuthService
 import it.polito.wa2.server.tickets.TicketDTO
@@ -15,7 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class ExpertController(private val expertService: ExpertService, private val authService: AuthService) {
+class ExpertController(private val expertService: ExpertService, private val authService: AuthService){
+
+    @GetMapping("/API/experts/get/{email}")
+    fun getExpert(@PathVariable email: String) : ExpertDTO {
+        return expertService.getExpert(email)
+    }
 
     // this method can be accessed by user whose role is manager
     @GetMapping("/API/experts/{expertId}")
