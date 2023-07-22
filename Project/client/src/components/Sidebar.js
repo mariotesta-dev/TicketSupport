@@ -1,5 +1,4 @@
 import { Divider, Flex, Link } from "@chakra-ui/react";
-import React, { useState } from "react";
 import Backbutton from "./Backbutton";
 
 function Sidebar({ user, setTickets, filter, setFilter }) {
@@ -15,7 +14,10 @@ function Sidebar({ user, setTickets, filter, setFilter }) {
 			default:
 				// REMEMBER to format FILTER AND/OR STATUS so that they can match
 				setTickets(
-					user.tickets.filter((ticket) => ticket.history.status === filter)
+					user.tickets.filter(
+						(ticket) =>
+							ticket.status.status === filter.replace(" ", "_").toUpperCase()
+					)
 				);
 				break;
 		}

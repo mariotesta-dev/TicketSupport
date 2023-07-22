@@ -2,15 +2,22 @@ package it.polito.wa2.server.customers
 
 import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.TicketRepository
+import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryService
 import it.polito.wa2.server.tickets.toDTO
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerServiceImpl(private val customerRepository: CustomerRepository, private val ticketRepository: TicketRepository): CustomerService {
+class CustomerServiceImpl(private val customerRepository: CustomerRepository, private val ticketRepository: TicketRepository, private val ticketStatusHistoryService: TicketStatusHistoryService): CustomerService {
     override fun getCustomer(email: String): CustomerDTO {
 
         val response = customerRepository.findCustomerByEmail(email)
             ?: throw CustomerExceptions.CustomerNotFoundException("Customer with email $email not found")
+
+        response.tickets.onEach {
+            val status = ticketStatusHistoryService.getHistory(it.id).sortedByDescending {list -> list.updatedAt}[0]
+            it.status = status.status
+            it.lastUpdatedAt = status.updatedAt
+        }
 
         return response.toDTO()
     }

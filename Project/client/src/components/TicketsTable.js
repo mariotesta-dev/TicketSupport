@@ -18,7 +18,7 @@ import NewTicketButton from "./NewTicketButton";
 import Pagination from "./Pagination";
 
 function TicketsTable({ tickets, filter }) {
-	const [paginatedTickets, setPaginatedTickets] = useState([]);
+	const [paginatedTickets, setPaginatedTickets] = useState();
 
 	return (
 		<Flex flexGrow={1} overflowX={"scroll"}>
@@ -45,6 +45,7 @@ function TicketsTable({ tickets, filter }) {
 					<Pagination
 						tickets={tickets}
 						setCurrentTickets={setPaginatedTickets}
+						currentTickets={paginatedTickets}
 						filter={filter}
 					/>
 				</Flex>
@@ -73,25 +74,28 @@ function TicketsTable({ tickets, filter }) {
 									</Td>
 								</Tr>
 							)}
-							{paginatedTickets.map((ticket, key) => (
-								<Tr key={key}>
-									<Td>{key + 1}</Td>
-									<Td maxW={"180px"} overflow={"scroll"} isTruncated>
-										{ticket.product.name}
-									</Td>
-									<Td>{ticket.summary}</Td>
-									<Td>{ticket.category}</Td>
-									<Td>
-										{ticket.assignedTo
-											? ticket.assignedTo.name + " " + ticket.assignedTo.surname
-											: "unassigned"}
-									</Td>
-									<Td>
-										<Status status={ticket.history || "OPEN"} />
-									</Td>
-									<Td>{ticket.history || ticket.createdAt}</Td>
-								</Tr>
-							))}
+							{paginatedTickets &&
+								paginatedTickets.map((ticket, key) => (
+									<Tr key={key}>
+										<Td>{key + 1}</Td>
+										<Td maxW={"180px"} overflow={"scroll"} isTruncated>
+											{ticket.product.name}
+										</Td>
+										<Td>{ticket.summary}</Td>
+										<Td>{ticket.category}</Td>
+										<Td>
+											{ticket.assignedTo
+												? ticket.assignedTo.name +
+												  " " +
+												  ticket.assignedTo.surname
+												: "unassigned"}
+										</Td>
+										<Td>
+											<Status status={ticket.status.status || "OPEN"} />
+										</Td>
+										<Td>{ticket.status.updatedAt || ticket.createdAt}</Td>
+									</Tr>
+								))}
 						</Tbody>
 					</Table>
 				</TableContainer>

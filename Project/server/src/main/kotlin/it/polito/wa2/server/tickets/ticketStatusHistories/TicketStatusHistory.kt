@@ -12,7 +12,7 @@ data class TicketStatusHistory (
     val id: Long = 0,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    var ticket: Ticket = Ticket(),
+    var ticket: Ticket? = null,
 
     @Enumerated(EnumType.STRING)
     var status: TicketStatus = TicketStatus.OPEN,

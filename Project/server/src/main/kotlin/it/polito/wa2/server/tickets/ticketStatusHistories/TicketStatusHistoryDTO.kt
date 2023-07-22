@@ -18,9 +18,9 @@ data class TicketStatusHistoryDTOWithoutTicket(
 )
 
 fun TicketStatusHistory.toDTO() : TicketStatusHistoryDTO {
-    return TicketStatusHistoryDTO(ticket.toDTOWithoutCustomer(), status, updatedAt)
+    return TicketStatusHistoryDTO(ticket?.toDTOWithoutCustomer()!!, status, updatedAt)
 }
 
 fun TicketStatusHistory.toDTOWithoutTicket() : TicketStatusHistoryDTOWithoutTicket {
-    return TicketStatusHistoryDTOWithoutTicket(ticket.id, status, updatedAt)
+    return TicketStatusHistoryDTOWithoutTicket(ticket?.id!!, status, updatedAt)
 }

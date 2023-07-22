@@ -19,7 +19,7 @@ data class TicketDTO(
     val description: String,
     val priority: String,
     val createdAt: LocalDateTime?,
-    val history: Status? = null
+    val status: Status? = null
 )
 
 data class TicketDTOWithoutCustomer(
@@ -31,7 +31,7 @@ data class TicketDTOWithoutCustomer(
     val description: String,
     val priority: String,
     val createdAt: LocalDateTime?,
-    val history: Status? = null
+    val status: Status? = null
 )
 
 data class TicketDTOWithoutExpert(
@@ -50,15 +50,15 @@ fun Ticket.toDTO() : TicketDTO {
 }
 
 fun Ticket.toDTOWithoutCustomer() : TicketDTOWithoutCustomer {
-    return TicketDTOWithoutCustomer(id, product.toDTOWithoutWarranty(), assignedTo?.toDTOWithoutTickets(), category, summary, description, priority, createdAt)
+    return TicketDTOWithoutCustomer(id, product.toDTOWithoutWarranty(), assignedTo?.toDTOWithoutTickets(), category, summary, description, priority, createdAt, Status(status, lastUpdatedAt))
 }
 
-fun Ticket.toDTO(history: Status?) : TicketDTO {
-    return TicketDTO(id, product.toDTOWithoutWarranty(), customer?.toDTOWithoutWarrantiesAndTickets(), assignedTo?.toDTOWithoutTickets(), category, summary, description, priority, createdAt, history)
+fun Ticket.toDTO(status: Status?) : TicketDTO {
+    return TicketDTO(id, product.toDTOWithoutWarranty(), customer?.toDTOWithoutWarrantiesAndTickets(), assignedTo?.toDTOWithoutTickets(), category, summary, description, priority, createdAt, status)
 }
 
-fun Ticket.toDTOWithoutCustomer(history: Status?) : TicketDTOWithoutCustomer {
-    return TicketDTOWithoutCustomer(id, product.toDTOWithoutWarranty(), assignedTo?.toDTOWithoutTickets(), category, summary, description, priority, createdAt)
+fun Ticket.toDTOWithoutCustomer(status: Status?) : TicketDTOWithoutCustomer {
+    return TicketDTOWithoutCustomer(id, product.toDTOWithoutWarranty(), assignedTo?.toDTOWithoutTickets(), category, summary, description, priority, createdAt, status)
 }
 
 fun Ticket.toDTOWithoutExpert() : TicketDTOWithoutExpert {

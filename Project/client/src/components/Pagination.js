@@ -2,10 +2,10 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import { Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-const Pagination = ({ filter, tickets, setCurrentTickets }) => {
+const Pagination = ({ filter, tickets, setCurrentTickets, currentTickets }) => {
 	const pageNumbers = [];
 	const [currentPage, setCurrentPage] = useState(1);
-	const ticketsPerPage = 6;
+	const ticketsPerPage = 5;
 
 	useEffect(() => {
 		const indexOfLastTicket = currentPage * ticketsPerPage;
@@ -18,8 +18,10 @@ const Pagination = ({ filter, tickets, setCurrentTickets }) => {
 	};
 
 	useEffect(() => {
-		setCurrentPage(1);
-	}, [filter]);
+		if (currentTickets && currentTickets.length === 0) {
+			setCurrentPage(pageNumbers.length);
+		}
+	}, [filter, currentTickets, pageNumbers.length]);
 
 	for (let i = 1; i <= Math.ceil(tickets.length / ticketsPerPage); i++) {
 		pageNumbers.push(i);
@@ -60,7 +62,12 @@ const Pagination = ({ filter, tickets, setCurrentTickets }) => {
 			{pageNumbers.length > 3 &&
 				currentPage > 3 &&
 				pageNumbers
-					.filter((i) => i >= currentPage - 1)
+					.filter((i) => {
+						if (currentPage === pageNumbers.length) {
+							return i >= currentPage - 2;
+						}
+						return i >= currentPage - 1;
+					})
 					.map((number) => (
 						<Button
 							size={"sm"}

@@ -53,35 +53,35 @@ class TicketStatusHistoryServiceImpl(
         val lastStatus = ticketStatusHistoryRepository.findLastStatus(ticketId)
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Cannot find status history for ticket with id $ticketId")
 
-        return moveToStatus(lastStatus.ticket, lastStatus.status, TicketStatus.OPEN)
+        return moveToStatus(lastStatus.ticket!!, lastStatus.status, TicketStatus.OPEN)
     }
 
     override fun ticketStatusClose(ticketId: Long): TicketStatusHistoryDTO {
         val lastStatus = ticketStatusHistoryRepository.findLastStatus(ticketId)
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Cannot find status history for ticket with id $ticketId")
 
-        return moveToStatus(lastStatus.ticket, lastStatus.status, TicketStatus.CLOSED)
+        return moveToStatus(lastStatus.ticket!!, lastStatus.status, TicketStatus.CLOSED)
     }
 
     override fun ticketStatusInProgress(ticketId: Long): TicketStatusHistoryDTO {
         val lastStatus = ticketStatusHistoryRepository.findLastStatus(ticketId)
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Cannot find status history for ticket with id $ticketId")
 
-        return moveToStatus(lastStatus.ticket, lastStatus.status, TicketStatus.IN_PROGRESS)
+        return moveToStatus(lastStatus.ticket!!, lastStatus.status, TicketStatus.IN_PROGRESS)
     }
 
     override fun ticketStatusResolve(ticketId: Long): TicketStatusHistoryDTO {
         val lastStatus = ticketStatusHistoryRepository.findLastStatus(ticketId)
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Cannot find status history for ticket with id $ticketId")
 
-        return moveToStatus(lastStatus.ticket, lastStatus.status, TicketStatus.RESOLVED)
+        return moveToStatus(lastStatus.ticket!!, lastStatus.status, TicketStatus.RESOLVED)
     }
 
     override fun ticketStatusReopen(ticketId: Long): TicketStatusHistoryDTO {
         val lastStatus = ticketStatusHistoryRepository.findLastStatus(ticketId)
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Cannot find status history for ticket with id $ticketId")
 
-        return moveToStatus(lastStatus.ticket, lastStatus.status, TicketStatus.REOPENED)
+        return moveToStatus(lastStatus.ticket!!, lastStatus.status, TicketStatus.REOPENED)
     }
 
 }
