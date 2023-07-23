@@ -1,4 +1,4 @@
-import { Divider, Flex, Link } from "@chakra-ui/react";
+import { Divider, Flex, Link, Button } from "@chakra-ui/react";
 import Backbutton from "./Backbutton";
 
 function Sidebar({ user, tickets, setTickets, filter, setFilter }) {
@@ -50,36 +50,63 @@ function Sidebar({ user, tickets, setTickets, filter, setFilter }) {
 			gap={5}>
 			<Backbutton href={"/dashboard"} />
 			{PRIMARY_ITEMS.map((item, key) => (
+				<Flex>
 				<Link
 					key={key}
 					onClick={() => handleFilter(item.label)}
 					color={filter === item.label ? "blue.500" : "gray.600"}
 					href="#"
 					fontWeight={filter === item.label ? "bold" : "normal"}>
-					{item.label} ({getTicketCountForCategory(item.label)})
+					{item.label}
 				</Link>
+				<Button
+					mx={2}
+					size={"xs"}
+					key={key}
+					variant={"outline"}>
+					{getTicketCountForCategory(item.label)}
+				</Button>
+				</Flex>
 			))}
 			<Divider />
 			{SECONDARY_ITEMS.map((item, key) => (
+				<Flex>
 				<Link
 					key={key}
 					onClick={() => handleFilter(item.label)}
 					color={filter === item.label ? "blue.500" : "gray.600"}
 					href="#"
 					fontWeight={filter === item.label ? "bold" : "normal"}>
-					{item.label} ({getTicketCountForCategory(item.label)})
+					{item.label}
 				</Link>
+				<Button
+					mx={2}
+					size={"xs"}
+					key={key}
+					variant={"outline"}>
+					{getTicketCountForCategory(item.label)}
+				</Button>
+				</Flex>
 			))}
 			<Divider />
 			{TERTIARY_ITEMS.map((item, key) => (
+				<Flex>
 				<Link
 					key={key}
 					onClick={() => handleFilter(item.label)}
 					color={filter === item.label ? "blue.500" : "gray.600"}
 					href="#"
 					fontWeight={filter === item.label ? "bold" : "normal"}>
-					{item.label} ({getTicketCountForCategory(item.label)})
+					{item.label}
 				</Link>
+				<Button
+					mx={2}
+					size={"xs"}
+					key={key}
+					variant={"outline"}>
+					{getTicketCountForCategory(item.label)}
+				</Button>
+				</Flex>
 			))}
 		</Flex>
 	);
