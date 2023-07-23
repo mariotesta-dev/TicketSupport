@@ -4,6 +4,7 @@ import it.polito.wa2.server.tickets.Ticket
 import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.TicketDTOWithoutCustomer
 import it.polito.wa2.server.tickets.toDTOWithoutCustomer
+import it.polito.wa2.server.users.UserDTO
 import it.polito.wa2.server.warranties.WarrantyDTOWithoutCustomer
 import it.polito.wa2.server.warranties.toDTOWithoutCustomer
 

@@ -69,4 +69,15 @@ export class RestMethods {
 		const url = baseUrl ? baseUrl + endpoint : this.apiUrl + endpoint;
 		return this._fetchWrapper(url, options);
 	};
+
+	put = async ({ endpoint, body, authenticated = false, baseUrl = null }) => {
+		const options = {
+			method: "PUT",
+			headers: this._getHeader(authenticated),
+			body: JSON.stringify(body),
+		};
+
+		const url = baseUrl ? baseUrl + endpoint : this.apiUrl + endpoint;
+		return this._fetchWrapper(url, options);
+	};
 }

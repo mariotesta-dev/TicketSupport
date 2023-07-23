@@ -6,15 +6,15 @@ function Sidebar({ user, tickets, setTickets, filter, setFilter }) {
 		setFilter(filter);
 		switch (filter) {
 			case "All":
-				setTickets(user.tickets);
+				setTickets(tickets);
 				break;
 			case "Unassigned":
-				setTickets(user.tickets.filter((ticket) => ticket.assignedTo === null));
+				setTickets(tickets.filter((ticket) => ticket.assignedTo === null));
 				break;
 			default:
 				// REMEMBER to format FILTER AND/OR STATUS so that they can match
 				setTickets(
-					user.tickets.filter(
+					tickets.filter(
 						(ticket) =>
 							ticket.status.status === filter.replace(" ", "_").toUpperCase()
 					)
@@ -26,12 +26,12 @@ function Sidebar({ user, tickets, setTickets, filter, setFilter }) {
 	const getTicketCountForCategory = (category) => {
 		switch (category) {
 			case "All":
-				return user.tickets.length;
+				return tickets.length;
 			case "Unassigned":
-				return user.tickets.filter((ticket) => ticket.assignedTo === null)
+				return tickets.filter((ticket) => ticket.assignedTo === null)
 					.length;
 			default:
-				return user.tickets.filter(
+				return tickets.filter(
 					(ticket) =>
 						ticket.status.status === category.replace(" ", "_").toUpperCase()
 				).length;

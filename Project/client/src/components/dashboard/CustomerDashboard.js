@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { customersAPI } from "../../api/API";
+import { usersAPI } from "../../api/API";
 import toast from "react-hot-toast";
 import { Center, CircularProgress, Flex, Stack } from "@chakra-ui/react";
 //import UserCard from "../UserCard";
@@ -14,7 +14,7 @@ export default function CustomerDashboard() {
 	useEffect(() => {
 		const handleGetUser = async () => {
 			try {
-				const res = await customersAPI.getCustomer(decodedJWT.email);
+				const res = await usersAPI.getCustomer(decodedJWT.email);
 				setUser(res);
 			} catch (error) {
 				toast.error("Unable to get user");

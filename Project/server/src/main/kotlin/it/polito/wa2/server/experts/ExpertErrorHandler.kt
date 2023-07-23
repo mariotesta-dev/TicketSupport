@@ -21,4 +21,8 @@ class ExpertErrorHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(ExpertExceptions.ExpertNotSuitableException::class)
     fun handleExpertNotSuitable(e: ExpertExceptions.ExpertNotSuitableException) =
         ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.message!!)
+
+    @ExceptionHandler(ExpertExceptions.ExpertiseNotFoundException::class)
+    fun handleExpertiseNotFound(e: ExpertExceptions.ExpertiseNotFoundException) =
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 }

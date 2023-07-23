@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { customersAPI } from "../../api/API";
+import { usersAPI } from "../../api/API";
 import toast from "react-hot-toast";
 import { CircularProgress, Flex } from "@chakra-ui/react";
 import * as session from '../../utils/SessionUtils.js'; 
@@ -12,7 +12,7 @@ export default function ExpertDashboard() {
 	useEffect(() => {
 		const handleGetUser = async () => {
 			try {
-				const res = await customersAPI.getExpert(decodedJWT.email);
+				const res = await usersAPI.getExpert(decodedJWT.email);
 				setUser(res);
 			} catch (error) {
 				toast.error("Unable to get user");

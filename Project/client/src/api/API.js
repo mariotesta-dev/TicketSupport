@@ -71,6 +71,15 @@ const getExpert = async (email) => {
 	return data;
 };
 
+const getManager = async (email) => {
+	const data = await rest.get({
+		endpoint: `/managers/${email}`,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 const getMessages = async (ticketId) => {
 	const data = await rest.get({
 		endpoint: `/tickets/${ticketId}/messages`,
@@ -80,10 +89,39 @@ const getMessages = async (ticketId) => {
 	return data;
 };
 
+const getTickets = async () => {
+	const data = await rest.get({
+		endpoint: `/tickets`,
+		authenticated: true,
+	});
+
+	return data;
+};
+
+const getAllExpertsByExpertise = async (expertise) => {
+	const data = await rest.get({
+		endpoint: `/experts/expertise/${expertise}`,
+		authenticated: true,
+	});
+
+	return data;
+}
+
+const assignTicketToExpert = async (ticketId, expertId, priority) => {
+	const data = await rest.put({
+		endpoint: `/tickets/${ticketId}/expert`,
+		body: {priority: priority, expert: {id: expertId}},
+		authenticated: true,
+	});
+	return data;
+}
+
 export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
 
-export const customersAPI = { getCustomer, getExpert };
+export const usersAPI = { getCustomer, getExpert, getManager};
 
-export const ticketsAPI = { createNewTicket, getMessages };
+export const managersAPI = { getAllExpertsByExpertise, assignTicketToExpert };
+
+export const ticketsAPI = { createNewTicket, getMessages, getTickets };

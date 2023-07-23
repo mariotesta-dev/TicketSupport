@@ -22,8 +22,9 @@ import NewTicketButton from "./NewTicketButton";
 import Pagination from "./Pagination";
 import { ChatIcon, DeleteIcon } from "@chakra-ui/icons";
 import Chat from "./Chat";
+import TicketsTableExpertField from "./TIcketsTableExpertField";
 
-function TicketsTable({ tickets, filter }) {
+function TicketsTable({ tickets, filter, role }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
 
 	function formatDate(dateString) {
@@ -87,6 +88,7 @@ function TicketsTable({ tickets, filter }) {
 								<Th>Product</Th>
 								<Th>Summary</Th>
 								<Th>Category</Th>
+								{role.match("manager") && <Th>Assigned To</Th>}
 								<Th>Status</Th>
 								<Th>Last Update</Th>
 								<Th></Th>
@@ -111,6 +113,11 @@ function TicketsTable({ tickets, filter }) {
 										</Td>
 										<Td>{ticket.summary}</Td>
 										<Td>{ticket.category}</Td>
+										{role.match("manager") &&
+											(<Td>
+												<TicketsTableExpertField ticket={ticket} />
+											</Td>)
+										}
 										<Td>
 											<Status status={ticket.status.status || "OPEN"} />
 										</Td>

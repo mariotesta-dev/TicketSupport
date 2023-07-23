@@ -7,4 +7,6 @@ class ExpertExceptions {
 
     class ExpertNotSuitableException(message: String) : RuntimeException(message)
 
+    class ExpertiseNotFoundException(message: String) : RuntimeException(message)
+
 }

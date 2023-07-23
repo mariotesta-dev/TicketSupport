@@ -11,6 +11,7 @@ class ExpertSecurityConfigurer : SecurityConfigurerInterface {
 
     override fun configure(http: HttpSecurity) {
         http.authorizeHttpRequests()
+            .requestMatchers(javax.ws.rs.HttpMethod.GET, "/API/experts").hasRole(SecurityRoles.MANAGER)
             .requestMatchers(javax.ws.rs.HttpMethod.GET, "/API/experts/**")
             .hasAnyRole(SecurityRoles.MANAGER, SecurityRoles.EXPERT)
     }

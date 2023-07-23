@@ -2,6 +2,7 @@ package it.polito.wa2.server.experts
 
 import it.polito.wa2.server.customers.CustomerExceptions
 import it.polito.wa2.server.customers.toDTO
+import it.polito.wa2.server.tickets.CategoryType
 import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTOWithoutTicket
 import it.polito.wa2.server.tickets.ticketStatusHistories.toDTOWithoutTicket
@@ -24,8 +25,19 @@ class ExpertServiceImpl(val expertRepository: ExpertRepository) : ExpertService 
         return expertRepository.getExpertHistoriesForEvaluation(expertId).map { it.toDTOWithoutTicket() }
     }
 
-    override fun getAllExperts(): List<ExpertDTO> {
-        return expertRepository.findAll().map { it.toDTO() }
+    override fun getAllExpertsByExpertise(expertise: String): List<ExpertDTO> {
+        val expertiseParam = when(expertise) {
+            "SOFTWARE" -> CategoryType.SOFTWARE
+            "HARDWARE" -> CategoryType.HARDWARE
+            "NETWORK" -> CategoryType.NETWORK
+            "INFORMATION" -> CategoryType.INFORMATION
+            "MAINTENANCE" -> CategoryType.MAINTENANCE
+            "OTHER" -> CategoryType.OTHER
+            "PAYMENT_ISSUES" -> CategoryType.PAYMENT_ISSUES
+            "BUG_REPORTS" -> CategoryType.BUG_REPORTS
+            else -> throw ExpertExceptions.ExpertiseNotFoundException("Expertise $expertise not found")
+        }
+        return expertRepository.getAllExpertsByExpertise(expertiseParam).map { it.toDTO() }
     }
 
     override fun createExpert(expert: Expert): ExpertDTO {

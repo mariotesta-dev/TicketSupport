@@ -2,6 +2,7 @@ package it.polito.wa2.server.experts
 
 import it.polito.wa2.server.auth.AuthData
 import it.polito.wa2.server.auth.AuthService
+import it.polito.wa2.server.tickets.CategoryType
 import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTOWithoutTicket
 import it.polito.wa2.server.tickets.ticketStatusHistories.toDTO
@@ -28,9 +29,9 @@ class ExpertController(private val expertService: ExpertService, private val aut
     }
 
     // this method can be accessed by user whose role is manager
-    @GetMapping("/API/experts")
-    fun getAllExperts() : List<ExpertDTO> {
-        return expertService.getAllExperts()
+    @GetMapping("/API/experts/expertise/{expertise}")
+    fun getAllExpertsByExpertise(@PathVariable expertise: String) : List<ExpertDTO> {
+        return expertService.getAllExpertsByExpertise(expertise)
     }
 
     // this method can be accessed by user whose role is manager
