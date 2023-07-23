@@ -49,7 +49,7 @@ const Messages = ({ ticket, newMessageSent, setNewMessageSent }) => {
 		}
 	}, [newMessageSent, setNewMessageSent, ticket.id]);
 
-	const AlwaysScrollToBottom = () => {
+	const ScrollToBottom = () => {
 		const elementRef = useRef();
 		useEffect(() => elementRef.current.scrollIntoView());
 		return <div ref={elementRef} />;
@@ -68,12 +68,12 @@ const Messages = ({ ticket, newMessageSent, setNewMessageSent }) => {
 					<DescriptionMessage ticket={ticket} />
 					{messages.map((item, index) => {
 						if (item.sentBy === me) {
-							return <SenderMessage item={item} key={index} />;
+							return <SenderMessage item={item} key={index} me={me} />;
 						} else {
-							return <ReceiverMessage item={item} key={index} />;
+							return <ReceiverMessage item={item} key={index} me={me} />;
 						}
 					})}
-					<AlwaysScrollToBottom />
+					<ScrollToBottom />
 				</Flex>
 			) : (
 				<Center h={"full"} w={"full"}>
@@ -111,7 +111,7 @@ function DescriptionMessage({ ticket }) {
 	);
 }
 
-function SenderMessage({ item }) {
+function SenderMessage({ item, me }) {
 	return (
 		<Flex w="100%" justify="flex-end" alignItems={"center"} gap={2}>
 			<Flex direction={"column"} alignItems={"flex-end"}>
@@ -129,15 +129,19 @@ function SenderMessage({ item }) {
 					{converters.formatDate(item.sentAt)}
 				</Text>
 			</Flex>
-			<Avatar name={item.customer} size={"sm"}></Avatar>
+			<Avatar
+				name={me === "customer" ? item.customer : item.expert}
+				size={"sm"}></Avatar>
 		</Flex>
 	);
 }
 
-function ReceiverMessage({ item }) {
+function ReceiverMessage({ item, me }) {
 	return (
 		<Flex w="100%" gap={2} alignItems={"center"}>
-			<Avatar name={item.expert} size={"sm"}></Avatar>
+			<Avatar
+				name={me === "customer" ? item.expert : item.customer}
+				size={"sm"}></Avatar>
 			<Flex direction={"column"} alignItems={"flex-start"}>
 				<Flex
 					rounded={"xl"}
