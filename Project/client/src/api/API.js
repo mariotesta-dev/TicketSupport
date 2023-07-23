@@ -80,10 +80,21 @@ const getMessages = async (ticketId) => {
 	return data;
 };
 
+const sendMessage = async (message) => {
+	console.log(message);
+	const data = await rest.post({
+		endpoint: "/messages",
+		body: message,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
 
 export const customersAPI = { getCustomer, getExpert };
 
-export const ticketsAPI = { createNewTicket, getMessages };
+export const ticketsAPI = { createNewTicket, getMessages, sendMessage };

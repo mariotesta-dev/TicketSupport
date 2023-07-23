@@ -11,42 +11,19 @@ import {
 	Text,
 	Flex,
 	Button,
-	Tooltip,
 } from "@chakra-ui/react";
 
-import { format, isToday, isYesterday, differenceInMinutes } from "date-fns";
+import * as converters from "../utils/converters";
 
 import React, { useState } from "react";
 import Status from "./Status";
 import NewTicketButton from "./NewTicketButton";
 import Pagination from "./Pagination";
-import { ChatIcon, DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import Chat from "./Chat";
 
 function TicketsTable({ tickets, filter }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
-
-	function formatDate(dateString) {
-		const date = new Date(dateString);
-		const today = new Date();
-
-		if (isToday(date)) {
-			// Calculate the difference in minutes between the current date and the provided date
-			const diffInMinutes = differenceInMinutes(today, date);
-			if (diffInMinutes <= 60) {
-				return `${diffInMinutes} minutes ago`;
-			} else {
-				// Handle other time formats as needed, e.g., "5 hours ago", "2 days ago", etc.
-				// For simplicity, let's return the "today" date in a default format
-				return format(date, "HH:mm");
-			}
-		} else if (isYesterday(date)) {
-			return "Yesterday";
-		} else {
-			// Format the date as "01 Set 2021"
-			return format(date, "dd MMM yyyy");
-		}
-	}
 
 	return (
 		<Flex flexGrow={1} overflowX={"scroll"}>
@@ -115,8 +92,8 @@ function TicketsTable({ tickets, filter }) {
 											<Status status={ticket.status.status || "OPEN"} />
 										</Td>
 										<Td>
-											{formatDate(ticket.status.updatedAt) ||
-												formatDate(ticket.createdAt)}
+											{converters.formatDate(ticket.status.updatedAt) ||
+												converters.formatDate(ticket.createdAt)}
 										</Td>
 										<Td width={20}>
 											<Flex direction={"row"} gap={3}>
