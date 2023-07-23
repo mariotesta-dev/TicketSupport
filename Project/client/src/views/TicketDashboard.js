@@ -13,6 +13,7 @@ function TicketDashboard() {
 		<Flex width={"full"} flexGrow={1} alignContent={"stretch"}>
 			<Sidebar
 				user={user}
+				tickets={tickets}
 				setTickets={setTickets}
 				filter={filter}
 				setFilter={setFilter}

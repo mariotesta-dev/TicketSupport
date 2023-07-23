@@ -1,7 +1,7 @@
 import { Divider, Flex, Link } from "@chakra-ui/react";
 import Backbutton from "./Backbutton";
 
-function Sidebar({ user, setTickets, filter, setFilter }) {
+function Sidebar({ user, tickets, setTickets, filter, setFilter }) {
 	const handleFilter = (filter) => {
 		setFilter(filter);
 		switch (filter) {
@@ -23,6 +23,19 @@ function Sidebar({ user, setTickets, filter, setFilter }) {
 		}
 	};
 
+	const getTicketCountForCategory = (category) => {
+		switch (category) {
+		  case "All":
+			return user.tickets.length;
+		  case "Unassigned":
+			return user.tickets.filter((ticket) => ticket.assignedTo === null).length;
+		  default:
+			return user.tickets.filter(
+			  (ticket) => ticket.status.status === category.replace(" ", "_").toUpperCase()
+			).length;
+		}
+	  };
+
 	return (
 		<Flex
 			direction={"column"}
@@ -43,7 +56,7 @@ function Sidebar({ user, setTickets, filter, setFilter }) {
 					color={filter === item.label ? "blue.500" : "gray.600"}
 					href="#"
 					fontWeight={filter === item.label ? "bold" : "normal"}>
-					{item.label}
+					{item.label} ({getTicketCountForCategory(item.label)})
 				</Link>
 			))}
 			<Divider />
@@ -54,7 +67,7 @@ function Sidebar({ user, setTickets, filter, setFilter }) {
 					color={filter === item.label ? "blue.500" : "gray.600"}
 					href="#"
 					fontWeight={filter === item.label ? "bold" : "normal"}>
-					{item.label}
+					{item.label} ({getTicketCountForCategory(item.label)})
 				</Link>
 			))}
 			<Divider />
@@ -65,7 +78,7 @@ function Sidebar({ user, setTickets, filter, setFilter }) {
 					color={filter === item.label ? "blue.500" : "gray.600"}
 					href="#"
 					fontWeight={filter === item.label ? "bold" : "normal"}>
-					{item.label}
+					{item.label} ({getTicketCountForCategory(item.label)})
 				</Link>
 			))}
 		</Flex>
