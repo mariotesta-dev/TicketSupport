@@ -11,6 +11,8 @@ import {
 	DrawerOverlay,
 	Flex,
 	Input,
+	Stack,
+	Text,
 	Tooltip,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -18,6 +20,7 @@ import Messages from "./Messages";
 import { getUserRole } from "../utils/SessionUtils";
 import { ticketsAPI } from "../api/API";
 import { toast } from "react-hot-toast";
+import Status from "./Status";
 
 function Chat({ ticket }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -93,8 +96,37 @@ function ChatDrawer({ ticket, isOpen, onClose, btnRef, messages }) {
 			finalFocusRef={btnRef}>
 			<DrawerOverlay />
 			<DrawerContent>
-				<DrawerCloseButton />
-				<DrawerHeader>Chat</DrawerHeader>
+				<DrawerHeader>
+					<Flex direction={"column"}>
+						<Flex
+							direction={"row"}
+							justifyContent={"space-between"}
+							alignItems={"center"}>
+							<Flex direction={"row"} gap={2}>
+								<Text>{ticket.summary}</Text>
+								<Status status={ticket.status.status} />
+							</Flex>
+							<DrawerCloseButton position={"relative"} top={0} />
+						</Flex>
+						<Stack>
+							<Text fontSize={"sm"} color={"gray.500"}>
+								Description:{" "}
+								<Text
+									as={"span"}
+									fontWeight={"normal"}
+									wordBreak={"break-word"}>
+									{ticket.description}
+								</Text>
+							</Text>
+							<Text fontSize={"sm"} color={"gray.500"}>
+								Product:{" "}
+								<Text as={"span"} fontWeight={"normal"}>
+									{ticket.product.name}
+								</Text>
+							</Text>
+						</Stack>
+					</Flex>
+				</DrawerHeader>
 				<Divider />
 
 				<DrawerBody p={0}>
