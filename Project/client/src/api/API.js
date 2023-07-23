@@ -1,5 +1,4 @@
-import { RestMethods } from './RestMethods.js';
-
+import { RestMethods } from "./RestMethods.js";
 
 const DOMAIN_URL = "http://localhost:8081";
 const API_URL = DOMAIN_URL + "/API";
@@ -72,10 +71,19 @@ const getExpert = async (email) => {
 	return data;
 };
 
+const getMessages = async (ticketId) => {
+	const data = await rest.get({
+		endpoint: `/tickets/${ticketId}/messages`,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
 
 export const customersAPI = { getCustomer, getExpert };
 
-export const ticketsAPI = { createNewTicket };
+export const ticketsAPI = { createNewTicket, getMessages };

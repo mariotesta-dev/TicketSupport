@@ -19,7 +19,7 @@ import {
 import toast from "react-hot-toast";
 import Backbutton from "../components/Backbutton";
 import { Navigate, useNavigate } from "react-router-dom";
-import * as session from '../utils/SessionUtils.js'; 
+import * as session from "../utils/SessionUtils.js";
 
 export default function SignIn() {
 	if (session.getJwtToken()) {
@@ -51,6 +51,7 @@ function SimpleCard() {
 				navigate(0); // refresh page so that Navigate to /dashboard is triggered by jwtToken existence
 			}, 500);
 		} catch (error) {
+			console.log("ERROR " + error);
 			toast.error(error.detail);
 		}
 		setLoading(false);

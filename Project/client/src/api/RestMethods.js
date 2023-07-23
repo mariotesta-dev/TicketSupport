@@ -1,77 +1,72 @@
-import * as session from '../utils/SessionUtils.js';
+import * as session from "../utils/SessionUtils.js";
 
 export class RestMethods {
+	constructor(apiUrl) {
+		this.apiUrl = apiUrl;
+		this.jwtToken = session.getJwtToken();
+		this.header = {
+			"Content-type": `application/json`,
+		};
+		this.authHeader = {
+			Authorization: `Bearer ${this.jwtToken}`,
+		};
+	}
 
-  constructor(apiUrl) {
-    this.apiUrl = apiUrl;
-    this.jwtToken = session.getJwtToken();
-    this.header = {
-      "Content-type": `application/json`
-    };
-    this.authHeader = {
-      "Authorization": `Bearer ${this.jwtToken}`,
-    };
-  }
-
-
-  /// Performs the check over possible errors:
-  /// - 401 --> Logout 
-  _checkResponse = async (response) => {
-    if (response.status === 401) {
+	/// Performs the check over possible errors:
+	/// - 401 --> Logout
+	_checkResponse = async (response) => {
+		//TODO: uncomment this when we have figured out how to handle 401 for login errors
+		/* if (response.status === 401) {
       session.cleanSession();
       throw new Error('Unauthorized');
-    }
+    } */
 
-    const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      throw data;
-    }
-  }
+		const data = await response.json();
+		if (response.ok) {
+			return data;
+		} else {
+			throw data;
+		}
+	};
 
-  _fetchWrapper = async (url, options) => {
-    console.log('----------------------');
-    console.log(`Fetching URL: ${url}`);
-    console.log('Options:', options);
-  
-    const response = await fetch(url, options);
-  
-    console.log(`Received response: ${response.status} ${response.statusText}`);
-    console.log('Response headers:', response.headers);
-  
-    return this._checkResponse(response);
-  }
+	_fetchWrapper = async (url, options) => {
+		console.log("----------------------");
+		console.log(`Fetching URL: ${url}`);
+		console.log("Options:", options);
 
-  _getHeader = (authenticated = false) => {
-    return {
-      ...this.header,
-      ...(authenticated ? this.authHeader : {}),
-    }
-  }
+		const response = await fetch(url, options);
 
-  get = async ({ endpoint, authenticated = false, baseUrl = null }) => {
-    const options = {
-      method: "GET",
-      headers: this._getHeader(authenticated),
-    };
+		console.log(`Received response: ${response.status} ${response.statusText}`);
+		console.log("Response headers:", response.headers);
 
+		return this._checkResponse(response);
+	};
 
-    const url = baseUrl ? baseUrl + endpoint : this.apiUrl + endpoint;
-    return this._fetchWrapper(url, options);
-  }
+	_getHeader = (authenticated = false) => {
+		return {
+			...this.header,
+			...(authenticated ? this.authHeader : {}),
+		};
+	};
 
-  post = async ({ endpoint, body, authenticated = false, baseUrl = null }) => {
-    const options = {
-      method: "POST",
-      headers: this._getHeader(authenticated),
-      body: JSON.stringify(body),
-    };
+	get = async ({ endpoint, authenticated = false, baseUrl = null }) => {
+		const options = {
+			method: "GET",
+			headers: this._getHeader(authenticated),
+		};
 
-    const url = baseUrl ? baseUrl + endpoint : this.apiUrl + endpoint;
-    return this._fetchWrapper(url, options);
-  }
+		const url = baseUrl ? baseUrl + endpoint : this.apiUrl + endpoint;
+		return this._fetchWrapper(url, options);
+	};
 
+	post = async ({ endpoint, body, authenticated = false, baseUrl = null }) => {
+		const options = {
+			method: "POST",
+			headers: this._getHeader(authenticated),
+			body: JSON.stringify(body),
+		};
+
+		const url = baseUrl ? baseUrl + endpoint : this.apiUrl + endpoint;
+		return this._fetchWrapper(url, options);
+	};
 }
-
-

@@ -4,11 +4,9 @@ import { Stack } from "@chakra-ui/react";
 import CustomerDashboard from "../components/dashboard/CustomerDashboard";
 import ManagerDashboard from "../components/dashboard/ManagerDashboard";
 import ExpertDashboard from "../components/dashboard/ExpertDashboard";
-import * as session from "../utils/SessionUtils.js"
+import * as session from "../utils/SessionUtils.js";
 
 function Dashboard() {
-	const jwtToken = session.getJwtToken();
-	const decodedJwt = session.getDecodedJwtToken();
 	const role = session.getUserRole();
 	return (
 		<Stack height={"100vh"} spacing={0}>
