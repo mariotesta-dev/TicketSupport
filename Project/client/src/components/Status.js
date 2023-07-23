@@ -6,7 +6,7 @@ function Status({ status }) {
 
 	return (
 		<Tag colorScheme={colorScheme} variant={"solid"} fontWeight={"bold"}>
-			{status}
+			{status.replace("_", " ")}
 		</Tag>
 	);
 }

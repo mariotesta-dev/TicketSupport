@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Avatar, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Center, CircularProgress, Flex, Text } from "@chakra-ui/react";
 import { getDecodedJwtToken, getUserRole } from "../utils/SessionUtils";
 import { ticketsAPI } from "../api/API";
 import { toast } from "react-hot-toast";
+import * as converters from "../utils/converters";
 
-const Messages = ({ ticket }) => {
-	const me = getUserRole();
+const Messages = ({ ticket, newMessageSent, setNewMessageSent }) => {
+	const me = getUserRole().toLowerCase();
 
 	const [messages, setMessages] = useState([]);
 	const [loading, setLoading] = useState(true);
+
+	console.log(messages);
 
 	useEffect(() => {
 		const handleGetMessages = async () => {
@@ -16,19 +19,37 @@ const Messages = ({ ticket }) => {
 				const res = await ticketsAPI.getMessages(ticket.id);
 				setMessages(res);
 			} catch (error) {
-				toast.error("Unable to get user");
+				toast.error("Unable to retrieve the messages");
 			}
-			setLoading(false);
 		};
+
+		handleGetMessages();
+		setLoading(false);
 
 		const interval = setInterval(() => {
 			handleGetMessages();
-		}, 3000);
+		}, 10000);
 
 		return () => clearInterval(interval);
 	}, [ticket.id]);
 
-	const AlwaysScrollToBottom = () => {
+	useEffect(() => {
+		const handleGetMessages = async () => {
+			try {
+				const res = await ticketsAPI.getMessages(ticket.id);
+				setMessages(res);
+			} catch (error) {
+				toast.error("Unable to retrieve the messages");
+			}
+		};
+
+		if (newMessageSent) {
+			handleGetMessages();
+			setNewMessageSent(false);
+		}
+	}, [newMessageSent, setNewMessageSent, ticket.id]);
+
+	const ScrollToBottom = () => {
 		const elementRef = useRef();
 		useEffect(() => elementRef.current.scrollIntoView());
 		return <div ref={elementRef} />;
@@ -36,26 +57,33 @@ const Messages = ({ ticket }) => {
 
 	return (
 		<>
-			{loading ? (
+			{!loading ? (
 				<Flex
 					w={"full"}
 					h={"full"}
 					overflowY="auto"
 					flexDirection="column"
-					p={3}
+					p={6}
 					bg={"white"}>
 					<DescriptionMessage ticket={ticket} />
 					{messages.map((item, index) => {
 						if (item.sentBy === me) {
-							return <SenderMessage item={item} key={index} />;
+							return <SenderMessage item={item} key={index} me={me} />;
 						} else {
-							return <ReceiverMessage item={item} key={index} />;
+							return <ReceiverMessage item={item} key={index} me={me} />;
 						}
 					})}
-					<AlwaysScrollToBottom />
+					<ScrollToBottom />
 				</Flex>
 			) : (
-				""
+				<Center h={"full"} w={"full"}>
+					<CircularProgress
+						isIndeterminate
+						color="blue.400"
+						thickness="4px"
+						size="50px"
+					/>
+				</Center>
 			)}
 		</>
 	);
@@ -83,7 +111,7 @@ function DescriptionMessage({ ticket }) {
 	);
 }
 
-function SenderMessage({ item }) {
+function SenderMessage({ item, me }) {
 	return (
 		<Flex w="100%" justify="flex-end" alignItems={"center"} gap={2}>
 			<Flex direction={"column"} alignItems={"flex-end"}>
@@ -91,25 +119,29 @@ function SenderMessage({ item }) {
 					rounded={"xl"}
 					bg="blue.300"
 					color="white"
-					minW="100px"
+					minW="50px"
 					maxW="350px"
 					my="1"
 					p="3">
-					<Text>{item.text}</Text>
+					<Text wordBreak={"break-word"}>{item.text}</Text>
 				</Flex>
 				<Text fontSize={"xs"} color={"gray.500"}>
-					now
+					{converters.formatDate(item.sentAt)}
 				</Text>
 			</Flex>
-			<Avatar name={item.sender} size={"sm"}></Avatar>
+			<Avatar
+				name={me === "customer" ? item.customer : item.expert}
+				size={"sm"}></Avatar>
 		</Flex>
 	);
 }
 
-function ReceiverMessage({ item }) {
+function ReceiverMessage({ item, me }) {
 	return (
 		<Flex w="100%" gap={2} alignItems={"center"}>
-			<Avatar name={item.sender} size={"sm"}></Avatar>
+			<Avatar
+				name={me === "customer" ? item.expert : item.customer}
+				size={"sm"}></Avatar>
 			<Flex direction={"column"} alignItems={"flex-start"}>
 				<Flex
 					rounded={"xl"}
@@ -122,7 +154,7 @@ function ReceiverMessage({ item }) {
 					<Text>{item.text}</Text>
 				</Flex>
 				<Text fontSize={"xs"} color={"gray.500"}>
-					now
+					{converters.formatDate(item.sentAt)}
 				</Text>
 			</Flex>
 		</Flex>

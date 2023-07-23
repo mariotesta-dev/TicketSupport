@@ -102,7 +102,7 @@ class TicketServiceImpl(
 
         if (ticket != null) {
 
-            if(u.getClaim<String>("user_name") != ticket.customer?.email && u.getClaim<String>("user_name") != ticket.assignedTo?.email)
+            if(u.getClaim<String>("email") != ticket.customer?.email && u.getClaim<String>("email") != ticket.assignedTo?.email)
                 throw TicketExceptions.TicketNotOwnedException("Ticket with id $ticketId not owned by user ${u.getClaim<String>("email")}")
 
             return ticket.messages.map { it.toDTO() }

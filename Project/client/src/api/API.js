@@ -98,6 +98,17 @@ const getTickets = async () => {
 	return data;
 };
 
+const sendMessage = async (message) => {
+	console.log(message);
+	const data = await rest.post({
+		endpoint: "/messages",
+		body: message,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 const getAllExpertsByExpertise = async (expertise) => {
 	const data = await rest.get({
 		endpoint: `/experts/expertise/${expertise}`,

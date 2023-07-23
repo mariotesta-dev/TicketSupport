@@ -28,15 +28,15 @@ import {
 	ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import * as session from '../utils/SessionUtils.js'; 
+import * as session from "../utils/SessionUtils.js";
 
 export default function Dashbar() {
-	return <WithSubnavigation/>;
+	return <WithSubnavigation />;
 }
 
 function WithSubnavigation() {
 	const user = session.getDecodedJwtToken();
-	
+
 	const { isOpen, onToggle } = useDisclosure();
 
 	const navigate = useNavigate();
@@ -286,9 +286,5 @@ const NAV_ITEMS = [
 				href: "#",
 			},
 		],
-	},
-	{
-		label: "Link 3",
-		href: "#",
 	},
 ];
