@@ -136,9 +136,32 @@ const updateCustomer = async (email, customer) => {
 	return data;
 };
 
+// When a product gets bought, a warranty is created by a manager
+const createWarranty = async (warranty) => {
+	console.log(warranty);
+	const data = await rest.post({
+		endpoint: "/warranties",
+		body: warranty,
+		authenticated: true,
+	});
+
+	return data;
+};
+
+const subscribeProduct = async (warrantyId, userId) => {
+	const data = await rest.put({
+		endpoint: `/warranties/${warrantyId}/subscribe`,
+		body: { id: userId },
+		authenticated: true,
+	});
+	return data;
+};
+
 export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
+
+export const warrantiesAPI = { createWarranty, subscribeProduct };
 
 export const usersAPI = { getCustomer, getExpert, getManager, updateCustomer };
 

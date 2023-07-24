@@ -12,6 +12,7 @@ import NewTicket from "./views/NewTicket";
 import DashHero from "./components/dashboard/DashHero";
 import Settings from "./views/Settings";
 import ProductsDashboard from "./views/ProductsDashboard";
+import NewProduct from "./views/NewProduct";
 
 const router = createBrowserRouter([
 	{
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
 			{
 				path: "products",
 				element: <ProductsDashboard />,
+			},
+			{
+				path: "products/new",
+				element: <NewProduct />,
 			},
 		],
 	},

@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
-	Flex,
 	Box,
 	FormControl,
 	FormLabel,
-	FormHelperText,
 	Input,
-	InputGroup,
 	HStack,
-	InputRightElement,
 	Stack,
 	Button,
 	Heading,
-	Text,
 	useColorModeValue,
-	Link,
 	Textarea,
 	Select,
 	Center,
@@ -23,10 +17,8 @@ import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
 import { ticketsAPI } from "../api/API";
-import { productsAPI } from "../api/API";
 import toast from "react-hot-toast";
-import { Navigate, useNavigate } from "react-router-dom";
-import * as session from '../utils/SessionUtils.js'; 
+import { useNavigate } from "react-router-dom";
 
 export default function NewTicket() {
 	// This is already wrapped in protected route, do we need also this?

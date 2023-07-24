@@ -11,6 +11,7 @@ import {
 	Text,
 	Flex,
 	Button,
+	Tooltip,
 } from "@chakra-ui/react";
 
 import * as converters from "../utils/converters";
@@ -18,7 +19,7 @@ import * as converters from "../utils/converters";
 import React, { useState } from "react";
 import Status from "./Status";
 import Pagination from "./Pagination";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import Chat from "./Chat";
 import TicketsTableExpertField from "./TIcketsTableExpertField";
 import PrimaryButton from "./PrimaryButton";
@@ -98,7 +99,17 @@ function TicketsTable({ tickets, filter, role }) {
 											</Td>
 										)}
 										<Td>
-											<Status status={ticket.status.status || "OPEN"} />
+											{role.match("manager") ? (
+												<Tooltip
+													label="DEBUG: this will be used to change status"
+													placement="top">
+													<Button variant={"outline"}>
+														<Status status={ticket.status.status || "OPEN"} />
+													</Button>
+												</Tooltip>
+											) : (
+												<Status status={ticket.status.status || "OPEN"} />
+											)}
 										</Td>
 										<Td>
 											{converters.formatDate(ticket.status.updatedAt) ||
@@ -107,8 +118,18 @@ function TicketsTable({ tickets, filter, role }) {
 										<Td width={20}>
 											<Flex direction={"row"} gap={3}>
 												<Chat ticket={ticket} />
-												<Button size={"sm"} colorScheme="red">
-													<DeleteIcon />
+												<Button
+													size={"sm"}
+													colorScheme={role.match("manager") ? "gray" : "red"}>
+													{role.match("manager") ? (
+														<Tooltip
+															label="DEBUG: This will be used to show history"
+															placement="left">
+															<InfoOutlineIcon />
+														</Tooltip>
+													) : (
+														<DeleteIcon />
+													)}
 												</Button>
 											</Flex>
 										</Td>

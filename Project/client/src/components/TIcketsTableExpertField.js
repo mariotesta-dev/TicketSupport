@@ -91,7 +91,7 @@ function TicketsTableExpertField({ ticket }) {
 			<Modal isOpen={isOpen} onClose={handleCloseModal} isCentered>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Modal Title</ModalHeader>
+					<ModalHeader>Assign to expert</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
 						<Flex flexDirection={"column"} gap={3}>

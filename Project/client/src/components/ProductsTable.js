@@ -66,7 +66,7 @@ function ProductsTable({ products, filter, role }) {
 								<Th>Date of purchase</Th>
 								<Th>End of warranty</Th>
 								<Th>Warranty</Th>
-								<Th></Th>
+								{role.match("customer") && <Th></Th>}
 							</Tr>
 						</Thead>
 						<Tbody>
@@ -80,26 +80,58 @@ function ProductsTable({ products, filter, role }) {
 								</Tr>
 							)}
 							{paginatedProducts &&
-								paginatedProducts.map((ticket, key) => (
+								paginatedProducts.map((product, key) => (
 									<Tr key={key}>
 										<Td>{key + 1}</Td>
 										<Td maxW={"180px"} overflow={"scroll"} isTruncated>
-											{ticket.product.name}
+											{product.name ? product.name : product.product.name}
 										</Td>
-										<Td>{ticket.product.ean}</Td>
-										<Td>{ticket.product.brand}</Td>
-										<Td>{converters.formatDate(ticket.dateOfPurchase)}</Td>
-										<Td>{converters.formatDate(ticket.endOfWarranty)}</Td>
+										<Td>{product.ean ? product.ean : product.product.ean}</Td>
 										<Td>
-											<Warranty endOfWarranty={ticket.endOfWarranty} />
+											{product.brand ? product.brand : product.product.brand}
 										</Td>
-										<Td width={20}>
-											<Flex direction={"row"} gap={3}>
-												<Button size={"sm"} colorScheme="blue">
-													Extend Warranty
-												</Button>
-											</Flex>
+										<Td>
+											{role.match("manager") &&
+												(product.warranty
+													? converters.formatDate(
+															product.warranty.dateOfPurchase
+													  )
+													: "-")}
+											{role.match("customer") &&
+												(product.dateOfPurchase
+													? converters.formatDate(product.dateOfPurchase)
+													: "-")}
 										</Td>
+										<Td>
+											{role.match("manager") &&
+												(product.warranty
+													? converters.formatDate(
+															product.warranty.endOfWarranty
+													  )
+													: "-")}
+											{role.match("customer") &&
+												(product.endOfWarranty
+													? converters.formatDate(product.endOfWarranty)
+													: "-")}
+										</Td>
+										<Td>
+											<Warranty
+												endOfWarranty={
+													product.warranty
+														? product.warranty.endOfWarranty
+														: product.endOfWarranty
+												}
+											/>
+										</Td>
+										{role.match("customer") && (
+											<Td width={20}>
+												<Flex direction={"row"} gap={3}>
+													<Button size={"sm"} colorScheme="blue">
+														Extend Warranty
+													</Button>
+												</Flex>
+											</Td>
+										)}
 									</Tr>
 								))}
 						</Tbody>
