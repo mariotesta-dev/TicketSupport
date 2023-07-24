@@ -90,11 +90,11 @@ function TicketsTable({ tickets, filter, role }) {
 										</Td>
 										<Td>{ticket.summary}</Td>
 										<Td>{ticket.category}</Td>
-										{role.match("manager") &&
-											(<Td>
+										{role.match("manager") && (
+											<Td>
 												<TicketsTableExpertField ticket={ticket} />
-											</Td>)
-										}
+											</Td>
+										)}
 										<Td>
 											<Status status={ticket.status.status || "OPEN"} />
 										</Td>

@@ -1,7 +1,7 @@
 import { Divider, Flex, Link } from "@chakra-ui/react";
 import Backbutton from "./Backbutton";
 
-function Sidebar({ user, tickets, setTickets, filter, setFilter }) {
+function Sidebar({ tickets, setTickets, filter, setFilter }) {
 	const handleFilter = (filter) => {
 		setFilter(filter);
 		switch (filter) {
@@ -28,8 +28,7 @@ function Sidebar({ user, tickets, setTickets, filter, setFilter }) {
 			case "All":
 				return tickets.length;
 			case "Unassigned":
-				return tickets.filter((ticket) => ticket.assignedTo === null)
-					.length;
+				return tickets.filter((ticket) => ticket.assignedTo === null).length;
 			default:
 				return tickets.filter(
 					(ticket) =>

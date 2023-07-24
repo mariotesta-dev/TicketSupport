@@ -8,20 +8,24 @@ import { ticketsAPI } from "../api/API.js";
 
 function TicketDashboard() {
 	const [user] = useOutletContext();
-	const role = session.getUserRole(); 
+	const role = session.getUserRole();
 	const [tickets, setTickets] = useState([]);
 	const [filter, setFilter] = useState("All");
+
+	const [filteredTickets, setFilteredTickets] = useState([]);
 
 	useEffect(() => {
 		const handleGetTickets = async () => {
 			if (role.match("customer")) {
 				setTickets(user.tickets);
+				setFilteredTickets(user.tickets);
 			}
 			if (role.match("manager")) {
 				const response = await ticketsAPI.getTickets();
 				setTickets(response);
+				setFilteredTickets(response);
 			}
-		}
+		};
 		handleGetTickets();
 	}, [user, role]);
 
@@ -30,11 +34,11 @@ function TicketDashboard() {
 			<Sidebar
 				user={user}
 				tickets={tickets}
-				setTickets={setTickets}
+				setTickets={setFilteredTickets}
 				filter={filter}
 				setFilter={setFilter}
 			/>
-			<TicketsTable tickets={tickets} filter={filter} role={role} />
+			<TicketsTable tickets={filteredTickets} filter={filter} role={role} />
 		</Flex>
 	);
 }
