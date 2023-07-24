@@ -10,7 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { ChakraProvider } from "@chakra-ui/react";
 import NewTicket from "./views/NewTicket";
 import DashHero from "./components/dashboard/DashHero";
-
+import Settings from "./views/Settings";
 
 const router = createBrowserRouter([
 	{
@@ -44,6 +44,10 @@ const router = createBrowserRouter([
 			{
 				path: "tickets/new",
 				element: <NewTicket />,
+			},
+			{
+				path: "settings",
+				element: <Settings />,
 			},
 		],
 	},

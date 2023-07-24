@@ -116,22 +116,31 @@ const getAllExpertsByExpertise = async (expertise) => {
 	});
 
 	return data;
-}
+};
 
 const assignTicketToExpert = async (ticketId, expertId, priority) => {
 	const data = await rest.put({
 		endpoint: `/tickets/${ticketId}/expert`,
-		body: {priority: priority, expert: {id: expertId}},
+		body: { priority: priority, expert: { id: expertId } },
 		authenticated: true,
 	});
 	return data;
-}
+};
+
+const updateCustomer = async (email, customer) => {
+	const data = await rest.put({
+		endpoint: `/customers/${email}`,
+		body: customer,
+		authenticated: true,
+	});
+	return data;
+};
 
 export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
 
-export const usersAPI = { getCustomer, getExpert, getManager};
+export const usersAPI = { getCustomer, getExpert, getManager, updateCustomer };
 
 export const managersAPI = { getAllExpertsByExpertise, assignTicketToExpert };
 

@@ -70,11 +70,7 @@ function TicketsTableExpertField({ ticket }) {
 
 	const assignExpert = () => {
 		try {
-			let res = managersAPI.assignTicketToExpert(
-				ticket.id,
-				selectedExpert.id,
-				priority
-			);
+			managersAPI.assignTicketToExpert(ticket.id, selectedExpert.id, priority);
 			toast.success("Expert assigned successfully");
 			ticket.assignedTo = selectedExpert;
 			ticket.priority = priority;

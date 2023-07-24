@@ -31,10 +31,11 @@ import { useNavigate } from "react-router-dom";
 import * as session from "../utils/SessionUtils.js";
 
 export default function Dashbar() {
-	return <WithSubnavigation />;
+	const NAV_ITEMS = getNavItems({ role: session.getUserRole() });
+	return <WithSubnavigation NAV_ITEMS={NAV_ITEMS} />;
 }
 
-function WithSubnavigation() {
+function WithSubnavigation({ NAV_ITEMS }) {
 	const user = session.getDecodedJwtToken();
 
 	const { isOpen, onToggle } = useDisclosure();
@@ -83,7 +84,7 @@ function WithSubnavigation() {
 					</Text>
 
 					<Flex display={{ base: "none", md: "flex" }} ml={10}>
-						<DesktopNav />
+						<DesktopNav NAV_ITEMS={NAV_ITEMS} />
 					</Flex>
 				</Flex>
 
@@ -100,14 +101,12 @@ function WithSubnavigation() {
 								variant={"link"}
 								cursor={"pointer"}
 								minW={0}>
-								<Avatar
-									size={"sm"}
-									name={`${user.given_name} ${user.family_name}`}
-								/>
+								<Avatar size={"sm"} name={user.name} />
 							</MenuButton>
 							<MenuList>
-								<MenuItem>Your Profile</MenuItem>
-								<MenuItem>Settings</MenuItem>
+								<MenuItem as={"a"} href="/dashboard/settings">
+									Settings
+								</MenuItem>
 								<MenuDivider />
 								<MenuItem onClick={() => handleLogOut()}>Log out</MenuItem>
 							</MenuList>
@@ -117,13 +116,13 @@ function WithSubnavigation() {
 			</Flex>
 
 			<Collapse in={isOpen} animateOpacity>
-				<MobileNav />
+				<MobileNav NAV_ITEMS={NAV_ITEMS} />
 			</Collapse>
 		</Box>
 	);
 }
 
-const DesktopNav = () => {
+const DesktopNav = ({ NAV_ITEMS }) => {
 	const linkColor = useColorModeValue("gray.600", "gray.200");
 	const linkHoverColor = useColorModeValue("gray.800", "white");
 	const popoverContentBgColor = useColorModeValue("white", "gray.800");
@@ -204,7 +203,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 	);
 };
 
-const MobileNav = () => {
+const MobileNav = ({ NAV_ITEMS }) => {
 	return (
 		<Stack
 			bg={useColorModeValue("white", "gray.800")}
@@ -267,7 +266,20 @@ const MobileNavItem = ({ label, children, href }) => {
 	);
 };
 
-const NAV_ITEMS = [
+function getNavItems({ role }) {
+	switch (role) {
+		case "customer":
+			return CUSTOMER_ITEMS;
+		case "expert":
+			return EXPERT_ITEMS;
+		case "manager":
+			return MANAGER_ITEMS;
+		default:
+			return [];
+	}
+}
+
+const CUSTOMER_ITEMS = [
 	{
 		label: "My Tickets",
 		href: "/dashboard/tickets",
@@ -286,5 +298,38 @@ const NAV_ITEMS = [
 				href: "#",
 			},
 		],
+	},
+];
+
+const EXPERT_ITEMS = [
+	{
+		label: "Assigned Tickets",
+		href: "/dashboard/tickets",
+	},
+];
+
+const MANAGER_ITEMS = [
+	{
+		label: "Tickets",
+		href: "/dashboard/tickets",
+	},
+	{
+		label: "Products",
+		children: [
+			{
+				label: "Manage products catalogue",
+				subLabel: "Manage and add products",
+				href: "#",
+			},
+			{
+				label: "Check a warranty",
+				subLabel: "Check if a product is covered by a warranty",
+				href: "#",
+			},
+		],
+	},
+	{
+		label: "Experts",
+		href: "/dashboard/experts",
 	},
 ];
