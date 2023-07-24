@@ -2,7 +2,7 @@ import { PlusSquareIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import React from "react";
 
-function NewTicketButton() {
+function PrimaryButton({ href, children }) {
 	return (
 		<Button
 			as="a"
@@ -10,10 +10,10 @@ function NewTicketButton() {
 			leftIcon={<PlusSquareIcon />}
 			colorScheme="blue"
 			variant="solid"
-			href="tickets/new">
-			New ticket
+			href={href}>
+			{children}
 		</Button>
 	);
 }
 
-export default NewTicketButton;
+export default PrimaryButton;

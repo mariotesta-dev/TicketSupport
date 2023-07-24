@@ -14,17 +14,13 @@ import {
 } from "@chakra-ui/react";
 
 import * as converters from "../utils/converters";
-
 import React, { useState } from "react";
-import Status from "./Status";
 import Pagination from "./Pagination";
-import { DeleteIcon } from "@chakra-ui/icons";
-import Chat from "./Chat";
-import TicketsTableExpertField from "./TIcketsTableExpertField";
+import Warranty from "./Warranty";
 import PrimaryButton from "./PrimaryButton";
 
-function TicketsTable({ tickets, filter, role }) {
-	const [paginatedTickets, setPaginatedTickets] = useState();
+function ProductsTable({ products, filter, role }) {
+	const [paginatedProducts, setPaginatedProducts] = useState();
 
 	return (
 		<Flex flexGrow={1} overflowX={"scroll"}>
@@ -34,10 +30,10 @@ function TicketsTable({ tickets, filter, role }) {
 					justifyContent={"space-between"}
 					alignItems={"center"}>
 					<Text fontSize={"lg"} fontWeight={"bold"}>
-						{filter} tickets
+						{filter} products
 					</Text>
-					<PrimaryButton href={"/dashboard/tickets/new"}>
-						New Ticket
+					<PrimaryButton href={"/dashboard/products/new"}>
+						Add Product
 					</PrimaryButton>
 				</Flex>
 
@@ -48,12 +44,12 @@ function TicketsTable({ tickets, filter, role }) {
 					justifyContent={"space-between"}
 					alignItems={"center"}>
 					<Text fontSize={"sm"} color={"gray.500"} fontWeight={"medium"}>
-						{tickets.length} tickets
+						{products.length} products
 					</Text>
 					<Pagination
-						data={tickets}
-						setCurrentData={setPaginatedTickets}
-						currentData={paginatedTickets}
+						data={products}
+						setCurrentData={setPaginatedProducts}
+						currentData={paginatedProducts}
 						filter={filter}
 					/>
 				</Flex>
@@ -65,50 +61,42 @@ function TicketsTable({ tickets, filter, role }) {
 							<Tr>
 								<Th>#</Th>
 								<Th>Product</Th>
-								<Th>Summary</Th>
-								<Th>Category</Th>
-								{role.match("manager") && <Th>Assigned To</Th>}
-								<Th>Status</Th>
-								<Th>Last Update</Th>
+								<Th>EAN</Th>
+								<Th>Brand</Th>
+								<Th>Date of purchase</Th>
+								<Th>End of warranty</Th>
+								<Th>Warranty</Th>
 								<Th></Th>
 							</Tr>
 						</Thead>
 						<Tbody>
-							{tickets.length === 0 && (
+							{products.length === 0 && (
 								<Tr>
 									<Td colSpan={7} textAlign={"center"}>
 										<Text fontSize={"sm"} color={"gray.800"}>
-											No tickets.
+											No products.
 										</Text>
 									</Td>
 								</Tr>
 							)}
-							{paginatedTickets &&
-								paginatedTickets.map((ticket, key) => (
+							{paginatedProducts &&
+								paginatedProducts.map((ticket, key) => (
 									<Tr key={key}>
 										<Td>{key + 1}</Td>
 										<Td maxW={"180px"} overflow={"scroll"} isTruncated>
 											{ticket.product.name}
 										</Td>
-										<Td>{ticket.summary}</Td>
-										<Td>{ticket.category}</Td>
-										{role.match("manager") && (
-											<Td>
-												<TicketsTableExpertField ticket={ticket} />
-											</Td>
-										)}
+										<Td>{ticket.product.ean}</Td>
+										<Td>{ticket.product.brand}</Td>
+										<Td>{converters.formatDate(ticket.dateOfPurchase)}</Td>
+										<Td>{converters.formatDate(ticket.endOfWarranty)}</Td>
 										<Td>
-											<Status status={ticket.status.status || "OPEN"} />
-										</Td>
-										<Td>
-											{converters.formatDate(ticket.status.updatedAt) ||
-												converters.formatDate(ticket.createdAt)}
+											<Warranty endOfWarranty={ticket.endOfWarranty} />
 										</Td>
 										<Td width={20}>
 											<Flex direction={"row"} gap={3}>
-												<Chat ticket={ticket} />
-												<Button size={"sm"} colorScheme="red">
-													<DeleteIcon />
+												<Button size={"sm"} colorScheme="blue">
+													Extend Warranty
 												</Button>
 											</Flex>
 										</Td>
@@ -122,4 +110,4 @@ function TicketsTable({ tickets, filter, role }) {
 	);
 }
 
-export default TicketsTable;
+export default ProductsTable;

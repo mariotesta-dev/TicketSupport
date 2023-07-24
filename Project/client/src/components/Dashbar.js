@@ -290,7 +290,7 @@ const CUSTOMER_ITEMS = [
 			{
 				label: "Manage my products",
 				subLabel: "Manage and add a warranty to your products",
-				href: "#",
+				href: "/dashboard/products",
 			},
 			{
 				label: "Check a warranty",
@@ -319,7 +319,7 @@ const MANAGER_ITEMS = [
 			{
 				label: "Manage products catalogue",
 				subLabel: "Manage and add products",
-				href: "#",
+				href: "/dashboard/products",
 			},
 			{
 				label: "Check a warranty",

@@ -2,28 +2,28 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import { Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-const Pagination = ({ filter, tickets, setCurrentTickets, currentTickets }) => {
+const Pagination = ({ filter, data, setCurrentData, currentData }) => {
 	const pageNumbers = [];
 	const [currentPage, setCurrentPage] = useState(1);
-	const ticketsPerPage = 5;
+	const dataPerPage = 5;
 
 	useEffect(() => {
-		const indexOfLastTicket = currentPage * ticketsPerPage;
-		const indexOfFirstTicket = indexOfLastTicket - ticketsPerPage;
-		setCurrentTickets(tickets.slice(indexOfFirstTicket, indexOfLastTicket));
-	}, [currentPage, tickets, setCurrentTickets]);
+		const indexOfLastTicket = currentPage * dataPerPage;
+		const indexOfFirstTicket = indexOfLastTicket - dataPerPage;
+		setCurrentData(data.slice(indexOfFirstTicket, indexOfLastTicket));
+	}, [currentPage, data, setCurrentData]);
 
 	const paginate = (pageNumber) => {
 		setCurrentPage(pageNumber);
 	};
 
 	useEffect(() => {
-		if (currentTickets && currentTickets.length === 0) {
+		if (currentData && currentData.length === 0) {
 			setCurrentPage(pageNumbers.length);
 		}
-	}, [filter, currentTickets, pageNumbers.length]);
+	}, [filter, currentData, pageNumbers.length]);
 
-	for (let i = 1; i <= Math.ceil(tickets.length / ticketsPerPage); i++) {
+	for (let i = 1; i <= Math.ceil(data.length / dataPerPage); i++) {
 		pageNumbers.push(i);
 	}
 

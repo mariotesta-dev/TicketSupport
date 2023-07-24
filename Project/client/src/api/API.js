@@ -144,4 +144,9 @@ export const usersAPI = { getCustomer, getExpert, getManager, updateCustomer };
 
 export const managersAPI = { getAllExpertsByExpertise, assignTicketToExpert };
 
-export const ticketsAPI = { createNewTicket, getMessages, getTickets };
+export const ticketsAPI = {
+	createNewTicket,
+	getMessages,
+	getTickets,
+	sendMessage,
+};

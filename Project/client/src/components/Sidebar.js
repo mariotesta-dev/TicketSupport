@@ -1,7 +1,7 @@
 import { Divider, Flex, Link } from "@chakra-ui/react";
 import Backbutton from "./Backbutton";
 
-function Sidebar({ tickets, setTickets, filter, setFilter }) {
+function Sidebar({ user, tickets, setTickets, filter, setFilter }) {
 	const handleFilter = (filter) => {
 		setFilter(filter);
 		switch (filter) {

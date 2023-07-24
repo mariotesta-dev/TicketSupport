@@ -11,6 +11,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import NewTicket from "./views/NewTicket";
 import DashHero from "./components/dashboard/DashHero";
 import Settings from "./views/Settings";
+import ProductsDashboard from "./views/ProductsDashboard";
 
 const router = createBrowserRouter([
 	{
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
 			{
 				path: "settings",
 				element: <Settings />,
+			},
+			{
+				path: "products",
+				element: <ProductsDashboard />,
 			},
 		],
 	},

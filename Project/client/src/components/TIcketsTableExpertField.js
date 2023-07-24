@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
-import { managersAPI, ticketsAPI } from "../api/API";
+import { managersAPI } from "../api/API";
 import toast from "react-hot-toast";
 import Select from "react-select";
 
