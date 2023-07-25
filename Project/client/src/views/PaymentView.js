@@ -50,6 +50,7 @@ function PaymentView() {
 	const [nameOnCard, setNameOnCard] = useState("");
 
 	const location = useLocation();
+	const navigate = useNavigate();
 	const product = location.state && location.state.product;
 	const dateOfPurchase = location.state && location.state.dateOfPurchase;
 	const endOfWarranty = location.state && location.state.endOfWarranty;
@@ -74,15 +75,16 @@ function PaymentView() {
 		
 		try {
 			/* Here there should be a POST request for the actual payment, but we skip this step */
-			const response = await warrantiesAPI.extendWarranty(product.ean, newDate);
-			if (response.status === 200) {
-				toast.success("Payment successful");
-				setLoading(false);
-			}
+			await warrantiesAPI.extendWarranty(product.ean, newDate);
+			toast.success("Payment successful");
+			setInterval(() => {
+				navigate("/dashboard/products");
+				navigate(0);
+			}, 500);
 		} catch (error) {
-			toast.error("Payment failed");
-			setLoading(false);
+			toast.error(error.detail);
 		}
+		setLoading(false);
 	};
 
 	const yearsArray = getYearsArray();
