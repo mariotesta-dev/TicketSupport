@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
-import TicketsTable from "../components/TicketsTable";
+import TicketsTable from "../components/tickets/TicketsTable";
 import Sidebar from "../components/Sidebar";
 import { useOutletContext } from "react-router-dom";
 import * as session from "../utils/SessionUtils.js";
@@ -30,13 +30,13 @@ function TicketDashboard() {
 	}, [user, role]);
 
 	return (
-		<Flex width={"full"} flexGrow={1} alignContent={"stretch"}>
+		<Flex width={"full"}>
 			<Sidebar
-				user={user}
-				tickets={tickets}
-				setTickets={setFilteredTickets}
+				data={tickets}
+				setData={setFilteredTickets}
 				filter={filter}
 				setFilter={setFilter}
+				type="tickets"
 			/>
 			<TicketsTable tickets={filteredTickets} filter={filter} role={role} />
 		</Flex>

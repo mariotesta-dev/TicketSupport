@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
-import ProductsTable from "../components/ProductsTable";
+import ProductsTable from "../components/products/ProductsTable";
 import { useOutletContext } from "react-router-dom";
 import * as session from "../utils/SessionUtils.js";
 import { productsAPI } from "../api/API.js";
-import SidebarProducts from "../components/SidebarProducts";
+import Product from "../entities/Product";
+import Sidebar from "../components/Sidebar";
 
 function ProductsDashboard() {
 	const [user] = useOutletContext();
@@ -17,26 +18,36 @@ function ProductsDashboard() {
 	useEffect(() => {
 		const handleGetProducts = async () => {
 			if (role.match("customer")) {
-				setProducts(user.warranties);
-				setFilteredProducts(user.warranties);
+				setProducts(
+					user.warranties.map((warranty) =>
+						Product.fromCustomer(warranty, user)
+					)
+				);
+				setFilteredProducts(
+					user.warranties.map((warranty) =>
+						Product.fromCustomer(warranty, user)
+					)
+				);
 			}
 			if (role.match("manager")) {
 				const response = await productsAPI.getProducts();
-				setProducts(response);
-				setFilteredProducts(response);
+				setProducts(response.map((product) => Product.fromManager(product)));
+				setFilteredProducts(
+					response.map((product) => Product.fromManager(product))
+				);
 			}
 		};
 		handleGetProducts();
 	}, [user, role]);
 
 	return (
-		<Flex width={"full"} flexGrow={1} alignContent={"stretch"}>
-			<SidebarProducts
-				user={user}
-				products={products}
-				setProducts={setFilteredProducts}
+		<Flex width={"full"}>
+			<Sidebar
+				data={products}
+				setData={setFilteredProducts}
 				filter={filter}
 				setFilter={setFilter}
+				type={"products"}
 			/>
 			<ProductsTable products={filteredProducts} filter={filter} role={role} />
 		</Flex>

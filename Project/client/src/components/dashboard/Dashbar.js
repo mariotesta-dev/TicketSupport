@@ -28,7 +28,7 @@ import {
 	ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import * as session from "../utils/SessionUtils.js";
+import * as session from "../../utils/SessionUtils.js";
 
 export default function Dashbar() {
 	const NAV_ITEMS = getNavItems({ role: session.getUserRole() });

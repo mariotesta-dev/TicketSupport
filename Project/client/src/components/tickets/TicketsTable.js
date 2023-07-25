@@ -13,22 +13,20 @@ import {
 	Button,
 	Tooltip,
 } from "@chakra-ui/react";
-
-import * as converters from "../utils/converters";
-
+import { InfoOutlineIcon } from "@chakra-ui/icons";
+import * as converters from "../../utils/converters";
 import React, { useState } from "react";
-import Status from "./Status";
-import Pagination from "./Pagination";
-import { DeleteIcon, InfoOutlineIcon } from "@chakra-ui/icons";
-import Chat from "./Chat";
-import TicketsTableExpertField from "./TIcketsTableExpertField";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "../PrimaryButton";
+import Pagination from "../Pagination";
+import TicketsTableExpertField from "./TicketsTableExpertField";
+import Status from "../Status";
+import Chat from "../Chat";
 
 function TicketsTable({ tickets, filter, role }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
 
 	return (
-		<Flex flexGrow={1} overflowX={"scroll"}>
+		<Flex flexGrow={1} overflow={"auto"}>
 			<Stack width={"100%"} padding={"20px"}>
 				<Flex
 					direction={"row"}
@@ -91,7 +89,9 @@ function TicketsTable({ tickets, filter, role }) {
 										<Td maxW={"180px"} overflow={"scroll"} isTruncated>
 											{ticket.product.name}
 										</Td>
-										<Td>{ticket.summary}</Td>
+										<Td maxW={"165px"} overflow={"scroll"} isTruncated>
+											{ticket.summary}
+										</Td>
 										<Td>{ticket.category}</Td>
 										{role.match("manager") && (
 											<Td>
@@ -111,26 +111,24 @@ function TicketsTable({ tickets, filter, role }) {
 												<Status status={ticket.status.status || "OPEN"} />
 											)}
 										</Td>
-										<Td>
+										<Td fontSize={15} color={"gray.500"}>
 											{converters.formatDate(ticket.status.updatedAt) ||
 												converters.formatDate(ticket.createdAt)}
 										</Td>
 										<Td width={20}>
 											<Flex direction={"row"} gap={3}>
-												<Chat ticket={ticket} />
-												<Button
-													size={"sm"}
-													colorScheme={role.match("manager") ? "gray" : "red"}>
-													{role.match("manager") ? (
+												{(role.match("customer") || role.match("expert")) && (
+													<Chat ticket={ticket} />
+												)}
+												{role.match("manager") && (
+													<Button size={"sm"} colorScheme={"gray"}>
 														<Tooltip
 															label="DEBUG: This will be used to show history"
 															placement="left">
 															<InfoOutlineIcon />
 														</Tooltip>
-													) : (
-														<DeleteIcon />
-													)}
-												</Button>
+													</Button>
+												)}
 											</Flex>
 										</Td>
 									</Tr>

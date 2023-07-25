@@ -1,5 +1,5 @@
 import React from "react";
-import Dashbar from "../components/Dashbar";
+import Dashbar from "../components/dashboard/Dashbar";
 import { Stack } from "@chakra-ui/react";
 import CustomerDashboard from "../components/dashboard/CustomerDashboard";
 import ManagerDashboard from "../components/dashboard/ManagerDashboard";

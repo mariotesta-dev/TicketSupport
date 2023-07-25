@@ -13,11 +13,11 @@ import {
 	Button,
 } from "@chakra-ui/react";
 
-import * as converters from "../utils/converters";
+import * as converters from "../../utils/converters";
 import React, { useState } from "react";
-import Pagination from "./Pagination";
-import Warranty from "./Warranty";
-import PrimaryButton from "./PrimaryButton";
+import Pagination from "../Pagination";
+import Warranty from "../Warranty";
+import PrimaryButton from "../PrimaryButton";
 
 function ProductsTable({ products, filter, role }) {
 	const [paginatedProducts, setPaginatedProducts] = useState();
@@ -84,42 +84,26 @@ function ProductsTable({ products, filter, role }) {
 									<Tr key={key}>
 										<Td>{key + 1}</Td>
 										<Td maxW={"180px"} overflow={"scroll"} isTruncated>
-											{product.name ? product.name : product.product.name}
+											{product.name}
 										</Td>
-										<Td>{product.ean ? product.ean : product.product.ean}</Td>
-										<Td>
-											{product.brand ? product.brand : product.product.brand}
+										<Td>{product.ean}</Td>
+										<Td>{product.brand}</Td>
+										<Td fontSize={15} color={"gray.500"}>
+											{product.warranty
+												? converters.formatDate(product.warranty.dateOfPurchase)
+												: "-"}
 										</Td>
-										<Td>
-											{role.match("manager") &&
-												(product.warranty
-													? converters.formatDate(
-															product.warranty.dateOfPurchase
-													  )
-													: "-")}
-											{role.match("customer") &&
-												(product.dateOfPurchase
-													? converters.formatDate(product.dateOfPurchase)
-													: "-")}
-										</Td>
-										<Td>
-											{role.match("manager") &&
-												(product.warranty
-													? converters.formatDate(
-															product.warranty.endOfWarranty
-													  )
-													: "-")}
-											{role.match("customer") &&
-												(product.endOfWarranty
-													? converters.formatDate(product.endOfWarranty)
-													: "-")}
+										<Td fontSize={15} color={"gray.500"}>
+											{product.warranty
+												? converters.formatDate(product.warranty.endOfWarranty)
+												: "-"}
 										</Td>
 										<Td>
 											<Warranty
 												endOfWarranty={
 													product.warranty
 														? product.warranty.endOfWarranty
-														: product.endOfWarranty
+														: null
 												}
 											/>
 										</Td>
