@@ -61,7 +61,7 @@ const router = createBrowserRouter([
 				element: <NewProduct />,
 			},
 			{
-				path: "warranty/:warrantyId/payment",
+				path: "warranty/:ean/payment",
 				element: <PaymentView />,
 			},
 		],

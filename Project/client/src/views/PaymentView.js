@@ -74,7 +74,7 @@ function PaymentView() {
 		
 		try {
 			/* Here there should be a POST request for the actual payment, but we skip this step */
-			const response = await warrantiesAPI.extendWarranty(product.warranty.id, newDate);
+			const response = await warrantiesAPI.extendWarranty(product.ean, newDate);
 			if (response.status === 200) {
 				toast.success("Payment successful");
 				setLoading(false);

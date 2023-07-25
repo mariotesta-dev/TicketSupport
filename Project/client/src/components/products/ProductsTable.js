@@ -127,7 +127,7 @@ function ProductsTable({ products, filter, role }) {
 										<Td>
 										{role.match("customer") && (
 											<Link 
-											to={`/dashboard/warranty/${product.warranty ? product.warranty.id : product.ean}/payment/`}
+											to={`/dashboard/warranty/${product.ean}/payment/`}
 											state={
 												{product: product,
 												endOfWarranty: product.warranty ? converters.formatDate(product.warranty.endOfWarranty) : '-',

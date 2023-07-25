@@ -157,9 +157,9 @@ const subscribeProduct = async (warrantyId, userId) => {
 	return data;
 };
 
-const extendWarranty = async (warrantyId, newDate) => {
+const extendWarranty = async (ean, newDate) => {
 	const data = await rest.put({
-		endpoint: `/warranties/${warrantyId}/extend`,
+		endpoint: `/warranties/${ean}/extend`,
 		body: { newEndOfWarranty: newDate },
 		authenticated: true,
 	});
