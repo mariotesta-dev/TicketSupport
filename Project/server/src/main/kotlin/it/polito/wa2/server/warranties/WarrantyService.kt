@@ -6,10 +6,8 @@ import java.time.LocalDate
 interface WarrantyService {
 
     // not used
-    fun getWarrantyById(warrantyId: Long) : WarrantyDTO
-    fun getWarrantyByProduct(productEan: String) : WarrantyDTO
+    fun getWarrantyByEan(productEan: String) : WarrantyDTO
     fun createWarranty(warranty: Warranty) : WarrantyDTO
-
     fun subscribeProduct(productEan: String, customer: Customer) : WarrantyDTO
     fun extendWarranty(productEan: String, extension: WarrantyController.Extension) : WarrantyDTO
 }

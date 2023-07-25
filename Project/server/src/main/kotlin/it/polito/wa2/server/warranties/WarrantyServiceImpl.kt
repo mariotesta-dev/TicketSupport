@@ -14,7 +14,7 @@ import java.time.LocalDate
 @Service
 class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, private val productRepository: ProductRepository, private val customerRepository: CustomerRepository) : WarrantyService {
 
-    override fun getWarrantyById(warrantyId: Long): WarrantyDTO {
+    override fun getWarrantyByEan(ean: String): WarrantyDTO {
 
         val jwt = SecurityContextHolder.getContext().authentication as JwtAuthenticationToken
         val u = jwt.principal as Jwt
@@ -24,8 +24,7 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
             "roles": ["customer" ]
         },*/
 
-        val response = warrantyRepository.findById(warrantyId).orElse(null)
-            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
+        val response = getWarrantyByProduct(ean)
 
         if(u.getClaim<Map<String,Map<String,List<String>>>>("resource_access")["ticketing"]
                 ?.get("roles")
@@ -35,12 +34,11 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
                     throw WarrantyExceptions.WarrantyNotOwned("You are not authorized to see this warranty")
                 }
         }
-
-        return response.toDTO()
+        return response
     }
 
-
-    override fun getWarrantyByProduct(productEan: String): WarrantyDTO {
+    // This service method is not exposed to the outside, because it doesn't check the authorization
+    private fun getWarrantyByProduct(productEan: String): WarrantyDTO {
         val response = warrantyRepository.getWarrantyByProductEan(productEan)
             ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty for product $productEan not found")
 

@@ -9,8 +9,10 @@ class WarrantyController(private val warrantyService: WarrantyService) {
 
     // This must be accessible by all authenticated users
     @GetMapping("/API/warranties/{ean}")
-    fun getWarrantyByProduct(@PathVariable ean: String) : WarrantyDTO {
-        return warrantyService.getWarrantyByProduct(ean)
+
+    fun getWarrantyByEan(@PathVariable ean: String) : WarrantyDTO {
+        // this service method checks if the user is authorized to see the warranty as well
+        return warrantyService.getWarrantyByEan(ean)
     }
 
     // This must be accessible only by the customer (?)
