@@ -11,6 +11,7 @@ import {
 	Text,
 	Flex,
 	Button,
+	Center,
 } from "@chakra-ui/react";
 
 import * as converters from "../../utils/converters";
@@ -18,6 +19,7 @@ import React, { useState } from "react";
 import Pagination from "../Pagination";
 import Warranty from "../Warranty";
 import PrimaryButton from "../PrimaryButton";
+import { Link } from "react-router-dom";
 
 function ProductsTable({ products, filter, role }) {
 	const [paginatedProducts, setPaginatedProducts] = useState();
@@ -61,7 +63,6 @@ function ProductsTable({ products, filter, role }) {
 							<Tr>
 								<Th>#</Th>
 								<Th>Product</Th>
-								<Th>EAN</Th>
 								<Th>Brand</Th>
 								<Th>Date of purchase</Th>
 								<Th>End of warranty</Th>
@@ -83,39 +84,60 @@ function ProductsTable({ products, filter, role }) {
 								paginatedProducts.map((product, key) => (
 									<Tr key={key}>
 										<Td>{key + 1}</Td>
-										<Td maxW={"180px"} overflow={"scroll"} isTruncated>
-											{product.name}
-										</Td>
-										<Td>{product.ean}</Td>
-										<Td>{product.brand}</Td>
-										<Td fontSize={15} color={"gray.500"}>
-											{product.warranty
-												? converters.formatDate(product.warranty.dateOfPurchase)
-												: "-"}
+										<Td maxW={"300px"} overflow={"scroll"} isTruncated>
+											<Flex direction={"column"} gap={1}>
+												<Text fontSize={"16"} fontWeight={"bold"}>{product.name ? product.name : product.product.name}</Text>
+												<Text fontSize={"14"} color={"gray.500"}>{product.ean ? product.ean : product.product.ean}</Text>
+											</Flex>
 										</Td>
 										<Td fontSize={15} color={"gray.500"}>
-											{product.warranty
-												? converters.formatDate(product.warranty.endOfWarranty)
-												: "-"}
+											<Text>
+												{product.brand}
+											</Text>
+										</Td>
+										<Td fontSize={15} color={"gray.500"}>
+											<Center>
+												<Text>
+													{product.warranty
+														? converters.formatDate(product.warranty.dateOfPurchase)
+														: "-"}
+												</Text>
+											</Center>
+										</Td>
+										<Td fontSize={15} color={"gray.500"}>
+											<Center>
+												<Text>
+													{product.warranty
+														? converters.formatDate(product.warranty.endOfWarranty)
+														: "-"}
+												</Text>
+											</Center>
+										</Td>
+										<Td fontSize={15} color={"gray.500"}>
+											<Center>
+												<Warranty
+													endOfWarranty={
+														product.warranty
+															? product.warranty.endOfWarranty
+															: null
+													}
+												/>
+											</Center>
 										</Td>
 										<Td>
-											<Warranty
-												endOfWarranty={
-													product.warranty
-														? product.warranty.endOfWarranty
-														: null
-												}
-											/>
-										</Td>
 										{role.match("customer") && (
-											<Td width={20}>
-												<Flex direction={"row"} gap={3}>
-													<Button size={"sm"} colorScheme="blue">
-														Extend Warranty
-													</Button>
-												</Flex>
-											</Td>
+											<Link 
+											to={`/dashboard/warranty/${product.ean}/payment/`}
+											state={
+												{product: product,
+												endOfWarranty: product.warranty ? converters.formatDate(product.warranty.endOfWarranty) : '-',
+												dateOfPurchase: product.warranty? converters.formatDate(product.warranty.dateOfPurchase) : '-'}}>
+												<Button size={"sm"} colorScheme="blue">
+													Extend Warranty
+												</Button>
+											</Link>
 										)}
+										</Td>
 									</Tr>
 								))}
 						</Tbody>

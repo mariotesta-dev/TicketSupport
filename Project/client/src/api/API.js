@@ -157,11 +157,20 @@ const subscribeProduct = async (warrantyId, userId) => {
 	return data;
 };
 
+const extendWarranty = async (ean, newDate) => {
+	const data = await rest.put({
+		endpoint: `/warranties/${ean}/extend`,
+		body: { newEndOfWarranty: newDate },
+		authenticated: true,
+	});
+	return data;
+};
+
 export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct };
 
-export const warrantiesAPI = { createWarranty, subscribeProduct };
+export const warrantiesAPI = { createWarranty, subscribeProduct, extendWarranty };
 
 export const usersAPI = { getCustomer, getExpert, getManager, updateCustomer };
 

@@ -1,6 +1,7 @@
 import { format, isToday, isYesterday, differenceInMinutes } from "date-fns";
+import dayjs from "dayjs";
 
-export function formatDate(dateString) {
+function formatDate(dateString) {
 	const date = new Date(dateString);
 	const today = new Date();
 
@@ -21,3 +22,23 @@ export function formatDate(dateString) {
 		return format(date, "dd MMM yyyy");
 	}
 }
+
+function addMonthsOrYears(date, newExpiringRange) {
+	let newDate = new Date(date);
+	if (newExpiringRange.includes("Months")) {
+		const months = parseInt(newExpiringRange.split(" ")[0]);
+		newDate.setMonth(newDate.getMonth() + months);
+	}
+	else {
+		const years = parseInt(newExpiringRange.split(" ")[0]);
+		newDate.setFullYear(newDate.getFullYear() + years);
+	}
+
+	newDate = dayjs(newDate).format("YYYY-MM-DD");
+
+	console.log(newDate);
+
+	return newDate;
+}
+
+export { formatDate, addMonthsOrYears };
