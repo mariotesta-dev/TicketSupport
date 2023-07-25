@@ -39,7 +39,7 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
         return response.toDTO()
     }
 
-    // TODO never used, and the exception is never thrown
+
     override fun getWarrantyByProduct(productEan: String): WarrantyDTO {
         val response = warrantyRepository.getWarrantyByProductEan(productEan)
             ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty for product $productEan not found")
@@ -60,9 +60,9 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
         return warrantyRepository.save(warranty).toDTO()
     }
 
-    override fun subscribeProduct(warrantyId: Long, customer: Customer): WarrantyDTO {
-        val warrantyFound = warrantyRepository.getWarrantyById(warrantyId)
-            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
+    override fun subscribeProduct(productEan: String, customer: Customer): WarrantyDTO {
+        val warrantyFound = warrantyRepository.getWarrantyByProductEan(productEan)
+            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty for product $productEan not found")
 
         val customerFound = customerRepository.findById(customer.id).orElse(null)
             ?: throw CustomerExceptions.CustomerNotFoundException("Customer with id ${customer.id} not found")
@@ -71,9 +71,9 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
         return warrantyRepository.save(warrantyFound).toDTO()
     }
 
-    override fun extendWarranty(warrantyId: Long, extension: WarrantyController.Extension): WarrantyDTO {
-        val warrantyFound = warrantyRepository.getWarrantyById(warrantyId)
-            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
+    override fun extendWarranty(productEan: String, extension: WarrantyController.Extension): WarrantyDTO {
+        val warrantyFound = warrantyRepository.getWarrantyByProductEan(productEan)
+            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty for product $productEan not found")
 
         if(!extension.newEndOfWarranty.isAfter(warrantyFound.endOfWarranty))
         {

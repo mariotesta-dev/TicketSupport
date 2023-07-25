@@ -8,9 +8,9 @@ import java.time.LocalDate
 class WarrantyController(private val warrantyService: WarrantyService) {
 
     // This must be accessible by all authenticated users
-    @GetMapping("/API/warranties/{warrantyId}")
-    fun getWarrantyById(@PathVariable warrantyId: Long) : WarrantyDTO {
-        return warrantyService.getWarrantyById(warrantyId)
+    @GetMapping("/API/warranties/{ean}")
+    fun getWarrantyByProduct(@PathVariable ean: String) : WarrantyDTO {
+        return warrantyService.getWarrantyByProduct(ean)
     }
 
     // This must be accessible only by the customer (?)
@@ -20,9 +20,9 @@ class WarrantyController(private val warrantyService: WarrantyService) {
     }
 
     // This must be accessible only by the customer
-    @PutMapping("/API/warranties/{warrantyId}/subscribe")
-    fun subscribeProduct(@PathVariable warrantyId: Long, @RequestBody customer: Customer) : WarrantyDTO {
-        return warrantyService.subscribeProduct(warrantyId, customer)
+    @PutMapping("/API/warranties/{ean}/subscribe")
+    fun subscribeProduct(@PathVariable ean: String, @RequestBody customer: Customer) : WarrantyDTO {
+        return warrantyService.subscribeProduct(ean, customer)
     }
 
     data class Extension(
@@ -30,9 +30,9 @@ class WarrantyController(private val warrantyService: WarrantyService) {
     )
 
     // This must be accessible only by the expert
-    @PutMapping("/API/warranties/{warrantyId}/extend")
-    fun extendWarranty(@PathVariable warrantyId: Long, @RequestBody extension: Extension) : WarrantyDTO {
-        return warrantyService.extendWarranty(warrantyId, extension)
+    @PutMapping("/API/warranties/{ean}/extend")
+    fun extendWarranty(@PathVariable ean: String, @RequestBody extension: Extension) : WarrantyDTO {
+        return warrantyService.extendWarranty(ean, extension)
     }
 
 }
