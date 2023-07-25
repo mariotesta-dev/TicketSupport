@@ -13,6 +13,7 @@ import DashHero from "./components/dashboard/DashHero";
 import Settings from "./views/Settings";
 import ProductsDashboard from "./views/ProductsDashboard";
 import NewProduct from "./views/NewProduct";
+import PaymentView from "./views/PaymentView";
 
 const router = createBrowserRouter([
 	{
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
 			{
 				path: "products/new",
 				element: <NewProduct />,
+			},
+			{
+				path: "warranty/:warrantyId/payment",
+				element: <PaymentView />,
 			},
 		],
 	},
