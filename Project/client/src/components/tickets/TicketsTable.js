@@ -86,13 +86,25 @@ function TicketsTable({ tickets, filter, role }) {
 								paginatedTickets.map((ticket, key) => (
 									<Tr key={key}>
 										<Td>{key + 1}</Td>
-										<Td maxW={"180px"} overflow={"scroll"} isTruncated>
+										<Td
+											maxW={"200px"}
+											overflow={"scroll"}
+											isTruncated
+											fontSize={"16"}
+											fontWeight={"bold"}>
 											{ticket.product.name}
 										</Td>
-										<Td maxW={"165px"} overflow={"scroll"} isTruncated>
+										<Td
+											maxW={"165px"}
+											overflow={"scroll"}
+											isTruncated
+											fontSize={"14"}
+											color={"gray.500"}>
 											{ticket.summary}
 										</Td>
-										<Td>{ticket.category}</Td>
+										<Td fontSize={"14"} color={"gray.500"}>
+											{ticket.category}
+										</Td>
 										{role.match("manager") && (
 											<Td>
 												<TicketsTableExpertField ticket={ticket} />
@@ -111,7 +123,7 @@ function TicketsTable({ tickets, filter, role }) {
 												<Status status={ticket.status.status || "OPEN"} />
 											)}
 										</Td>
-										<Td fontSize={15} color={"gray.500"}>
+										<Td fontSize={14} color={"gray.500"}>
 											{converters.formatDate(ticket.status.updatedAt) ||
 												converters.formatDate(ticket.createdAt)}
 										</Td>

@@ -84,59 +84,68 @@ function ProductsTable({ products, filter, role }) {
 								paginatedProducts.map((product, key) => (
 									<Tr key={key}>
 										<Td>{key + 1}</Td>
-										<Td maxW={"300px"} overflow={"scroll"} isTruncated>
+										<Td maxW={"220px"} overflow={"hidden"}>
 											<Flex direction={"column"} gap={1}>
-												<Text fontSize={"16"} fontWeight={"bold"}>{product.name ? product.name : product.product.name}</Text>
-												<Text fontSize={"14"} color={"gray.500"}>{product.ean ? product.ean : product.product.ean}</Text>
+												<Text fontSize={"16"} fontWeight={"bold"} isTruncated>
+													{product.name ? product.name : product.product.name}
+												</Text>
+												<Text fontSize={"14"} color={"gray.500"}>
+													{product.ean ? product.ean : product.product.ean}
+												</Text>
 											</Flex>
 										</Td>
 										<Td fontSize={15} color={"gray.500"}>
+											<Text>{product.brand}</Text>
+										</Td>
+										<Td fontSize={15} color={"gray.500"}>
 											<Text>
-												{product.brand}
+												{product.warranty
+													? converters.formatDate(
+															product.warranty.dateOfPurchase
+													  )
+													: "-"}
 											</Text>
 										</Td>
 										<Td fontSize={15} color={"gray.500"}>
-											<Center>
-												<Text>
-													{product.warranty
-														? converters.formatDate(product.warranty.dateOfPurchase)
-														: "-"}
-												</Text>
-											</Center>
+											<Text>
+												{product.warranty
+													? converters.formatDate(
+															product.warranty.endOfWarranty
+													  )
+													: "-"}
+											</Text>
 										</Td>
 										<Td fontSize={15} color={"gray.500"}>
-											<Center>
-												<Text>
-													{product.warranty
-														? converters.formatDate(product.warranty.endOfWarranty)
-														: "-"}
-												</Text>
-											</Center>
-										</Td>
-										<Td fontSize={15} color={"gray.500"}>
-											<Center>
-												<Warranty
-													endOfWarranty={
-														product.warranty
-															? product.warranty.endOfWarranty
-															: null
-													}
-												/>
-											</Center>
+											<Warranty
+												endOfWarranty={
+													product.warranty
+														? product.warranty.endOfWarranty
+														: null
+												}
+											/>
 										</Td>
 										<Td>
-										{role.match("customer") && (
-											<Link 
-											to={`/dashboard/warranty/${product.ean}/payment/`}
-											state={
-												{product: product,
-												endOfWarranty: product.warranty ? converters.formatDate(product.warranty.endOfWarranty) : '-',
-												dateOfPurchase: product.warranty? converters.formatDate(product.warranty.dateOfPurchase) : '-'}}>
-												<Button size={"sm"} colorScheme="blue">
-													Extend Warranty
-												</Button>
-											</Link>
-										)}
+											{role.match("customer") && (
+												<Link
+													to={`/dashboard/warranty/${product.ean}/payment/`}
+													state={{
+														product: product,
+														endOfWarranty: product.warranty
+															? converters.formatDate(
+																	product.warranty.endOfWarranty
+															  )
+															: "-",
+														dateOfPurchase: product.warranty
+															? converters.formatDate(
+																	product.warranty.dateOfPurchase
+															  )
+															: "-",
+													}}>
+													<Button size={"sm"} colorScheme="blue">
+														Extend Warranty
+													</Button>
+												</Link>
+											)}
 										</Td>
 									</Tr>
 								))}

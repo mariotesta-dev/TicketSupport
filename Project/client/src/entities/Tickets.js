@@ -3,30 +3,37 @@ import Switch from "../utils/switchUtils";
 const PRIMARY_ITEMS = [
 	{
 		label: "All",
+		roles: ["customer", "expert", "manager"],
 	},
 ];
 
 const SECONDARY_ITEMS = [
 	{
 		label: "Unassigned",
+		roles: ["customer", "expert", "manager"],
 	},
 ];
 
 const TERTIARY_ITEMS = [
 	{
 		label: "Open",
+		roles: ["customer", "expert", "manager"],
 	},
 	{
 		label: "In Progress",
+		roles: ["customer", "expert", "manager"],
 	},
 	{
 		label: "Reopened",
+		roles: ["customer", "expert", "manager"],
 	},
 	{
 		label: "Solved",
+		roles: ["customer", "expert", "manager"],
 	},
 	{
 		label: "Closed",
+		roles: ["customer", "expert", "manager"],
 	},
 ];
 

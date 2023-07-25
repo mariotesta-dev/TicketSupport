@@ -1,11 +1,11 @@
 import { Divider, Flex, Link } from "@chakra-ui/react";
 import Backbutton from "./Backbutton";
-//import { getUserRole } from "../../utils/SessionUtils";
 import Product from "../entities/Product";
 import Ticket from "../entities/Tickets";
+import { getUserRole } from "../utils/SessionUtils";
 
 function Sidebar({ data, setData, filter, setFilter, type }) {
-	//const role = getUserRole();
+	const role = getUserRole();
 
 	const getSidebarItems = (type) => {
 		switch (type) {
@@ -52,21 +52,26 @@ function Sidebar({ data, setData, filter, setFilter, type }) {
 			py={"100px"}
 			gap={5}>
 			<Backbutton href={"/dashboard"} />
-			{SIDEBAR_ITEMS.map((section, key) => (
-				<Flex direction={"column"} gap={5} key={key}>
-					<Divider />
-					{section.map((item, key) => (
-						<Link
-							key={key}
-							onClick={() => handleFilter(item.label)}
-							color={filter === item.label ? "blue.500" : "gray.600"}
-							href="#"
-							fontWeight={filter === item.label ? "bold" : "normal"}>
-							{item.label + ` (${getDataCountForCategory(item.label)})`}
-						</Link>
-					))}
-				</Flex>
-			))}
+			{SIDEBAR_ITEMS.map(
+				(section, key) =>
+					section.filter((item) => item.roles.includes(role)).length > 0 && (
+						<Flex direction={"column"} gap={5} key={key}>
+							<Divider />
+							{section
+								.filter((item) => item.roles.includes(role))
+								.map((item, key) => (
+									<Link
+										key={key}
+										onClick={() => handleFilter(item.label)}
+										color={filter === item.label ? "blue.500" : "gray.600"}
+										href="#"
+										fontWeight={filter === item.label ? "bold" : "normal"}>
+										{item.label + ` (${getDataCountForCategory(item.label)})`}
+									</Link>
+								))}
+						</Flex>
+					)
+			)}
 		</Flex>
 	);
 }

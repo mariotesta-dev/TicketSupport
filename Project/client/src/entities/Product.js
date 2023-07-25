@@ -5,6 +5,7 @@ import Warranty from "./Warranty";
 const PRIMARY_ITEMS = [
 	{
 		label: "All",
+		roles: ["customer", "expert", "manager"],
 	},
 ];
 
