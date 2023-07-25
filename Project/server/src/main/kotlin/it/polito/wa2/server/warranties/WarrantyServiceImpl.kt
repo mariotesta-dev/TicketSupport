@@ -14,7 +14,7 @@ import java.time.LocalDate
 @Service
 class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, private val productRepository: ProductRepository, private val customerRepository: CustomerRepository) : WarrantyService {
 
-    override fun getWarrantyById(warrantyId: Long): WarrantyDTO {
+    override fun getWarrantyByEan(ean: String): WarrantyDTOWithoutCustomer {
 
         val jwt = SecurityContextHolder.getContext().authentication as JwtAuthenticationToken
         val u = jwt.principal as Jwt
@@ -24,8 +24,8 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
             "roles": ["customer" ]
         },*/
 
-        val response = warrantyRepository.findById(warrantyId).orElse(null)
-            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty with id $warrantyId not found")
+        val response = warrantyRepository.getWarrantyByProductEan(ean)
+            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty associated to ean $ean not found")
 
         if(u.getClaim<Map<String,Map<String,List<String>>>>("resource_access")["ticketing"]
                 ?.get("roles")
@@ -36,15 +36,7 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
                 }
         }
 
-        return response.toDTO()
-    }
-
-    // TODO never used, and the exception is never thrown
-    override fun getWarrantyByProduct(productEan: String): WarrantyDTO {
-        val response = warrantyRepository.getWarrantyByProductEan(productEan)
-            ?: throw WarrantyExceptions.WarrantyNotFoundException("Warranty for product $productEan not found")
-
-        return response.toDTO()
+        return response.toDTOWithoutCustomer()
     }
 
     override fun createWarranty(warranty: Warranty): WarrantyDTO {

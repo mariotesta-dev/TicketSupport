@@ -4,8 +4,8 @@ import it.polito.wa2.server.customers.Customer
 import java.time.LocalDate
 
 interface WarrantyService {
-    fun getWarrantyById(warrantyId: Long) : WarrantyDTO
-    fun getWarrantyByProduct(productEan: String) : WarrantyDTO
+    fun getWarrantyByEan(ean: String) : WarrantyDTOWithoutCustomer
+
     fun createWarranty(warranty: Warranty) : WarrantyDTO
 
     fun subscribeProduct(warrantyId: Long, customer: Customer) : WarrantyDTO

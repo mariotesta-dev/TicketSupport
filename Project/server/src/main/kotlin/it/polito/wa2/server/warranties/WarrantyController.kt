@@ -8,9 +8,9 @@ import java.time.LocalDate
 class WarrantyController(private val warrantyService: WarrantyService) {
 
     // This must be accessible by all authenticated users
-    @GetMapping("/API/warranties/{warrantyId}")
-    fun getWarrantyById(@PathVariable warrantyId: Long) : WarrantyDTO {
-        return warrantyService.getWarrantyById(warrantyId)
+    @GetMapping("/API/warranties/{ean}")
+    fun getWarrantyByEan(@PathVariable ean: String) : WarrantyDTO {
+        return warrantyService.getWarrantyByEan(ean)
     }
 
     // This must be accessible only by the customer (?)
