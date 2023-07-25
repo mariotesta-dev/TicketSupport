@@ -11,8 +11,9 @@ class WarrantySecurityConfigurer : SecurityConfigurerInterface {
 
     override fun configure(http: HttpSecurity) {
         http.authorizeHttpRequests()
-            .requestMatchers(javax.ws.rs.HttpMethod.POST, "/API/warranties/**").hasRole(SecurityRoles.MANAGER)
             .requestMatchers(javax.ws.rs.HttpMethod.PUT, "/API/warranties/*/extend").hasRole(SecurityRoles.CUSTOMER)
             .requestMatchers(javax.ws.rs.HttpMethod.PUT, "/API/warranties/*/subscribe").hasRole(SecurityRoles.CUSTOMER) // subscribeProduct
+            .requestMatchers(javax.ws.rs.HttpMethod.POST, "/API/warranties/**").hasRole(SecurityRoles.MANAGER)
+
     }
 }
