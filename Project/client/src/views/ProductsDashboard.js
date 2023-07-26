@@ -45,6 +45,8 @@ function ProductsDashboard() {
 			<Sidebar
 				data={products}
 				setData={setFilteredProducts}
+				filteredData={filteredProducts}
+				setFilteredData={setFilteredProducts}
 				filter={filter}
 				setFilter={setFilter}
 				type={"products"}

@@ -1,10 +1,11 @@
-import { Divider, Flex, Link } from "@chakra-ui/react";
+import { Divider, Flex, Link, Input } from "@chakra-ui/react";
 import Backbutton from "./Backbutton";
 import Product from "../entities/Product";
 import Ticket from "../entities/Tickets";
 import { getUserRole } from "../utils/SessionUtils";
+import { useState } from "react";
 
-function Sidebar({ data, setData, filter, setFilter, type }) {
+function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilter, type }) {
 	const role = getUserRole();
 
 	const getSidebarItems = (type) => {
@@ -33,7 +34,7 @@ function Sidebar({ data, setData, filter, setFilter, type }) {
 
 	const handleFilter = (filter) => {
 		setFilter(filter);
-		setData(switchFilter(filter));
+		setFilteredData(switchFilter(filter));
 	};
 
 	const getDataCountForCategory = (category) => {
@@ -52,6 +53,7 @@ function Sidebar({ data, setData, filter, setFilter, type }) {
 			py={"100px"}
 			gap={5}>
 			<Backbutton href={"/dashboard"} />
+			{type==="products" && <SearchBar data={data} type={type} setFilteredData={setFilteredData}/>}
 			{SIDEBAR_ITEMS.map(
 				(section, key) =>
 					section.filter((item) => item.roles.includes(role)).length > 0 && (
@@ -74,6 +76,36 @@ function Sidebar({ data, setData, filter, setFilter, type }) {
 			)}
 		</Flex>
 	);
+}
+
+function SearchBar({ data, type, setFilteredData }) {
+  const [filterName, setFilterName] = useState("");
+
+  const filterResults = (e) => {
+    const filterValue = e.target.value;
+    setFilterName(filterValue);
+
+    if (type === "products") {
+      if (filterValue === "") {
+        setFilteredData(data);
+      } else {
+        setFilteredData(() => {
+          return data.filter((item) => {
+            return item.name.toLowerCase().includes(filterValue.toLowerCase());
+          });
+        });
+      }
+    }
+  };
+
+  return (
+    <Input
+      placeholder="Filter your products..."
+      onChange={filterResults}
+      value={filterName}
+	  isTruncated
+    />
+  );
 }
 
 export default Sidebar;
