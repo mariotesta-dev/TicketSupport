@@ -1,6 +1,10 @@
 package it.polito.wa2.server.products
 
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.net.http.HttpResponse
 
 @Service
 class ProductServiceImpl(private val productRepository: ProductRepository) : ProductService {
@@ -15,7 +19,7 @@ class ProductServiceImpl(private val productRepository: ProductRepository) : Pro
         return response.toDTO()
     }
 
-    override fun createProduct(product: ProductController.NewProduct) {
+    override fun createProduct(product: ProductController.NewProduct) : ResponseEntity<Any> {
 
         for(i in 1..product.quantity) {
             //ean is a string composed by 13 random digits
@@ -38,6 +42,12 @@ class ProductServiceImpl(private val productRepository: ProductRepository) : Pro
                 newProduct.brand = product.brand
                 productRepository.save(newProduct)
         }
+
+        val bodyResponse = object {
+            val message = "Product(s) added successfully"
+        }
+
+        return ResponseEntity(bodyResponse, HttpStatus.CREATED)
     }
 
 }

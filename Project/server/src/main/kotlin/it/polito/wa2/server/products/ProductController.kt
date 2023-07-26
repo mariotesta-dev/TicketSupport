@@ -32,7 +32,7 @@ class ProductController(private val productService: ProductService) {
     )
 
     @PostMapping("/API/products")
-    fun createProduct(@RequestBody product: NewProduct) {
+    fun createProduct(@RequestBody product: NewProduct) : ResponseEntity<Any> {
         return productService.createProduct(product)
     }
 }

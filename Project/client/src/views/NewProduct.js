@@ -1,7 +1,6 @@
 import React from "react";
 import {
 	FormControl,
-	HStack,
 	Stack,
 	Button,
 	Heading,
@@ -14,10 +13,9 @@ import {
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
-import { productsAPI, warrantiesAPI } from "../api/API";
+import { warrantiesAPI } from "../api/API";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import * as session from "../utils/SessionUtils.js";
 
 export default function NewProduct() {
 	// This is already wrapped in protected route, do we need also this?
@@ -28,24 +26,19 @@ export default function NewProduct() {
 }
 
 function NewProductCard() {
-	const [user, setUser] = useOutletContext();
+	const [user] = useOutletContext();
 	const [loading, setLoading] = useState(false);
-	const [product, setProduct] = useState("");
 
 	const [ean, setEan] = useState("");
 
 	const navigate = useNavigate();
-
-	// TODO
-	const warrantyId = 0;
-	const userId = 0;
 
 	const handleSubscribeProduct = async () => {
 		setLoading(true);
 		try {
 			// TODO: We need a way to get warrantyId from the EAN!!!
 
-			await warrantiesAPI.subscribeProduct(warrantyId, userId);
+			await warrantiesAPI.subscribeProduct(ean, user.id);
 			toast.success("Product added successfully");
 
 			setInterval(() => {

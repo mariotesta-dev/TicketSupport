@@ -34,7 +34,12 @@ function ProductsTable({ products, filter, role }) {
 					<Text fontSize={"lg"} fontWeight={"bold"}>
 						{filter} products
 					</Text>
-					<PrimaryButton href={"/dashboard/products/new"}>
+					<PrimaryButton
+						href={
+							role.match("customer")
+								? "/dashboard/products/new"
+								: "/dashboard/products/create"
+						}>
 						Add Product
 					</PrimaryButton>
 				</Flex>

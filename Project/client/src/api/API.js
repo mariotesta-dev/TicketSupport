@@ -138,7 +138,6 @@ const updateCustomer = async (email, customer) => {
 
 // When a product gets bought, a warranty is created by a manager
 const createWarranty = async (warranty) => {
-	console.log(warranty);
 	const data = await rest.post({
 		endpoint: "/warranties",
 		body: warranty,
@@ -148,9 +147,20 @@ const createWarranty = async (warranty) => {
 	return data;
 };
 
-const subscribeProduct = async (warrantyId, userId) => {
+// When a product gets bought, a warranty is created by a manager
+const createProduct = async (productInsertion) => {
+	const data = await rest.post({
+		endpoint: "/products",
+		body: productInsertion,
+		authenticated: true,
+	});
+
+	return data;
+};
+
+const subscribeProduct = async (ean, userId) => {
 	const data = await rest.put({
-		endpoint: `/warranties/${warrantyId}/subscribe`,
+		endpoint: `/warranties/${ean}/subscribe`,
 		body: { id: userId },
 		authenticated: true,
 	});
@@ -168,9 +178,13 @@ const extendWarranty = async (ean, newDate) => {
 
 export const authAPI = { login, signUp };
 
-export const productsAPI = { getProducts, getProduct };
+export const productsAPI = { getProducts, getProduct, createProduct };
 
-export const warrantiesAPI = { createWarranty, subscribeProduct, extendWarranty };
+export const warrantiesAPI = {
+	createWarranty,
+	subscribeProduct,
+	extendWarranty,
+};
 
 export const usersAPI = { getCustomer, getExpert, getManager, updateCustomer };
 
