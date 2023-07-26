@@ -1,4 +1,5 @@
 import { RestMethods } from "./RestMethods.js";
+import { History } from "../entities/History.js";
 
 const DOMAIN_URL = "http://localhost:8081";
 const API_URL = DOMAIN_URL + "/API";
@@ -99,12 +100,21 @@ const getTickets = async () => {
 };
 
 const getTicketHistory = async (ticketId) => {
-	const data = await rest.get({
+	const statusList = await rest.get({
 		endpoint: `/history/${ticketId}`,
 		authenticated: true,
 	});
 
-	return data;
+	const messages = await rest.get({
+		endpoint: `/tickets/${ticketId}/messages`,
+		authenticated: true,
+	});
+
+	console.log(messages, statusList);
+
+	const data = new History(messages, statusList);
+
+	return data.getHistory();
 };
 
 const sendMessage = async (message) => {

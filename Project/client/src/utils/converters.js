@@ -35,7 +35,7 @@ function formatDateTime(dateString) {
 		} else {
 			// Handle other time formats as needed, e.g., "5 hours ago", "2 days ago", etc.
 			// For simplicity, let's return the "today" date in a default format
-			return format(date, "HH:mm");
+			return format(date, "dd MMM yyyy HH:mm");
 		}
 	} else if (isYesterday(date)) {
 		return "Yesterday";
@@ -50,8 +50,7 @@ function addMonthsOrYears(date, newExpiringRange) {
 	if (newExpiringRange.includes("Months")) {
 		const months = parseInt(newExpiringRange.split(" ")[0]);
 		newDate.setMonth(newDate.getMonth() + months);
-	}
-	else {
+	} else {
 		const years = parseInt(newExpiringRange.split(" ")[0]);
 		newDate.setFullYear(newDate.getFullYear() + years);
 	}

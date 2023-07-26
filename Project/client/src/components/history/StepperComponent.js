@@ -12,20 +12,33 @@ import {
 	Box,
 } from "@chakra-ui/react";
 
+import { useState, useEffect } from "react";
+import { ticketsAPI } from "../api/API";
+import toast from "react-hot-toast";
+
 const steps = [
 	{ title: "First", description: "Contact Info" },
 	{ title: "Second", description: "Date & Time" },
 	{ title: "Third", description: "Select Rooms" },
 ];
 
-function Example() {
-	const { activeStep } = useSteps({
-		index: 1,
-		count: steps.length,
-	});
+export default function History({ ticketId }) {
+	const [history, setHistory] = useState([]);
+
+	useEffect(() => {
+		const getHistory = async () => {
+			try {
+				const response = await ticketsAPI.getTicketHistory(ticketId);
+				setHistory(response);
+			} catch (error) {
+				toast.error(error.details);
+			}
+		};
+		getHistory();
+	}, []);
 
 	return (
-		<Stepper index={activeStep} orientation="vertical" height="400px" gap="0">
+		<Stepper orientation="vertical" height="400px" gap="0">
 			{steps.map((step, index) => (
 				<Step key={index}>
 					<StepIndicator>
@@ -47,5 +60,3 @@ function Example() {
 		</Stepper>
 	);
 }
-
-export default Example;

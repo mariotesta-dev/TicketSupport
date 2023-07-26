@@ -28,7 +28,7 @@ const TERTIARY_ITEMS = [
 		roles: ["customer", "expert", "manager"],
 	},
 	{
-		label: "Solved",
+		label: "Resolved",
 		roles: ["customer", "expert", "manager"],
 	},
 	{
@@ -48,8 +48,8 @@ export default class Ticket {
 			tickets.filter((ticket) => ticket.status.status === "IN_PROGRESS"),
 		Reopened: (tickets) =>
 			tickets.filter((ticket) => ticket.status.status === "REOPENED"),
-		Solved: (tickets) =>
-			tickets.filter((ticket) => ticket.status.status === "SOLVED"),
+		Resolved: (tickets) =>
+			tickets.filter((ticket) => ticket.status.status === "RESOLVED"),
 		Closed: (tickets) =>
 			tickets.filter((ticket) => ticket.status.status === "CLOSED"),
 	});

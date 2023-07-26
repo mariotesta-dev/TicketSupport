@@ -19,6 +19,8 @@ function getColorScheme(status) {
 			return "yellow";
 		case "CLOSED":
 			return "red";
+		case "RESOLVED":
+			return "green";
 		default:
 			return "white";
 	}

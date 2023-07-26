@@ -22,8 +22,9 @@ import TicketsTableExpertField from "./TicketsTableExpertField";
 import Status from "../Status";
 import Chat from "../Chat";
 import TicketHistoryModal from "./TicketHistoryModal";
+import History from "../history/History";
 
-function TicketsTable({ tickets, filter, role}) {
+function TicketsTable({ tickets, filter, role }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
 
 	return (
@@ -36,9 +37,11 @@ function TicketsTable({ tickets, filter, role}) {
 					<Text fontSize={"lg"} fontWeight={"bold"}>
 						{filter} tickets
 					</Text>
-					<PrimaryButton href={"/dashboard/tickets/new"}>
-						New Ticket
-					</PrimaryButton>
+					{role.match("customer") && (
+						<PrimaryButton href={"/dashboard/tickets/new"}>
+							New Ticket
+						</PrimaryButton>
+					)}
 				</Flex>
 
 				<Divider />
@@ -133,9 +136,7 @@ function TicketsTable({ tickets, filter, role}) {
 												{(role.match("customer") || role.match("expert")) && (
 													<Chat ticket={ticket} />
 												)}
-												{role.match("manager") && (
-													<TicketHistoryModal ticket={ticket}/>
-												)}
+												{role.match("manager") && <History ticket={ticket} />}
 											</Flex>
 										</Td>
 									</Tr>

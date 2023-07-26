@@ -8,6 +8,7 @@ import * as session from "../utils/SessionUtils.js";
 
 function Dashboard() {
 	const role = session.getUserRole();
+	console.log(session.getDecodedJwtToken());
 	return (
 		<Stack height={"100vh"} spacing={0}>
 			<Dashbar />
