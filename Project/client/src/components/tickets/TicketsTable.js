@@ -21,8 +21,9 @@ import Pagination from "../Pagination";
 import TicketsTableExpertField from "./TicketsTableExpertField";
 import Status from "../Status";
 import Chat from "../Chat";
+import TicketHistoryModal from "./TicketHistoryModal";
 
-function TicketsTable({ tickets, filter, role }) {
+function TicketsTable({ tickets, filter, role}) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
 
 	return (
@@ -133,13 +134,7 @@ function TicketsTable({ tickets, filter, role }) {
 													<Chat ticket={ticket} />
 												)}
 												{role.match("manager") && (
-													<Button size={"sm"} colorScheme={"gray"}>
-														<Tooltip
-															label="DEBUG: This will be used to show history"
-															placement="left">
-															<InfoOutlineIcon />
-														</Tooltip>
-													</Button>
+													<TicketHistoryModal ticket={ticket}/>
 												)}
 											</Flex>
 										</Td>

@@ -98,6 +98,15 @@ const getTickets = async () => {
 	return data;
 };
 
+const getTicketHistory = async (ticketId) => {
+	const data = await rest.get({
+		endpoint: `/history/${ticketId}`,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 const sendMessage = async (message) => {
 	console.log(message);
 	const data = await rest.post({
@@ -195,4 +204,5 @@ export const ticketsAPI = {
 	getMessages,
 	getTickets,
 	sendMessage,
+	getTicketHistory,
 };
