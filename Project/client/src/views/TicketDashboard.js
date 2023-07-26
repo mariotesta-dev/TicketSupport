@@ -33,12 +33,13 @@ function TicketDashboard() {
 		<Flex width={"full"}>
 			<Sidebar
 				data={tickets}
+				filteredData={filteredTickets}
 				setData={setFilteredTickets}
 				filter={filter}
 				setFilter={setFilter}
 				type="tickets"
 			/>
-			<TicketsTable tickets={filteredTickets} filter={filter} role={role}/>
+			<TicketsTable tickets={filteredTickets} filter={filter} role={role} />
 		</Flex>
 	);
 }

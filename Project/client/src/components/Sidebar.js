@@ -5,7 +5,7 @@ import Ticket from "../entities/Tickets";
 import { getUserRole } from "../utils/SessionUtils";
 import { useState } from "react";
 
-function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilter, type }) {
+function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 	const role = getUserRole();
 	const [oldData, setOldData] = useState(filteredData);
 
@@ -35,7 +35,7 @@ function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilt
 
 	const handleFilter = (filter) => {
 		setFilter(filter);
-		setFilteredData(switchFilter(filter));
+		setData(switchFilter(filter));
 		setOldData(switchFilter(filter));
 	};
 
@@ -55,7 +55,15 @@ function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilt
 			py={"100px"}
 			gap={5}>
 			<Backbutton href={"/dashboard"} />
-			{type==="products" && <SearchBar data={data} oldData={oldData} type={type} filteredData={filteredData} setFilteredData={setFilteredData}/>}
+			{type === "products" && (
+				<SearchBar
+					data={data}
+					oldData={oldData}
+					type={type}
+					filteredData={filteredData}
+					setData={setData}
+				/>
+			)}
 			{SIDEBAR_ITEMS.map(
 				(section, key) =>
 					section.filter((item) => item.roles.includes(role)).length > 0 && (
@@ -80,34 +88,34 @@ function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilt
 	);
 }
 
-function SearchBar({ data, oldData, type, filteredData, setFilteredData }) {
-  const [filterName, setFilterName] = useState("");
+function SearchBar({ data, oldData, type, filteredData, setData }) {
+	const [filterName, setFilterName] = useState("");
 
-  const filterResults = (e) => {
-    const filterValue = e.target.value;
-    setFilterName(filterValue);
+	const filterResults = (e) => {
+		const filterValue = e.target.value;
+		setFilterName(filterValue);
 
-    if (type === "products") {
-      if (filterValue === "") {
-        setFilteredData(oldData);
-      } else {
-        setFilteredData(() => {
-          return oldData.filter((item) => {
-            return item.name.toLowerCase().includes(filterValue.toLowerCase());
-          });
-        });
-      }
-    }
-  };
+		if (type === "products") {
+			if (filterValue === "") {
+				setData(oldData);
+			} else {
+				setData(() => {
+					return oldData.filter((item) => {
+						return item.name.toLowerCase().includes(filterValue.toLowerCase());
+					});
+				});
+			}
+		}
+	};
 
-  return (
-    <Input
-      placeholder="Filter your products..."
-      onChange={filterResults}
-      value={filterName}
-	  isTruncated
-    />
-  );
+	return (
+		<Input
+			placeholder="Filter your products..."
+			onChange={filterResults}
+			value={filterName}
+			isTruncated
+		/>
+	);
 }
 
 export default Sidebar;
