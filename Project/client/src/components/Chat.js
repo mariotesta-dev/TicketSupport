@@ -20,7 +20,7 @@ import Messages from "./Messages";
 import { getUserRole } from "../utils/SessionUtils";
 import { ticketsAPI } from "../api/API";
 import { toast } from "react-hot-toast";
-import Status from "./Status";
+import {Status} from "./Status";
 
 function Chat({ ticket }) {
 	const [isOpen, setIsOpen] = useState(false);

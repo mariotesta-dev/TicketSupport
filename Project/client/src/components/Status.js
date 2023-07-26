@@ -21,9 +21,11 @@ function getColorScheme(status) {
 			return "red";
 		case "RESOLVED":
 			return "green";
+		case "REOPENED":
+			return "purple";
 		default:
 			return "white";
 	}
 }
 
-export default Status;
+export {Status, getColorScheme};

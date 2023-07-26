@@ -18,7 +18,7 @@ import * as session from "../../utils/SessionUtils";
 import { ticketsAPI } from '../../api/API';
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
-import Status from '../Status';
+import {Status} from '../Status';
 import * as converters from '../../utils/converters';
 
 function TicketHistoryModal({ticket}) {

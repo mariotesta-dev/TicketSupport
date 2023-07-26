@@ -19,10 +19,11 @@ import React, { useState } from "react";
 import PrimaryButton from "../PrimaryButton";
 import Pagination from "../Pagination";
 import TicketsTableExpertField from "./TicketsTableExpertField";
-import Status from "../Status";
+import {Status} from "../Status";
 import Chat from "../Chat";
 import TicketHistoryModal from "./TicketHistoryModal";
 import History from "../history/History";
+import ChangeStatusModal from "./ChangeStatusModal";
 
 function TicketsTable({ tickets, filter, role }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
@@ -119,9 +120,7 @@ function TicketsTable({ tickets, filter, role }) {
 												<Tooltip
 													label="DEBUG: this will be used to change status"
 													placement="top">
-													<Button variant={"outline"}>
-														<Status status={ticket.status.status || "OPEN"} />
-													</Button>
+													<ChangeStatusModal ticket={ticket} />
 												</Tooltip>
 											) : (
 												<Status status={ticket.status.status || "OPEN"} />

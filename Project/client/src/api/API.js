@@ -195,6 +195,14 @@ const extendWarranty = async (ean, newDate) => {
 	return data;
 };
 
+const changeTicketStatus = async (ticketId, status) => {
+	const data = await rest.post({
+		endpoint: `/history/${status}/${ticketId}`,
+		authenticated: true,
+	});
+	return data;
+}
+
 export const authAPI = { login, signUp };
 
 export const productsAPI = { getProducts, getProduct, createProduct };
@@ -215,4 +223,5 @@ export const ticketsAPI = {
 	getTickets,
 	sendMessage,
 	getTicketHistory,
+	changeTicketStatus
 };
