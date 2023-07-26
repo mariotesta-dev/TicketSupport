@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilter, type }) {
 	const role = getUserRole();
+	const [oldData, setOldData] = useState(filteredData);
 
 	const getSidebarItems = (type) => {
 		switch (type) {
@@ -35,6 +36,7 @@ function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilt
 	const handleFilter = (filter) => {
 		setFilter(filter);
 		setFilteredData(switchFilter(filter));
+		setOldData(switchFilter(filter));
 	};
 
 	const getDataCountForCategory = (category) => {
@@ -53,7 +55,7 @@ function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilt
 			py={"100px"}
 			gap={5}>
 			<Backbutton href={"/dashboard"} />
-			{type==="products" && <SearchBar data={data} type={type} setFilteredData={setFilteredData}/>}
+			{type==="products" && <SearchBar data={data} oldData={oldData} type={type} filteredData={filteredData} setFilteredData={setFilteredData}/>}
 			{SIDEBAR_ITEMS.map(
 				(section, key) =>
 					section.filter((item) => item.roles.includes(role)).length > 0 && (
@@ -78,7 +80,7 @@ function Sidebar({ data, setData, filteredData, setFilteredData, filter, setFilt
 	);
 }
 
-function SearchBar({ data, type, setFilteredData }) {
+function SearchBar({ data, oldData, type, filteredData, setFilteredData }) {
   const [filterName, setFilterName] = useState("");
 
   const filterResults = (e) => {
@@ -87,10 +89,10 @@ function SearchBar({ data, type, setFilteredData }) {
 
     if (type === "products") {
       if (filterValue === "") {
-        setFilteredData(data);
+        setFilteredData(oldData);
       } else {
         setFilteredData(() => {
-          return data.filter((item) => {
+          return oldData.filter((item) => {
             return item.name.toLowerCase().includes(filterValue.toLowerCase());
           });
         });
