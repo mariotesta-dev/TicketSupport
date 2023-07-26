@@ -102,6 +102,10 @@ class TicketServiceImpl(
 
         if (ticket != null) {
 
+            if(u.getClaim<Map<String, List<String>>>("realm_access")["roles"]?.contains("manager")!!) {
+                return ticket.messages.map { it.toDTO() }
+            }
+
             if(u.getClaim<String>("email") != ticket.customer?.email && u.getClaim<String>("email") != ticket.assignedTo?.email)
                 throw TicketExceptions.TicketNotOwnedException("Ticket with id $ticketId not owned by user ${u.getClaim<String>("email")}")
 

@@ -12,7 +12,6 @@ data class TicketStatusHistoryDTO(
 )
 
 data class TicketStatusHistoryDTOWithoutTicket(
-    val ticket: Long,
     val status: TicketStatus,
     val updatedAt: LocalDateTime
 )
@@ -22,5 +21,5 @@ fun TicketStatusHistory.toDTO() : TicketStatusHistoryDTO {
 }
 
 fun TicketStatusHistory.toDTOWithoutTicket() : TicketStatusHistoryDTOWithoutTicket {
-    return TicketStatusHistoryDTOWithoutTicket(ticket?.id!!, status, updatedAt)
+    return TicketStatusHistoryDTOWithoutTicket(status, updatedAt)
 }

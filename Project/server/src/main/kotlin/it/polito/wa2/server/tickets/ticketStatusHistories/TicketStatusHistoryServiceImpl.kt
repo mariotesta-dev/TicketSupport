@@ -38,14 +38,12 @@ class TicketStatusHistoryServiceImpl(
         return setStatus(next, ticket)
     }
 
-    override fun getHistory(ticketId: Long): List<TicketStatusHistoryDTO> {
-
-
+    override fun getHistory(ticketId: Long): List<TicketStatusHistoryDTOWithoutTicket> {
 
         ticketRepository.findById(ticketId).orElse(null)
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("Ticket with id $ticketId not found")
 
-        return ticketStatusHistoryRepository.findAllByTicketId(ticketId)?.map { it.toDTO() }
+        return ticketStatusHistoryRepository.findAllByTicketId(ticketId)?.map { it.toDTOWithoutTicket() }
             ?: throw TicketStatusHistoryExceptions.HistoryNotFoundException("History for ticket $ticketId not found")
     }
 

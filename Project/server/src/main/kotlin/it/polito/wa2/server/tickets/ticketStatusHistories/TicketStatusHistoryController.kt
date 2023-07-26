@@ -13,11 +13,11 @@ class TicketStatusHistoryController(private val ticketStatusHistoryService: Tick
 
 
     @GetMapping("/API/history/{ticketId}")
-    fun getAll(@PathVariable ticketId: Long) : List<TicketStatusHistoryDTO>? {
+    fun getAll(@PathVariable ticketId: Long) : List<TicketStatusHistoryDTOWithoutTicket>? {
         return ticketStatusHistoryService.getHistory(ticketId)
     }
 
-    // This must be accessible only by the expert and the manager
+    // This must be accessible only by the manager
     @PostMapping("/API/history/open/{ticketId}")
     fun ticketStatusOpen(@PathVariable ticketId: Long) : TicketStatusHistoryDTO {
         return ticketStatusHistoryService.ticketStatusOpen(ticketId)
