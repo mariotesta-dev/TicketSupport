@@ -10,18 +10,15 @@ import {
 	Divider,
 	Text,
 	Flex,
-	Button,
 	Tooltip,
 } from "@chakra-ui/react";
-import { InfoOutlineIcon } from "@chakra-ui/icons";
 import * as converters from "../../utils/converters";
 import React, { useState } from "react";
 import PrimaryButton from "../PrimaryButton";
 import Pagination from "../Pagination";
 import TicketsTableExpertField from "./TicketsTableExpertField";
-import {Status} from "../Status";
+import { Status } from "../Status";
 import Chat from "../Chat";
-import TicketHistoryModal from "./TicketHistoryModal";
 import History from "../history/History";
 import ChangeStatusModal from "./ChangeStatusModal";
 

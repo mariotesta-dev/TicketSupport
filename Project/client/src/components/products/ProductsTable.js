@@ -11,7 +11,6 @@ import {
 	Text,
 	Flex,
 	Button,
-	Center,
 } from "@chakra-ui/react";
 
 import * as converters from "../../utils/converters";

@@ -18,8 +18,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { ticketsAPI } from "../../api/API";
 
 import toast from "react-hot-toast";
-import { InfoOutlineIcon, TimeIcon } from "@chakra-ui/icons";
-import {Status} from "../Status";
+import { TimeIcon } from "@chakra-ui/icons";
+import { Status } from "../Status";
 import * as converters from "../../utils/converters";
 
 export default function History({ ticket }) {
