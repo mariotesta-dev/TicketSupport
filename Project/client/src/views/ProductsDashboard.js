@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, useDisclosure } from "@chakra-ui/react";
 import ProductsTable from "../components/products/ProductsTable";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import * as session from "../utils/SessionUtils.js";
 import { productsAPI } from "../api/API.js";
 import Product from "../entities/Product";
 import Sidebar from "../components/Sidebar";
+import { AddPurchaseModal } from "../components/AddPurchaseModal";
 
 function ProductsDashboard() {
 	const [user] = useOutletContext();
@@ -14,6 +15,22 @@ function ProductsDashboard() {
 	const [filter, setFilter] = useState("All");
 
 	const [filteredProducts, setFilteredProducts] = useState([]);
+
+	const [searchParams, setSearchParams] = useSearchParams();
+	const openModal = searchParams.get("addPurchase") === "true";
+
+	const {
+		isOpen: isPurchaseModalOpen,
+		onOpen: onPurchaseModalOpen,
+		onClose: onPurchaseModalClose,
+	} = useDisclosure();
+
+	useEffect(() => {
+		if (openModal) {
+			onPurchaseModalOpen();
+			//setSearchParams({ addPurchase: false });
+		}
+	}, [openModal, onPurchaseModalOpen, setSearchParams]);
 
 	useEffect(() => {
 		const handleGetProducts = async () => {
@@ -42,6 +59,11 @@ function ProductsDashboard() {
 
 	return (
 		<Flex width={"full"}>
+			<AddPurchaseModal
+				isOpen={isPurchaseModalOpen}
+				onOpen={onPurchaseModalClose}
+				onClose={onPurchaseModalClose}
+			/>
 			<Sidebar
 				data={products}
 				setData={setFilteredProducts}

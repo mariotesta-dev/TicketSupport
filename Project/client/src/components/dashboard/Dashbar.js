@@ -324,7 +324,7 @@ const MANAGER_ITEMS = [
 			{
 				label: "Add a purchase",
 				subLabel: "Notify a purchase to the system",
-				href: "#",
+				href: "/dashboard/products?addPurchase=true",
 			},
 		],
 	},
