@@ -201,7 +201,15 @@ const changeTicketStatus = async (ticketId, status) => {
 		authenticated: true,
 	});
 	return data;
-}
+};
+
+const changeTicketPriority = async (ticketId, priority) => {
+	const data = await rest.post({
+		endpoint: `/tickets/${ticketId}/priority/${priority}`,
+		authenticated: true,
+	});
+	return data;
+};
 
 export const authAPI = { login, signUp };
 
@@ -223,5 +231,6 @@ export const ticketsAPI = {
 	getTickets,
 	sendMessage,
 	getTicketHistory,
-	changeTicketStatus
+	changeTicketStatus,
+	changeTicketPriority,
 };

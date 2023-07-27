@@ -21,9 +21,43 @@ import { Status } from "../Status";
 import Chat from "../Chat";
 import History from "../history/History";
 import ChangeStatusModal from "./ChangeStatusModal";
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
 function TicketsTable({ tickets, filter, role }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
+	const [sortOrder, setSortOrder] = useState("asc"); // "asc" for ascending, "desc" for descending
+  const [sortColumn, setSortColumn] = useState(""); // Column to sort by
+
+  const handleSortByPriority = () => {
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+    setSortColumn("priority");
+
+    // Define a custom sorting order for the priorities
+    const priorityOrder = ["LOW", "MEDIUM", "HIGH"];
+
+    // Sort the tickets array based on the priority and sort order
+    const sortedTickets = [...tickets].sort((a, b) => {
+      const aPriorityIndex = priorityOrder.indexOf(a.priority);
+      const bPriorityIndex = priorityOrder.indexOf(b.priority);
+
+      if (newSortOrder === "asc") {
+        return aPriorityIndex - bPriorityIndex;
+      } else {
+        return bPriorityIndex - aPriorityIndex;
+      }
+    });
+
+    // Set the sorted tickets to the paginatedTickets state
+    setPaginatedTickets(sortedTickets);
+  };
+
+  const renderSortIcon = () => {
+    if (sortColumn === "priority") {
+      return sortOrder === "asc" ? <TriangleUpIcon /> : <TriangleDownIcon />;
+    }
+    return null;
+  };
 
 	return (
 		<Flex flexGrow={1} overflow={"auto"}>
@@ -72,6 +106,9 @@ function TicketsTable({ tickets, filter, role }) {
 									<Th textAlign={"center"}>Assigned To</Th>
 								)}
 								<Th textAlign={"center"}>Status</Th>
+								{role.match("manager") && (
+								<Th onClick={handleSortByPriority} textAlign={"center"}>Priority {renderSortIcon()}</Th>
+								)}
 								<Th textAlign={"center"}>Last Update</Th>
 								<Th textAlign={"center"}></Th>
 							</Tr>
@@ -128,18 +165,20 @@ function TicketsTable({ tickets, filter, role }) {
 										)}
 										<Td textAlign={"center"}>
 											{role.match("manager") ? (
-												<Tooltip
-													label="DEBUG: this will be used to change status"
-													placement="top">
-													<ChangeStatusModal ticket={ticket} />
-												</Tooltip>
+												<ChangeStatusModal ticket={ticket} type={"status"} />
 											) : (
 												<Status status={ticket.status.status || "OPEN"} />
 											)}
 										</Td>
+										{role.match("manager") && ticket.priority && (<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
+											<ChangeStatusModal ticket={ticket} type={"priority"}/>
+										</Td>) }
+										{role.match("manager") && !ticket.priority && (<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
+											<ChangeStatusModal ticket={ticket} type={"priority"}/>
+										</Td>)}
 										<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
-											{converters.formatDate(ticket.status.updatedAt) ||
-												converters.formatDate(ticket.createdAt)}
+											{converters.formatDateTime(ticket.status.updatedAt) ||
+												converters.formatDateTime(ticket.createdAt)}
 										</Td>
 										<Td textAlign={"center"} width={20}>
 											<Flex direction={"row"} gap={3}>

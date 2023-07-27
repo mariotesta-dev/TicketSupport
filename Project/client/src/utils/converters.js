@@ -1,49 +1,26 @@
 import { format, isToday, isYesterday, differenceInMinutes } from "date-fns";
 import dayjs from "dayjs";
 
-function formatDate(dateString) {
-	const date = new Date(dateString);
-	const today = new Date();
-
-	if (isToday(date)) {
-		// Calculate the difference in minutes between the current date and the provided date
-		const diffInMinutes = differenceInMinutes(today, date);
-		if (diffInMinutes <= 60) {
-			return `${diffInMinutes} minutes ago`;
-		} else {
-			// Handle other time formats as needed, e.g., "5 hours ago", "2 days ago", etc.
-			// For simplicity, let's return the "today" date in a default format
-			return format(date, "HH:mm");
-		}
-	} else if (isYesterday(date)) {
-		return "Yesterday";
-	} else {
-		// Format the date as "01 Set 2021"
-		return format(date, "dd MMM yyyy");
-	}
-}
-
 function formatDateTime(dateString) {
 	const date = new Date(dateString);
 	const today = new Date();
-
+	const formattedTime = format(date, "HH:mm");
+  
 	if (isToday(date)) {
-		// Calculate the difference in minutes between the current date and the provided date
-		const diffInMinutes = differenceInMinutes(today, date);
-		if (diffInMinutes <= 60) {
-			return `${diffInMinutes} minutes ago`;
-		} else {
-			// Handle other time formats as needed, e.g., "5 hours ago", "2 days ago", etc.
-			// For simplicity, let's return the "today" date in a default format
-			return format(date, "dd MMM yyyy HH:mm");
-		}
+	  const diffInMinutes = differenceInMinutes(today, date);
+	  if (diffInMinutes <= 60) {
+		return `${diffInMinutes} minutes ago`;
+	  } else {
+		return `Today at ${formattedTime}`;
+	  }
 	} else if (isYesterday(date)) {
-		return "Yesterday";
+	  return `Yesterday at ${formattedTime}`;
 	} else {
-		// Format the date as "01 Set 2021"
-		return format(date, "dd MMM yyyy HH:mm");
+	  const formattedDate = format(date, "dd MMM yyyy");
+	  return `${formattedDate} at ${formattedTime}`;
 	}
-}
+  }
+
 
 function addMonthsOrYears(date, newExpiringRange) {
 	let newDate = new Date(date);
@@ -62,4 +39,4 @@ function addMonthsOrYears(date, newExpiringRange) {
 	return newDate;
 }
 
-export { formatDate, formatDateTime, addMonthsOrYears };
+export { formatDateTime, addMonthsOrYears };

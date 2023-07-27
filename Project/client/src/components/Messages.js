@@ -126,7 +126,7 @@ function SenderMessage({ item, me }) {
 					<Text wordBreak={"break-word"}>{item.text}</Text>
 				</Flex>
 				<Text fontSize={"xs"} color={"gray.500"}>
-					{converters.formatDate(item.sentAt)}
+					{converters.formatDateTime(item.sentAt)}
 				</Text>
 			</Flex>
 			<Avatar
@@ -154,7 +154,7 @@ function ReceiverMessage({ item, me }) {
 					<Text>{item.text}</Text>
 				</Flex>
 				<Text fontSize={"xs"} color={"gray.500"}>
-					{converters.formatDate(item.sentAt)}
+					{converters.formatDateTime(item.sentAt)}
 				</Text>
 			</Flex>
 		</Flex>

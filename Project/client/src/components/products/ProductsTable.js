@@ -145,12 +145,12 @@ function ProductsTable({ products, filter, role }) {
 													state={{
 														product: product,
 														endOfWarranty: product.warranty
-															? converters.formatDate(
+															? converters.formatDateTime(
 																	product.warranty.endOfWarranty
 															  )
 															: "-",
 														dateOfPurchase: product.warranty
-															? converters.formatDate(
+															? converters.formatDateTime(
 																	product.warranty.dateOfPurchase
 															  )
 															: "-",

@@ -23,6 +23,12 @@ function getColorScheme(status) {
 			return "green";
 		case "REOPENED":
 			return "purple";
+		case "HIGH":
+			return "red";
+		case "MEDIUM":
+			return "yellow";
+		case "LOW":
+			return "green";
 		default:
 			return "white";
 	}
