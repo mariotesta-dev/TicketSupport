@@ -39,8 +39,8 @@ function PaymentView() {
 	const [zipCode, setZipCode] = useState("");
 	const [city, setCity] = useState("");
 	const [email, setEmail] = useState("");
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
+	//const [firstName, setFirstName] = useState("");
+	//const [lastName, setLastName] = useState("");
 	const [creditCardNumber, setCreditCardNumber] = useState("");
 	const [nameOnCard, setNameOnCard] = useState("");
 

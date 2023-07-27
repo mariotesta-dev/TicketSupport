@@ -50,11 +50,10 @@ export default class Product {
 			warranty.product.brand,
 			new Warranty(
 				warranty.id,
-				user
-					? new Customer(user.id, user.email, user.name, user.surname)
-					: null,
+				new Customer(user.id, user.email, user.name, user.surname),
 				warranty.dateOfPurchase,
-				warranty.endOfWarranty
+				warranty.endOfWarranty,
+				true
 			)
 		);
 	}
@@ -69,7 +68,8 @@ export default class Product {
 						product.warranty.id,
 						product.warranty.customer,
 						product.warranty.dateOfPurchase,
-						product.warranty.endOfWarranty
+						product.warranty.endOfWarranty,
+						product.warranty.customer ? true : false
 				  )
 				: null
 		);
@@ -84,7 +84,8 @@ export default class Product {
 			arg.filter(
 				(product) =>
 					product.warranty &&
-					new Date(product.warranty.endOfWarranty) >= new Date()
+					new Date(product.warranty.endOfWarranty) >= new Date() &&
+					product.warranty.isActivated
 			),
 
 		"Expired Warranty": (arg) =>
@@ -94,7 +95,12 @@ export default class Product {
 					new Date(product.warranty.endOfWarranty) < new Date()
 			),
 
-		"Not activated": (arg) => arg.filter((product) => !product.warranty),
+		"Not activated": (arg) =>
+			arg.filter(
+				(product) =>
+					!product.warranty ||
+					(product.warranty && !product.warranty.isActivated)
+			),
 		Purchased: (arg) => arg.filter((product) => product.warranty),
 		Unpurchased: (arg) => arg.filter((product) => !product.warranty),
 	});

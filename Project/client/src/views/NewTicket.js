@@ -29,7 +29,7 @@ export default function NewTicket() {
 }
 
 function NewTicketCard() {
-	const [user, setUser] = useOutletContext();
+	const [user] = useOutletContext();
 	const [loading, setLoading] = useState(false);
 	const [product, setProduct] = useState("");
 	const [category, setCategory] = useState("");

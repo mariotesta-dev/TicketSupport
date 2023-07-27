@@ -1,8 +1,8 @@
 import { Tag } from "@chakra-ui/react";
 import React from "react";
 
-function Warranty({ endOfWarranty }) {
-	if (endOfWarranty === null) {
+function Warranty({ endOfWarranty, isActivated }) {
+	if (endOfWarranty === null || !isActivated) {
 		return (
 			<Tag colorScheme={"gray"} variant={"solid"} fontWeight={"bold"}>
 				Not activated
@@ -12,7 +12,8 @@ function Warranty({ endOfWarranty }) {
 
 	const isExpired = new Date(endOfWarranty) < new Date();
 
-	const colorScheme = isExpired ? "red" : "green";
+	var colorScheme = isExpired ? "red" : "green";
+	colorScheme = isActivated ? colorScheme : "gray";
 
 	return (
 		<Tag colorScheme={colorScheme} variant={"solid"} fontWeight={"bold"}>

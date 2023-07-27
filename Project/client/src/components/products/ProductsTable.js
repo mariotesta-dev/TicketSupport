@@ -19,6 +19,8 @@ import Pagination from "../Pagination";
 import Warranty from "../Warranty";
 import PrimaryButton from "../PrimaryButton";
 import { Link } from "react-router-dom";
+import AddPurchase from "../AddPurchaseModal";
+import dayjs from "dayjs";
 
 function ProductsTable({ products, filter, role }) {
 	const [paginatedProducts, setPaginatedProducts] = useState();
@@ -65,13 +67,13 @@ function ProductsTable({ products, filter, role }) {
 					<Table variant="simple">
 						<Thead>
 							<Tr>
-								<Th>#</Th>
-								<Th>Product</Th>
-								<Th>Brand</Th>
-								<Th>Date of purchase</Th>
-								<Th>End of warranty</Th>
-								<Th>Warranty</Th>
-								{role.match("customer") && <Th></Th>}
+								<Th textAlign={"center"}>#</Th>
+								<Th textAlign={"center"}>Product</Th>
+								<Th textAlign={"center"}>Brand</Th>
+								<Th textAlign={"center"}>Date of purchase</Th>
+								<Th textAlign={"center"}>End of warranty</Th>
+								<Th textAlign={"center"}>Warranty</Th>
+								{role.match("customer") && <Th textAlign={"center"}></Th>}
 							</Tr>
 						</Thead>
 						<Tbody>
@@ -87,48 +89,56 @@ function ProductsTable({ products, filter, role }) {
 							{paginatedProducts &&
 								paginatedProducts.map((product, key) => (
 									<Tr key={key}>
-										<Td>{key + 1}</Td>
+										<Td textAlign={"center"}>{key + 1}</Td>
 										<Td maxW={"220px"} overflow={"hidden"}>
 											<Flex direction={"column"} gap={1}>
 												<Text fontSize={"16"} fontWeight={"bold"} isTruncated>
-													{product.name ? product.name : product.product.name}
+													{product.name}
 												</Text>
 												<Text fontSize={"14"} color={"gray.500"}>
-													{product.ean ? product.ean : product.product.ean}
+													{product.ean}
 												</Text>
 											</Flex>
 										</Td>
-										<Td fontSize={15} color={"gray.500"}>
+										<Td textAlign={"center"} fontSize={15} color={"gray.500"}>
 											<Text>{product.brand}</Text>
 										</Td>
-										<Td fontSize={15} color={"gray.500"}>
+										<Td textAlign={"center"} fontSize={15} color={"gray.500"}>
 											<Text>
 												{product.warranty
-													? converters.formatDate(
-															product.warranty.dateOfPurchase
+													? dayjs(product.warranty.dateOfPurchase).format(
+															"D MMM YYYY"
+													  )
+													: role.match("manager") &&
+													  !product.warranty && (
+															<AddPurchase product={product} />
+													  )}
+											</Text>
+										</Td>
+										<Td textAlign={"center"} fontSize={15} color={"gray.500"}>
+											<Text>
+												{product.warranty
+													? dayjs(product.warranty.endOfWarranty).format(
+															"D MMM YYYY"
 													  )
 													: "-"}
 											</Text>
 										</Td>
-										<Td fontSize={15} color={"gray.500"}>
-											<Text>
-												{product.warranty
-													? converters.formatDate(
-															product.warranty.endOfWarranty
-													  )
-													: "-"}
-											</Text>
-										</Td>
-										<Td fontSize={15} color={"gray.500"}>
+										<Td textAlign={"center"} fontSize={15} color={"gray.500"}>
 											<Warranty
 												endOfWarranty={
 													product.warranty
 														? product.warranty.endOfWarranty
 														: null
 												}
+												isActivated={
+													product.warranty
+														? product.warranty.isActivated
+														: false
+												}
 											/>
 										</Td>
-										<Td>
+										<Td textAlign={"center"}>
 											{role.match("customer") && (
 												<Link
 													to={`/dashboard/warranty/${product.ean}/payment/`}

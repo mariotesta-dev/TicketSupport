@@ -322,8 +322,8 @@ const MANAGER_ITEMS = [
 				href: "/dashboard/products",
 			},
 			{
-				label: "Check a warranty",
-				subLabel: "Check if a product is covered by a warranty",
+				label: "Add a purchase",
+				subLabel: "Notify a purchase to the system",
 				href: "#",
 			},
 		],

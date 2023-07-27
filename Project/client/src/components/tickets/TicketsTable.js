@@ -64,14 +64,16 @@ function TicketsTable({ tickets, filter, role }) {
 					<Table variant="simple">
 						<Thead>
 							<Tr>
-								<Th>#</Th>
-								<Th>Product</Th>
-								<Th>Summary</Th>
-								<Th>Category</Th>
-								{role.match("manager") && <Th>Assigned To</Th>}
-								<Th>Status</Th>
-								<Th>Last Update</Th>
-								<Th></Th>
+								<Th textAlign={"center"}>#</Th>
+								<Th textAlign={"center"}>Product</Th>
+								<Th textAlign={"center"}>Summary</Th>
+								<Th textAlign={"center"}>Category</Th>
+								{role.match("manager") && (
+									<Th textAlign={"center"}>Assigned To</Th>
+								)}
+								<Th textAlign={"center"}>Status</Th>
+								<Th textAlign={"center"}>Last Update</Th>
+								<Th textAlign={"center"}></Th>
 							</Tr>
 						</Thead>
 						<Tbody>
@@ -87,16 +89,28 @@ function TicketsTable({ tickets, filter, role }) {
 							{paginatedTickets &&
 								paginatedTickets.map((ticket, key) => (
 									<Tr key={key}>
-										<Td>{key + 1}</Td>
+										<Td textAlign={"center"}>{key + 1}</Td>
+
 										<Td
 											maxW={"200px"}
 											overflow={"scroll"}
 											isTruncated
 											fontSize={"16"}
 											fontWeight={"bold"}>
-											{ticket.product.name}
+											<Flex direction={"column"} gap={1}>
+												<Text fontSize={"16"} fontWeight={"bold"} isTruncated>
+													{ticket.product.name}
+												</Text>
+												<Text
+													fontSize={"14"}
+													fontWeight={"normal"}
+													color={"gray.500"}>
+													{ticket.product.ean}
+												</Text>
+											</Flex>
 										</Td>
 										<Td
+											textAlign={"center"}
 											maxW={"165px"}
 											overflow={"scroll"}
 											isTruncated
@@ -104,15 +118,15 @@ function TicketsTable({ tickets, filter, role }) {
 											color={"gray.500"}>
 											{ticket.summary}
 										</Td>
-										<Td fontSize={"14"} color={"gray.500"}>
+										<Td textAlign={"center"} fontSize={"14"} color={"gray.500"}>
 											{ticket.category}
 										</Td>
 										{role.match("manager") && (
-											<Td>
+											<Td textAlign={"center"}>
 												<TicketsTableExpertField ticket={ticket} />
 											</Td>
 										)}
-										<Td>
+										<Td textAlign={"center"}>
 											{role.match("manager") ? (
 												<Tooltip
 													label="DEBUG: this will be used to change status"
@@ -123,11 +137,11 @@ function TicketsTable({ tickets, filter, role }) {
 												<Status status={ticket.status.status || "OPEN"} />
 											)}
 										</Td>
-										<Td fontSize={14} color={"gray.500"}>
+										<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
 											{converters.formatDate(ticket.status.updatedAt) ||
 												converters.formatDate(ticket.createdAt)}
 										</Td>
-										<Td width={20}>
+										<Td textAlign={"center"} width={20}>
 											<Flex direction={"row"} gap={3}>
 												{(role.match("customer") || role.match("expert")) && (
 													<Chat ticket={ticket} />
