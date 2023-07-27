@@ -10,12 +10,18 @@ import Backbutton from "./Backbutton";
 import Product from "../entities/Product";
 import Ticket from "../entities/Tickets";
 import { getUserRole } from "../utils/SessionUtils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchIcon } from "@chakra-ui/icons";
 
 function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 	const role = getUserRole();
-	const [oldData, setOldData] = useState(filteredData);
+	const [oldData, setOldData] = useState([]);
+
+	useEffect(() => {
+		if (oldData.length === 0) {
+			setOldData(filteredData);
+		}
+	}, [filteredData, oldData.length]);
 
 	const getSidebarItems = (type) => {
 		switch (type) {
@@ -63,9 +69,7 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 			py={"100px"}
 			gap={5}>
 			<Backbutton href={"/dashboard"} />
-			{type === "products" && (
-				<SearchBar oldData={oldData} type={type} setData={setData} />
-			)}
+			<SearchBar oldData={oldData} type={type} setData={setData} />
 			{SIDEBAR_ITEMS.map(
 				(section, key) =>
 					section.filter((item) => item.roles.includes(role)).length > 0 && (
@@ -93,19 +97,46 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 function SearchBar({ oldData, type, setData }) {
 	const [searchValue, setSearchValue] = useState("");
 
+	const filterProducts = (value) => {
+		setData(() => {
+			return oldData.filter((item) => {
+				return item.name.toLowerCase().includes(value.toLowerCase());
+			});
+		});
+	};
+
+	const filterTickets = (value) => {
+		setData(() => {
+			return oldData.filter((item) => {
+				return item.product.name.toLowerCase().includes(value.toLowerCase());
+			});
+		});
+	};
+
+	const filterExperts = (value) => {
+		setData(() => {
+			return oldData.filter((item) => {
+				return item.name.toLowerCase().includes(value.toLowerCase());
+			});
+		});
+	};
+
 	const filterResults = (e) => {
 		const value = e.target.value;
 		setSearchValue(value);
 
-		if (type === "products") {
-			if (value === "") {
-				setData(oldData);
-			} else {
-				setData(() => {
-					return oldData.filter((item) => {
-						return item.name.toLowerCase().includes(value.toLowerCase());
-					});
-				});
+		if (value === "") {
+			setData(oldData);
+		} else {
+			switch (type) {
+				case "products":
+					return filterProducts(value);
+				case "tickets":
+					return filterTickets(value);
+				case "experts":
+					return filterExperts(value);
+				default:
+					break;
 			}
 		}
 	};
@@ -120,6 +151,7 @@ function SearchBar({ oldData, type, setData }) {
 				onChange={filterResults}
 				value={searchValue}
 				isTruncated
+				bg={"white"}
 			/>
 		</InputGroup>
 	);

@@ -88,11 +88,9 @@ function ChangeStatusModal({ ticket }) {
 		} else {
 			setIsOperationAllowed(false);
 			setMessage(
-				"Can't change from " +
-					ticket.status.status.replace("_", " ") +
-					" to " +
-					selectedOption.label +
-					"!"
+				`Can't change from ${ticket.status.status.replace("_", " ")} to ${
+					selectedOption.label
+				}`
 			);
 		}
 		setSelectedStatus(selectedOption.value);
@@ -134,7 +132,7 @@ function ChangeStatusModal({ ticket }) {
 				<Status status={ticket.status.status || "OPEN"} />
 			</Button>
 
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal isOpen={isOpen} onClose={onClose} isCentered>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Assign a new status</ModalHeader>
@@ -156,6 +154,12 @@ function ChangeStatusModal({ ticket }) {
 
 					<ModalFooter>
 						<Tooltip
+							p={3}
+							rounded={"xl"}
+							textAlign={"center"}
+							hasArrow
+							bg="red.100"
+							color="black"
 							isDisabled={isOperationAllowed}
 							label={message}
 							placement="top">
