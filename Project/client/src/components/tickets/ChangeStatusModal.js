@@ -34,7 +34,7 @@ function ChangeStatusModal({ ticket }) {
 	function pickColor(status) {
 		switch (status) {
 			case "OPEN":
-				return "#4488cc";
+				return "#3484cc";
 			case "IN_PROGRESS":
 				return "#dca63e";
 			case "CLOSED":
