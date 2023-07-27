@@ -1,9 +1,17 @@
-import { Divider, Flex, Link, Input } from "@chakra-ui/react";
+import {
+	Divider,
+	Flex,
+	Link,
+	Input,
+	InputGroup,
+	InputLeftElement,
+} from "@chakra-ui/react";
 import Backbutton from "./Backbutton";
 import Product from "../entities/Product";
 import Ticket from "../entities/Tickets";
 import { getUserRole } from "../utils/SessionUtils";
 import { useState } from "react";
+import { SearchIcon } from "@chakra-ui/icons";
 
 function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 	const role = getUserRole();
@@ -56,13 +64,7 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 			gap={5}>
 			<Backbutton href={"/dashboard"} />
 			{type === "products" && (
-				<SearchBar
-					data={data}
-					oldData={oldData}
-					type={type}
-					filteredData={filteredData}
-					setData={setData}
-				/>
+				<SearchBar oldData={oldData} type={type} setData={setData} />
 			)}
 			{SIDEBAR_ITEMS.map(
 				(section, key) =>
@@ -88,20 +90,20 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 	);
 }
 
-function SearchBar({ data, oldData, type, filteredData, setData }) {
-	const [filterName, setFilterName] = useState("");
+function SearchBar({ oldData, type, setData }) {
+	const [searchValue, setSearchValue] = useState("");
 
 	const filterResults = (e) => {
-		const filterValue = e.target.value;
-		setFilterName(filterValue);
+		const value = e.target.value;
+		setSearchValue(value);
 
 		if (type === "products") {
-			if (filterValue === "") {
+			if (value === "") {
 				setData(oldData);
 			} else {
 				setData(() => {
 					return oldData.filter((item) => {
-						return item.name.toLowerCase().includes(filterValue.toLowerCase());
+						return item.name.toLowerCase().includes(value.toLowerCase());
 					});
 				});
 			}
@@ -109,12 +111,17 @@ function SearchBar({ data, oldData, type, filteredData, setData }) {
 	};
 
 	return (
-		<Input
-			placeholder="Filter your products..."
-			onChange={filterResults}
-			value={filterName}
-			isTruncated
-		/>
+		<InputGroup>
+			<InputLeftElement pointerEvents="none">
+				<SearchIcon color="gray.300" />
+			</InputLeftElement>
+			<Input
+				placeholder="Search"
+				onChange={filterResults}
+				value={searchValue}
+				isTruncated
+			/>
+		</InputGroup>
 	);
 }
 
