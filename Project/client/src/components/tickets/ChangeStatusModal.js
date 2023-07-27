@@ -40,7 +40,7 @@ function ChangeStatusModal({ ticket }) {
 			case "CLOSED":
 				return "red";
 			case "RESOLVED":
-				return "green";
+				return "#38a169";
 			case "REOPENED":
 				return "#845cd4";
 			default:
