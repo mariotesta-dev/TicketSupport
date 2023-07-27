@@ -286,18 +286,7 @@ const CUSTOMER_ITEMS = [
 	},
 	{
 		label: "My Products",
-		children: [
-			{
-				label: "Manage my products",
-				subLabel: "Manage and add a warranty to your products",
-				href: "/dashboard/products",
-			},
-			{
-				label: "Check a warranty",
-				subLabel: "Check if you're still covered by a warranty",
-				href: "#",
-			},
-		],
+		href: "/dashboard/products",
 	},
 ];
 

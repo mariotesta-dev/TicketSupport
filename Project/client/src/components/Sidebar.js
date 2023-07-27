@@ -10,12 +10,13 @@ import Backbutton from "./Backbutton";
 import Product from "../entities/Product";
 import Ticket from "../entities/Tickets";
 import { getUserRole } from "../utils/SessionUtils";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SearchIcon } from "@chakra-ui/icons";
 
 function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 	const role = getUserRole();
 	const [oldData, setOldData] = useState([]);
+	const [searchValue, setSearchValue] = useState("");
 
 	useEffect(() => {
 		if (oldData.length === 0) {
@@ -36,16 +37,22 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 
 	const SIDEBAR_ITEMS = getSidebarItems(type);
 
-	const switchFilter = (filter) => {
+	const _switchFilter = (filter) => {
 		switch (type) {
 			case "products":
-				return Product.productsCallbacks.doSwitch(filter, data);
+				return Product.productsCallbacks.doSwitch(filter, data, searchValue);
 			case "tickets":
-				return Ticket.ticketsCallbacks.doSwitch(filter, data);
+				return Ticket.ticketsCallbacks.doSwitch(filter, data, searchValue);
 			default:
 				return null;
 		}
 	};
+
+	const switchFilter = useCallback(_switchFilter, [data, searchValue, type]);
+
+	useEffect(() => {
+		setData(switchFilter(filter));
+	}, [filter, switchFilter, setData]);
 
 	const handleFilter = (filter) => {
 		setFilter(filter);
@@ -69,7 +76,7 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 			py={"100px"}
 			gap={5}>
 			<Backbutton href={"/dashboard"} />
-			<SearchBar oldData={oldData} type={type} setData={setData} />
+			<SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
 			{SIDEBAR_ITEMS.map(
 				(section, key) =>
 					section.filter((item) => item.roles.includes(role)).length > 0 && (
@@ -94,53 +101,7 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 	);
 }
 
-function SearchBar({ oldData, type, setData }) {
-	const [searchValue, setSearchValue] = useState("");
-
-	const filterProducts = (value) => {
-		setData(() => {
-			return oldData.filter((item) => {
-				return item.name.toLowerCase().includes(value.toLowerCase());
-			});
-		});
-	};
-
-	const filterTickets = (value) => {
-		setData(() => {
-			return oldData.filter((item) => {
-				return item.product.name.toLowerCase().includes(value.toLowerCase());
-			});
-		});
-	};
-
-	const filterExperts = (value) => {
-		setData(() => {
-			return oldData.filter((item) => {
-				return item.name.toLowerCase().includes(value.toLowerCase());
-			});
-		});
-	};
-
-	const filterResults = (e) => {
-		const value = e.target.value;
-		setSearchValue(value);
-
-		if (value === "") {
-			setData(oldData);
-		} else {
-			switch (type) {
-				case "products":
-					return filterProducts(value);
-				case "tickets":
-					return filterTickets(value);
-				case "experts":
-					return filterExperts(value);
-				default:
-					break;
-			}
-		}
-	};
-
+function SearchBar({ searchValue, setSearchValue }) {
 	return (
 		<InputGroup>
 			<InputLeftElement pointerEvents="none">
@@ -148,7 +109,7 @@ function SearchBar({ oldData, type, setData }) {
 			</InputLeftElement>
 			<Input
 				placeholder="Search"
-				onChange={filterResults}
+				onChange={(e) => setSearchValue(e.target.value)}
 				value={searchValue}
 				isTruncated
 				bg={"white"}

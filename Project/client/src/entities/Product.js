@@ -75,35 +75,45 @@ export default class Product {
 		);
 	}
 
-	static productsCallbacks = new Switch({
-		All: (arg) => {
-			return arg;
+	static productsCallbacks = new Switch(
+		{
+			All: (arg) => {
+				return arg;
+			},
+
+			"Active Warranty": (arg) =>
+				arg.filter(
+					(product) =>
+						product.warranty &&
+						new Date(product.warranty.endOfWarranty) >= new Date() &&
+						product.warranty.isActivated
+				),
+
+			"Expired Warranty": (arg) =>
+				arg.filter(
+					(product) =>
+						product.warranty &&
+						new Date(product.warranty.endOfWarranty) < new Date()
+				),
+
+			"Not activated": (arg) =>
+				arg.filter(
+					(product) =>
+						!product.warranty ||
+						(product.warranty && !product.warranty.isActivated)
+				),
+			Purchased: (arg) => arg.filter((product) => product.warranty),
+			Unpurchased: (arg) => arg.filter((product) => !product.warranty),
 		},
-
-		"Active Warranty": (arg) =>
-			arg.filter(
-				(product) =>
-					product.warranty &&
-					new Date(product.warranty.endOfWarranty) >= new Date() &&
-					product.warranty.isActivated
-			),
-
-		"Expired Warranty": (arg) =>
-			arg.filter(
-				(product) =>
-					product.warranty &&
-					new Date(product.warranty.endOfWarranty) < new Date()
-			),
-
-		"Not activated": (arg) =>
-			arg.filter(
-				(product) =>
-					!product.warranty ||
-					(product.warranty && !product.warranty.isActivated)
-			),
-		Purchased: (arg) => arg.filter((product) => product.warranty),
-		Unpurchased: (arg) => arg.filter((product) => !product.warranty),
-	});
+		[
+			(product, searchValue) => {
+				return (
+					product.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+					product.brand.toLowerCase().includes(searchValue.toLowerCase())
+				);
+			},
+		]
+	);
 
 	static PRODUCT_ITEMS = [PRIMARY_ITEMS, SECONDARY_ITEMS, TERTIARY_ITEMS];
 }

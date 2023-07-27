@@ -26,7 +26,7 @@ import { getUserRole } from "../utils/SessionUtils";
 
 export default function CreateProduct() {
 	if (getUserRole() !== "manager") {
-		return <Navigate to="/dashboard" replace />;
+		return <Navigate to="/dashboard/products" replace />;
 	}
 	return <NewTicketCard />;
 }

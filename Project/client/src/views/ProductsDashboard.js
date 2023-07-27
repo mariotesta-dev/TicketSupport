@@ -26,11 +26,11 @@ function ProductsDashboard() {
 	} = useDisclosure();
 
 	useEffect(() => {
-		if (openModal) {
+		if (openModal && role.match("manager")) {
 			onPurchaseModalOpen();
 			//setSearchParams({ addPurchase: false });
 		}
-	}, [openModal, onPurchaseModalOpen, setSearchParams]);
+	}, [openModal, onPurchaseModalOpen, setSearchParams, role]);
 
 	useEffect(() => {
 		const handleGetProducts = async () => {
