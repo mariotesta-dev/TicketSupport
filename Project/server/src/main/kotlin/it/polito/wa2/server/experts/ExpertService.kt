@@ -12,4 +12,6 @@ interface ExpertService {
     fun getExpertHistoriesForEvaluation(expertId: Long) : List<TicketStatusHistoryDTOWithoutTicket>
     fun createExpert(expert: Expert) : ExpertDTO
     fun getAllExpertsByExpertise(expertise: String) : List<ExpertDTO>
+
+    fun getAllExperts() : List<ExpertDTO>
 }

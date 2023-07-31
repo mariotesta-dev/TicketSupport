@@ -39,4 +39,11 @@ class ExpertController(private val expertService: ExpertService, private val aut
     fun createExpert(@RequestBody expertRegistration: AuthData.ExpertRegistration) : ResponseEntity<String> {
         return authService.createExpert(expertRegistration)
     }
+
+    // this method can be accessed by user whose role is manager
+    // Returns all the experts
+    @GetMapping("/API/experts")
+    fun getExperts() : List<ExpertDTO> {
+        return expertService.getAllExperts()
+    }
 }

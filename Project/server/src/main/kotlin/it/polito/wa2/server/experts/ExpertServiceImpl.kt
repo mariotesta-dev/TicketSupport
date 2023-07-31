@@ -58,4 +58,8 @@ class ExpertServiceImpl(val expertRepository: ExpertRepository,  private val tic
             return expertRepository.save(expert).toDTO()
         }
     }
+
+    override fun getAllExperts(): List<ExpertDTO> {
+        return expertRepository.getAllExperts().map { it.toDTO() }
+    }
 }

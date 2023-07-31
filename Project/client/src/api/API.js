@@ -134,6 +134,15 @@ const getAllExpertsByExpertise = async (expertise) => {
 	return data;
 };
 
+const getAllExperts = async () => {
+	const data = await rest.get({
+		endpoint: `/experts`,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 const assignTicketToExpert = async (ticketId, expertId, priority) => {
 	const data = await rest.put({
 		endpoint: `/tickets/${ticketId}/expert`,

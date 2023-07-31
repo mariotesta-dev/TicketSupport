@@ -16,5 +16,8 @@ interface ExpertRepository : JpaRepository<Expert, Long>{
     @Query(value = "SELECT e FROM Expert e WHERE e.expertise = :expertise")
     fun getAllExpertsByExpertise(expertise: CategoryType) : List<Expert>
 
+    @Query(value = "SELECT e FROM Expert e")
+    fun getAllExperts() : List<Expert>
+
     fun findExpertByEmail(email: String) : Expert?
 }
