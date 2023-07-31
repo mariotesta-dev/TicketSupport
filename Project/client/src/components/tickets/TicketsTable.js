@@ -39,9 +39,9 @@ function TicketsTable({ tickets, filter }) {
 						<Text fontSize={"lg"} fontWeight={"bold"}>
 							{filter} tickets
 						</Text>
-						{(session.isCustomer() && <PrimaryButton href={"/dashboard/tickets/new"}>
+						{session.isCustomer() && <PrimaryButton href={"/dashboard/tickets/new"}>
 							New Ticket
-						</PrimaryButton>)}
+						</PrimaryButton>}
 					</Flex>
 
 					<Divider />

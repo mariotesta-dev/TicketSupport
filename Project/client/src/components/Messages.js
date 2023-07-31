@@ -92,32 +92,31 @@ const Messages = ({ ticket, newMessageSent, setNewMessageSent }) => {
 function DescriptionMessage({ ticket }) {
 	// Duplicated of Message if we want to customize this further more
 
-	const sender = isCustomer()? getDecodedJwtToken().name : `${ticket.customer.name} ${ticket.customer.surname}`
+	const sender = isCustomer() ? getDecodedJwtToken().name : `${ticket.customer.name} ${ticket.customer.surname}`
 	const item = { text: ticket.description, sender: sender };
 
 
-		return (
-			<Flex w="100%" gap={2} alignItems={"center"}>
-				{ isExpert() && <Avatar name={item.sender} size={"sm"}></Avatar> }
-				<Flex direction={"column"} alignItems={"flex-start"}> 
-					<Flex
-						rounded={"xl"}
-						bg={isExpert()? "gray.100" : "blue.300"}
-						color={isExpert()? "black" : "white"}
-						minW="100px"
-						maxW="350px"
-						my="1"
-						p="3">
-						<Text>{item.text}</Text>
-					</Flex>
-					{ isCustomer() && <Avatar name={item.sender} size={"sm"}></Avatar> }
-					
+	return (
+		<Flex w="100%" gap={2} alignItems={"center"} justify={isCustomer() ? "flex-end" : "flex-start"}>
+			{isExpert() && <Avatar name={item.sender} size={"sm"}></Avatar>}
+			<Flex direction={"column"} alignItems={isCustomer() ? "flex-end" : "flex-start"}>
+				<Flex
+					rounded={"xl"}
+					bg={isExpert() ? "gray.100" : "blue.300"}
+					color={isExpert() ? "black" : "white"}
+					minW="100px"
+					maxW="350px"
+					my="1"
+					p="3">
+					<Text>{item.text}</Text>
 				</Flex>
 			</Flex>
-		);
-	
+			{isCustomer() && <Avatar name={item.sender} size={"sm"}></Avatar>}
+		</Flex>
+	);
 
-	
+
+
 }
 
 function SenderMessage({ item, me }) {
