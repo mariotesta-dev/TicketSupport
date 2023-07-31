@@ -16,14 +16,18 @@ function TicketDashboard() {
 
 	useEffect(() => {
 		const handleGetTickets = async () => {
-			if (role.match("customer")) {
+			if (session.isCustomer()) {
 				setTickets(user.tickets);
 				setFilteredTickets(user.tickets);
 			}
-			if (role.match("manager")) {
+			if (session.isManager()) {
 				const response = await ticketsAPI.getTickets();
 				setTickets(response);
 				setFilteredTickets(response);
+			}
+			if (session.isExpert()) {
+				setTickets(user.tickets);
+				setFilteredTickets(user.tickets);
 			}
 		};
 		handleGetTickets();
@@ -39,7 +43,7 @@ function TicketDashboard() {
 				setFilter={setFilter}
 				type="tickets"
 			/>
-			<TicketsTable tickets={filteredTickets} filter={filter} role={role} />
+			<TicketsTable tickets={filteredTickets} filter={filter}/>
 		</Flex>
 	);
 }

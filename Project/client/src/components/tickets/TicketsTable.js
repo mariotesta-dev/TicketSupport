@@ -22,59 +22,178 @@ import History from "../history/History";
 import ChangeStatusModal from "./ChangeStatusModal";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import Priority from "./Priority";
+import * as session from "../../utils/SessionUtils.js";
 
-function TicketsTable({ tickets, filter, role }) {
+function TicketsTable({ tickets, filter }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
 	const [sortColumn, setSortColumn] = useState(""); // Column to sort by
 
-	return (
-		<Flex flexGrow={1} overflow={"auto"}>
-			<Stack width={"100%"} padding={"20px"}>
-				<Flex
-					direction={"row"}
-					justifyContent={"space-between"}
-					alignItems={"center"}>
-					<Text fontSize={"lg"} fontWeight={"bold"}>
-						{filter} tickets
-					</Text>
-					{role.match("customer") && (
-						<PrimaryButton href={"/dashboard/tickets/new"}>
+	console.log(paginatedTickets);
+
+	if (session.isCustomer() || session.isExpert()) {
+		return (
+			<Flex flexGrow={1} overflow={"auto"}>
+				<Stack width={"100%"} padding={"20px"}>
+					<Flex
+						direction={"row"}
+						justifyContent={"space-between"}
+						alignItems={"center"}>
+						<Text fontSize={"lg"} fontWeight={"bold"}>
+							{filter} tickets
+						</Text>
+						{(session.isCustomer() && <PrimaryButton href={"/dashboard/tickets/new"}>
 							New Ticket
-						</PrimaryButton>
-					)}
-				</Flex>
+						</PrimaryButton>)}
+					</Flex>
 
-				<Divider />
+					<Divider />
 
-				<Flex
-					direction={"row"}
-					justifyContent={"space-between"}
-					alignItems={"center"}>
-					<Text fontSize={"sm"} color={"gray.500"} fontWeight={"medium"}>
-						{tickets.length} tickets
-					</Text>
-					<Pagination
-						data={tickets}
-						setCurrentData={setPaginatedTickets}
-						currentData={paginatedTickets}
-						filter={filter}
-					/>
-				</Flex>
+					<Flex
+						direction={"row"}
+						justifyContent={"space-between"}
+						alignItems={"center"}>
+						<Text fontSize={"sm"} color={"gray.500"} fontWeight={"medium"}>
+							{tickets.length} tickets
+						</Text>
+						<Pagination
+							data={tickets}
+							setCurrentData={setPaginatedTickets}
+							currentData={paginatedTickets}
+							filter={filter}
+						/>
+					</Flex>
 
-				<Divider />
-				<TableContainer>
-					<Table variant="simple">
-						<Thead>
-							<Tr>
-								<Th textAlign={"center"}>#</Th>
-								<Th textAlign={"center"}>Product</Th>
-								<Th textAlign={"center"}>Summary</Th>
-								<Th textAlign={"center"}>Category</Th>
-								{role.match("manager") && (
-									<Th textAlign={"center"}>Assigned To</Th>
+					<Divider />
+					<TableContainer>
+						<Table variant="simple">
+							<Thead>
+								<Tr>
+									<Th textAlign={"center"}>#</Th>
+									<Th textAlign={"center"}>Product</Th>
+									<Th textAlign={"center"}>Summary</Th>
+									<Th textAlign={"center"}>Category</Th>
+									<Th textAlign={"center"}>Status</Th>
+
+									<ThSorting
+										label={"Last Update"}
+										sortColumn={sortColumn}
+										setSortColumn={setSortColumn}
+										tickets={tickets}
+										setPaginatedTickets={setPaginatedTickets}
+									/>
+									<Th textAlign={"center"}></Th>
+								</Tr>
+							</Thead>
+							<Tbody>
+								{tickets.length === 0 && (
+									<Tr>
+										<Td colSpan={7} textAlign={"center"}>
+											<Text fontSize={"sm"} color={"gray.800"}>
+												No tickets.
+											</Text>
+										</Td>
+									</Tr>
 								)}
-								<Th textAlign={"center"}>Status</Th>
-								{role.match("manager") && (
+								{paginatedTickets &&
+									paginatedTickets.map((ticket, key) => (
+										<Tr key={key}>
+											<Td textAlign={"center"}>{key + 1}</Td>
+
+											<Td
+												maxW={"200px"}
+												overflow={"scroll"}
+												isTruncated
+												fontSize={"16"}
+												fontWeight={"bold"}>
+												<Flex direction={"column"} gap={1}>
+													<Text fontSize={"16"} fontWeight={"bold"} isTruncated>
+														{ticket.product.name}
+													</Text>
+													<Text
+														fontSize={"14"}
+														fontWeight={"normal"}
+														color={"gray.500"}>
+														{ticket.product.ean}
+													</Text>
+												</Flex>
+											</Td>
+											<Td
+												textAlign={"center"}
+												maxW={"165px"}
+												overflow={"scroll"}
+												isTruncated
+												fontSize={"14"}
+												color={"gray.500"}>
+												{ticket.summary}
+											</Td>
+											<Td textAlign={"center"} fontSize={"14"} color={"gray.500"}>
+												{ticket.category}
+											</Td>
+
+											<Td textAlign={"center"}>
+												<Status status={ticket.status.status || "OPEN"} />
+											</Td>
+											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
+												{converters.formatDateTime(ticket.status.updatedAt) ||
+													converters.formatDateTime(ticket.createdAt)}
+											</Td>
+											<Td textAlign={"center"} width={20}>
+												<Flex direction={"row"} gap={3}>
+													<Chat ticket={ticket} />
+												</Flex>
+											</Td>
+										</Tr>
+									))}
+							</Tbody>
+						</Table>
+					</TableContainer>
+				</Stack>
+			</Flex>
+		);
+	}
+
+	if (session.isManager()) {
+		return (
+			<Flex flexGrow={1} overflow={"auto"}>
+				<Stack width={"100%"} padding={"20px"}>
+					<Flex
+						direction={"row"}
+						justifyContent={"space-between"}
+						alignItems={"center"}>
+						<Text fontSize={"lg"} fontWeight={"bold"}>
+							{filter} tickets
+						</Text>
+					</Flex>
+
+					<Divider />
+
+					<Flex
+						direction={"row"}
+						justifyContent={"space-between"}
+						alignItems={"center"}>
+						<Text fontSize={"sm"} color={"gray.500"} fontWeight={"medium"}>
+							{tickets.length} tickets
+						</Text>
+						<Pagination
+							data={tickets}
+							setCurrentData={setPaginatedTickets}
+							currentData={paginatedTickets}
+							filter={filter}
+						/>
+					</Flex>
+
+					<Divider />
+					<TableContainer>
+						<Table variant="simple">
+							<Thead>
+								<Tr>
+									<Th textAlign={"center"}>#</Th>
+									<Th textAlign={"center"}>Product</Th>
+									<Th textAlign={"center"}>Summary</Th>
+									<Th textAlign={"center"}>Category</Th>
+									<Th textAlign={"center"}>Assigned To</Th>
+
+									<Th textAlign={"center"}>Status</Th>
 									<ThSorting
 										label={"Priority"}
 										sortColumn={sortColumn}
@@ -82,99 +201,88 @@ function TicketsTable({ tickets, filter, role }) {
 										tickets={tickets}
 										setPaginatedTickets={setPaginatedTickets}
 									/>
-								)}
-								<ThSorting
-									label={"Last Update"}
-									sortColumn={sortColumn}
-									setSortColumn={setSortColumn}
-									tickets={tickets}
-									setPaginatedTickets={setPaginatedTickets}
-								/>
-								<Th textAlign={"center"}></Th>
-							</Tr>
-						</Thead>
-						<Tbody>
-							{tickets.length === 0 && (
-								<Tr>
-									<Td colSpan={7} textAlign={"center"}>
-										<Text fontSize={"sm"} color={"gray.800"}>
-											No tickets.
-										</Text>
-									</Td>
+									<ThSorting
+										label={"Last Update"}
+										sortColumn={sortColumn}
+										setSortColumn={setSortColumn}
+										tickets={tickets}
+										setPaginatedTickets={setPaginatedTickets}
+									/>
+									<Th textAlign={"center"}></Th>
 								</Tr>
-							)}
-							{paginatedTickets &&
-								paginatedTickets.map((ticket, key) => (
-									<Tr key={key}>
-										<Td textAlign={"center"}>{key + 1}</Td>
+							</Thead>
+							<Tbody>
+								{tickets.length === 0 && (
+									<Tr>
+										<Td colSpan={7} textAlign={"center"}>
+											<Text fontSize={"sm"} color={"gray.800"}>
+												No tickets.
+											</Text>
+										</Td>
+									</Tr>
+								)}
+								{paginatedTickets &&
+									paginatedTickets.map((ticket, key) => (
+										<Tr key={key}>
+											<Td textAlign={"center"}>{key + 1}</Td>
 
-										<Td
-											maxW={"200px"}
-											overflow={"scroll"}
-											isTruncated
-											fontSize={"16"}
-											fontWeight={"bold"}>
-											<Flex direction={"column"} gap={1}>
-												<Text fontSize={"16"} fontWeight={"bold"} isTruncated>
-													{ticket.product.name}
-												</Text>
-												<Text
-													fontSize={"14"}
-													fontWeight={"normal"}
-													color={"gray.500"}>
-													{ticket.product.ean}
-												</Text>
-											</Flex>
-										</Td>
-										<Td
-											textAlign={"center"}
-											maxW={"165px"}
-											overflow={"scroll"}
-											isTruncated
-											fontSize={"14"}
-											color={"gray.500"}>
-											{ticket.summary}
-										</Td>
-										<Td textAlign={"center"} fontSize={"14"} color={"gray.500"}>
-											{ticket.category}
-										</Td>
-										{role.match("manager") && (
+											<Td
+												maxW={"200px"}
+												overflow={"scroll"}
+												isTruncated
+												fontSize={"16"}
+												fontWeight={"bold"}>
+												<Flex direction={"column"} gap={1}>
+													<Text fontSize={"16"} fontWeight={"bold"} isTruncated>
+														{ticket.product.name}
+													</Text>
+													<Text
+														fontSize={"14"}
+														fontWeight={"normal"}
+														color={"gray.500"}>
+														{ticket.product.ean}
+													</Text>
+												</Flex>
+											</Td>
+											<Td
+												textAlign={"center"}
+												maxW={"165px"}
+												overflow={"scroll"}
+												isTruncated
+												fontSize={"14"}
+												color={"gray.500"}>
+												{ticket.summary}
+											</Td>
+											<Td textAlign={"center"} fontSize={"14"} color={"gray.500"}>
+												{ticket.category}
+											</Td>
 											<Td textAlign={"center"}>
 												<TicketsTableExpertField ticket={ticket} />
 											</Td>
-										)}
-										<Td textAlign={"center"}>
-											{role.match("manager") ? (
+											<Td textAlign={"center"}>
 												<ChangeStatusModal ticket={ticket} />
-											) : (
-												<Status status={ticket.status.status || "OPEN"} />
-											)}
-										</Td>
-										{role.match("manager") && (
+											</Td>
 											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
 												<Priority ticket={ticket} />
 											</Td>
-										)}
-										<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
-											{converters.formatDateTime(ticket.status.updatedAt) ||
-												converters.formatDateTime(ticket.createdAt)}
-										</Td>
-										<Td textAlign={"center"} width={20}>
-											<Flex direction={"row"} gap={3}>
-												{(role.match("customer") || role.match("expert")) && (
-													<Chat ticket={ticket} />
-												)}
-												{role.match("manager") && <History ticket={ticket} />}
-											</Flex>
-										</Td>
-									</Tr>
-								))}
-						</Tbody>
-					</Table>
-				</TableContainer>
-			</Stack>
-		</Flex>
-	);
+											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
+												{converters.formatDateTime(ticket.status.updatedAt) ||
+													converters.formatDateTime(ticket.createdAt)}
+											</Td>
+											<Td textAlign={"center"} width={20}>
+												<Flex direction={"row"} gap={3}>
+													<History ticket={ticket} />
+												</Flex>
+											</Td>
+										</Tr>
+									))}
+							</Tbody>
+						</Table>
+					</TableContainer>
+				</Stack>
+			</Flex>
+		);
+	}
 }
 
 function ThSorting({

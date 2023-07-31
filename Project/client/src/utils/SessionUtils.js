@@ -21,3 +21,15 @@ export const setJwtToken = (access_token) => {
 export const cleanSession = () => {
     localStorage.removeItem(jwtTokenKey);
 }
+
+export const isCustomer = () => {
+    return getUserRole().match("customer") !== null;
+}
+
+export const isExpert = () => {
+    return getUserRole().match("expert") !== null;
+}
+
+export const isManager = () => {
+    return getUserRole().match("manager") !== null;
+}

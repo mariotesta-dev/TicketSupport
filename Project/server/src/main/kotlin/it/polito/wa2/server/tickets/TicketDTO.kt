@@ -43,6 +43,7 @@ data class TicketDTOWithoutExpert(
     val description: String,
     val priority: String,
     val createdAt: LocalDateTime?,
+    val status: Status? = null
 )
 
 fun Ticket.toDTO() : TicketDTO {
@@ -62,5 +63,5 @@ fun Ticket.toDTOWithoutCustomer(status: Status?) : TicketDTOWithoutCustomer {
 }
 
 fun Ticket.toDTOWithoutExpert() : TicketDTOWithoutExpert {
-    return TicketDTOWithoutExpert(id, product.toDTOWithoutWarranty(), customer?.toDTOWithoutWarrantiesAndTickets(), category, summary, description, priority, createdAt)
+    return TicketDTOWithoutExpert(id, product.toDTOWithoutWarranty(), customer?.toDTOWithoutWarrantiesAndTickets(), category, summary, description, priority, createdAt, Status(status, lastUpdatedAt))
 }

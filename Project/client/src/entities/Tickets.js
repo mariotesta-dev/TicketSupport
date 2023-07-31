@@ -10,14 +10,14 @@ const PRIMARY_ITEMS = [
 const SECONDARY_ITEMS = [
 	{
 		label: "Unassigned",
-		roles: ["customer", "expert", "manager"],
+		roles: ["customer", "manager"],
 	},
 ];
 
 const TERTIARY_ITEMS = [
 	{
 		label: "Open",
-		roles: ["customer", "expert", "manager"],
+		roles: ["customer", "manager"],
 	},
 	{
 		label: "In Progress",
@@ -25,7 +25,7 @@ const TERTIARY_ITEMS = [
 	},
 	{
 		label: "Reopened",
-		roles: ["customer", "expert", "manager"],
+		roles: ["customer", "manager"],
 	},
 	{
 		label: "Resolved",
