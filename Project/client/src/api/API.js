@@ -229,7 +229,7 @@ export const warrantiesAPI = {
 
 export const usersAPI = { getCustomer, getExpert, getManager, updateCustomer };
 
-export const managersAPI = { getAllExpertsByExpertise, assignTicketToExpert };
+export const managersAPI = { getAllExpertsByExpertise, assignTicketToExpert, getAllExperts};
 
 export const ticketsAPI = {
 	createNewTicket,

@@ -28,8 +28,6 @@ function TicketsTable({ tickets, filter }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
 	const [sortColumn, setSortColumn] = useState(""); // Column to sort by
 
-	console.log(paginatedTickets);
-
 	if (session.isCustomer() || session.isExpert()) {
 		return (
 			<Flex flexGrow={1} overflow={"auto"}>
