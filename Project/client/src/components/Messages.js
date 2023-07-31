@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Center, CircularProgress, Flex, Text } from "@chakra-ui/react";
-import { getDecodedJwtToken, getUserRole } from "../utils/SessionUtils";
+import { getDecodedJwtToken, getUserRole, isCustomer, isExpert } from "../utils/SessionUtils";
 import { ticketsAPI } from "../api/API";
 import { toast } from "react-hot-toast";
 import * as converters from "../utils/converters";
@@ -90,25 +90,34 @@ const Messages = ({ ticket, newMessageSent, setNewMessageSent }) => {
 };
 
 function DescriptionMessage({ ticket }) {
-	// Duplicated of SenderMessage if we want to customize this further more
+	// Duplicated of Message if we want to customize this further more
 
-	const item = { text: ticket.description, sender: getDecodedJwtToken().name };
+	const sender = isCustomer()? getDecodedJwtToken().name : `${ticket.customer.name} ${ticket.customer.surname}`
+	const item = { text: ticket.description, sender: sender };
 
-	return (
-		<Flex w="100%" justify="flex-end" alignItems={"center"} gap={2}>
-			<Flex
-				rounded={"xl"}
-				bg="blue.300"
-				color="white"
-				minW="100px"
-				maxW="350px"
-				my="1"
-				p="3">
-				<Text>{item.text}</Text>
+
+		return (
+			<Flex w="100%" gap={2} alignItems={"center"}>
+				{ isExpert() && <Avatar name={item.sender} size={"sm"}></Avatar> }
+				<Flex direction={"column"} alignItems={"flex-start"}> 
+					<Flex
+						rounded={"xl"}
+						bg={isExpert()? "gray.100" : "blue.300"}
+						color={isExpert()? "black" : "white"}
+						minW="100px"
+						maxW="350px"
+						my="1"
+						p="3">
+						<Text>{item.text}</Text>
+					</Flex>
+					{ isCustomer() && <Avatar name={item.sender} size={"sm"}></Avatar> }
+					
+				</Flex>
 			</Flex>
-			<Avatar name={item.sender} size={"sm"}></Avatar>
-		</Flex>
-	);
+		);
+	
+
+	
 }
 
 function SenderMessage({ item, me }) {
