@@ -12,7 +12,6 @@ import {
 	HStack,
 	Flex,
 	Tooltip,
-    Tag
 } from "@chakra-ui/react";
 
 import { ticketsAPI } from "../../api/API";
@@ -22,7 +21,7 @@ import { Status } from "../Status";
 
 import Select, { components } from "react-select";
 
-function ChangeStatusModal({ ticket, type }) {
+function ChangeStatusModal({ ticket }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [selectedStatus, setSelectedStatus] = useState(ticket.status.status);
 	const [isOperationAllowed, setIsOperationAllowed] = useState(false);
@@ -44,12 +43,12 @@ function ChangeStatusModal({ ticket, type }) {
 				return "#38a169";
 			case "REOPENED":
 				return "#845cd4";
-            case "HIGH":
-                return "red";
-            case "MEDIUM":
-                return "#dca63e";
-            case "LOW":
-                return "#38a169";
+			case "HIGH":
+				return "red";
+			case "MEDIUM":
+				return "#dca63e";
+			case "LOW":
+				return "#38a169";
 			default:
 				return "white";
 		}
@@ -76,12 +75,6 @@ function ChangeStatusModal({ ticket, type }) {
 		{ value: "REOPENED", label: "REOPENED" },
 	];
 
-    const priorityOptions = [
-        { value: "HIGH", label: "HIGH" },
-        { value: "MEDIUM", label: "MEDIUM" },
-        { value: "LOW", label: "LOW" },
-    ];
-
 	const statesGraph = {
 		OPEN: ["CLOSED", "IN_PROGRESS", "RESOLVED"],
 		CLOSED: ["REOPENED"],
@@ -95,29 +88,17 @@ function ChangeStatusModal({ ticket, type }) {
 	}
 
 	const handleChange = (selectedOption) => {
-        if(type === "status") {
-            if (isValidTransition(ticket.status.status, selectedOption.label)) {
-                setIsOperationAllowed(true);
-                setMessage("");
-            } else {
-                setIsOperationAllowed(false);
-                setMessage(
-                    `Can't change from ${ticket.status.status.replace("_", " ")} to ${
-                        selectedOption.label
-                    }`
-                );
-            }
-        }
-        else {
-            if(selectedOption.label === ticket.priority) {
-                setIsOperationAllowed(false);
-                setMessage("Can't change to the same priority");
-            }
-            else {
-                setIsOperationAllowed(true);
-                setMessage("");
-            }
-        }
+		if (isValidTransition(ticket.status.status, selectedOption.label)) {
+			setIsOperationAllowed(true);
+			setMessage("");
+		} else {
+			setIsOperationAllowed(false);
+			setMessage(
+				`Can't change from ${ticket.status.status.replace("_", " ")} to ${
+					selectedOption.label
+				}`
+			);
+		}
 		setSelectedStatus(selectedOption.value);
 	};
 
@@ -140,19 +121,12 @@ function ChangeStatusModal({ ticket, type }) {
 
 	const handleClick = async () => {
 		try {
-            if (type === "status") {
-                await ticketsAPI.changeTicketStatus(
-                    ticket.id,
-                    formatForUrl(selectedStatus)
-                );
-            }
-            else {
-                await ticketsAPI.changeTicketPriority(
-                    ticket.id,
-                    formatForUrl(selectedStatus)
-                );
-            }
-			toast.success(`Ticket ${type} changed successfully!`);
+			await ticketsAPI.changeTicketStatus(
+				ticket.id,
+				formatForUrl(selectedStatus)
+			);
+
+			toast.success(`Ticket status changed successfully to ${selectedStatus}!`);
 			window.location.reload();
 		} catch (error) {
 			toast.error(error.detail);
@@ -162,13 +136,7 @@ function ChangeStatusModal({ ticket, type }) {
 	return (
 		<>
 			<Button onClick={onOpen} variant={"outline"}>
-                {type === "priority" && ticket.priority !== null ? (
-                    <Status status={ticket.priority} />
-                ) : type === "status" ? (
-                    <Status status={ticket.status.status || "OPEN"} />
-                ) : type==="priority" && !ticket.priority ? (
-                    "-"
-                ) : ("aaa")}
+				<Status status={ticket.status.status || "OPEN"} />
 			</Button>
 
 			<Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -179,12 +147,13 @@ function ChangeStatusModal({ ticket, type }) {
 					<ModalBody>
 						<Flex flexDirection={"column"} gap={3}>
 							<HStack>
-								<Text fontWeight={"bold"}>Current {type}:</Text>
-								{type==="status" ? (<Status status={ticket.status.status || "OPEN"} />) : (<Status status={ticket.priority}/>)}
+								<Text fontWeight={"bold"}>Current status:</Text>
+
+								<Status status={ticket.status.status || "OPEN"} />
 							</HStack>
 							<Select
 								onChange={handleChange}
-								options={type==="status" ? statusOptions : priorityOptions}
+								options={statusOptions}
 								styles={customStyles}
 								components={{ Control }}
 							/>

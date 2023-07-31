@@ -26,6 +26,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import * as converters from "../utils/converters";
+import dayjs from "dayjs";
 //import { useOutletContext } from "react-router-dom";
 
 function PaymentView() {
@@ -70,6 +71,9 @@ function PaymentView() {
 			endOfWarranty,
 			newExpiringRange
 		);
+
+		console.log(endOfWarranty);
+		console.log(newDate);
 
 		try {
 			/* Here there should be a POST request for the actual payment, but we skip this step */
@@ -215,8 +219,8 @@ function PaymentView() {
 									placeholder="Year"
 									onChange={(event) => setCardExpiringYear(event.target.value)}
 									value={cardExpiringYear}>
-									{yearsArray.map((year) => (
-										<option>{year}</option>
+									{yearsArray.map((year, key) => (
+										<option key={key}>{year}</option>
 									))}
 								</Select>
 							</FormControl>
@@ -268,7 +272,7 @@ function ProductSummary({ product, dateOfPurchase, endOfWarranty }) {
 						<HStack>
 							<CalendarIcon />{" "}
 							<Text as={"span"} fontWeight={"normal"}>
-								{dateOfPurchase}
+								{dayjs(dateOfPurchase).format("D MMM YYYY")}
 							</Text>
 						</HStack>
 					</Text>
@@ -279,7 +283,7 @@ function ProductSummary({ product, dateOfPurchase, endOfWarranty }) {
 							<Center w={"full"} gap={2}>
 								<CalendarIcon color={"red.500"} />{" "}
 								<Text as={"span"} color={"red.500"}>
-									{endOfWarranty}
+									{dayjs(endOfWarranty).format("D MMM YYYY")}
 								</Text>
 							</Center>
 						</HStack>

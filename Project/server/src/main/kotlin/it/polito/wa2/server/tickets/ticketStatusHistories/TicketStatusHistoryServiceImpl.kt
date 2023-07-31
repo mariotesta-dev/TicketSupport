@@ -1,5 +1,6 @@
 package it.polito.wa2.server.tickets.ticketStatusHistories
 
+import it.polito.wa2.server.messages.toDTO
 import it.polito.wa2.server.tickets.Ticket
 import it.polito.wa2.server.tickets.TicketExceptions
 import it.polito.wa2.server.tickets.TicketRepository
@@ -27,10 +28,11 @@ class TicketStatusHistoryServiceImpl(
         val jwt = SecurityContextHolder.getContext().authentication as JwtAuthenticationToken
         val u = jwt.principal as Jwt
 
-        if(u.getClaim<String>("email") != ticket.assignedTo?.email) {
-            throw TicketExceptions.TicketNotOwnedException("You are not authorized to change the status of this ticket")
+        if(!u.getClaim<Map<String, List<String>>>("realm_access")["roles"]?.contains("manager")!!) {
+            if (u.getClaim<String>("email") != ticket.assignedTo?.email) {
+                throw TicketExceptions.TicketNotOwnedException("You are not authorized to change the status of this ticket")
+            }
         }
-
         if (!isValidTransition(last, next)){
             throw TicketStatusHistoryExceptions.UncompatibleHistoryException("Can't go from $last to $next")
         }

@@ -2,12 +2,10 @@ import {
 	Modal,
 	ModalOverlay,
 	ModalContent,
-	ModalHeader,
 	ModalFooter,
 	ModalBody,
 	ModalCloseButton,
 	Button,
-	Flex,
 	useDisclosure,
 	Icon,
 	Input,
@@ -82,7 +80,7 @@ export function AddPurchaseModal({ isOpen, onOpen, onClose, product }) {
 				navigate(0); //to force refresh
 			}, 500);
 		} catch (error) {
-			toast.error(error.details);
+			toast.error(error.detail);
 		}
 		setLoading(false);
 	};

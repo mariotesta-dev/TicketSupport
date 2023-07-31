@@ -10,10 +10,9 @@ import {
 	Divider,
 	Text,
 	Flex,
-	Tooltip,
 } from "@chakra-ui/react";
 import * as converters from "../../utils/converters";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PrimaryButton from "../PrimaryButton";
 import Pagination from "../Pagination";
 import TicketsTableExpertField from "./TicketsTableExpertField";
@@ -22,42 +21,11 @@ import Chat from "../Chat";
 import History from "../history/History";
 import ChangeStatusModal from "./ChangeStatusModal";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import Priority from "./Priority";
 
 function TicketsTable({ tickets, filter, role }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
-	const [sortOrder, setSortOrder] = useState("asc"); // "asc" for ascending, "desc" for descending
-  const [sortColumn, setSortColumn] = useState(""); // Column to sort by
-
-  const handleSortByPriority = () => {
-    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(newSortOrder);
-    setSortColumn("priority");
-
-    // Define a custom sorting order for the priorities
-    const priorityOrder = ["LOW", "MEDIUM", "HIGH"];
-
-    // Sort the tickets array based on the priority and sort order
-    const sortedTickets = [...tickets].sort((a, b) => {
-      const aPriorityIndex = priorityOrder.indexOf(a.priority);
-      const bPriorityIndex = priorityOrder.indexOf(b.priority);
-
-      if (newSortOrder === "asc") {
-        return aPriorityIndex - bPriorityIndex;
-      } else {
-        return bPriorityIndex - aPriorityIndex;
-      }
-    });
-
-    // Set the sorted tickets to the paginatedTickets state
-    setPaginatedTickets(sortedTickets);
-  };
-
-  const renderSortIcon = () => {
-    if (sortColumn === "priority") {
-      return sortOrder === "asc" ? <TriangleUpIcon /> : <TriangleDownIcon />;
-    }
-    return null;
-  };
+	const [sortColumn, setSortColumn] = useState(""); // Column to sort by
 
 	return (
 		<Flex flexGrow={1} overflow={"auto"}>
@@ -107,9 +75,21 @@ function TicketsTable({ tickets, filter, role }) {
 								)}
 								<Th textAlign={"center"}>Status</Th>
 								{role.match("manager") && (
-								<Th onClick={handleSortByPriority} textAlign={"center"}>Priority {renderSortIcon()}</Th>
+									<ThSorting
+										label={"Priority"}
+										sortColumn={sortColumn}
+										setSortColumn={setSortColumn}
+										tickets={tickets}
+										setPaginatedTickets={setPaginatedTickets}
+									/>
 								)}
-								<Th textAlign={"center"}>Last Update</Th>
+								<ThSorting
+									label={"Last Update"}
+									sortColumn={sortColumn}
+									setSortColumn={setSortColumn}
+									tickets={tickets}
+									setPaginatedTickets={setPaginatedTickets}
+								/>
 								<Th textAlign={"center"}></Th>
 							</Tr>
 						</Thead>
@@ -165,17 +145,16 @@ function TicketsTable({ tickets, filter, role }) {
 										)}
 										<Td textAlign={"center"}>
 											{role.match("manager") ? (
-												<ChangeStatusModal ticket={ticket} type={"status"} />
+												<ChangeStatusModal ticket={ticket} />
 											) : (
 												<Status status={ticket.status.status || "OPEN"} />
 											)}
 										</Td>
-										{role.match("manager") && ticket.priority && (<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
-											<ChangeStatusModal ticket={ticket} type={"priority"}/>
-										</Td>) }
-										{role.match("manager") && !ticket.priority && (<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
-											<ChangeStatusModal ticket={ticket} type={"priority"}/>
-										</Td>)}
+										{role.match("manager") && (
+											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
+												<Priority ticket={ticket} />
+											</Td>
+										)}
 										<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
 											{converters.formatDateTime(ticket.status.updatedAt) ||
 												converters.formatDateTime(ticket.createdAt)}
@@ -195,6 +174,115 @@ function TicketsTable({ tickets, filter, role }) {
 				</TableContainer>
 			</Stack>
 		</Flex>
+	);
+}
+
+function ThSorting({
+	label,
+	sortColumn,
+	setSortColumn,
+	tickets,
+	setPaginatedTickets,
+}) {
+	const [sortAsc, setSortAsc] = useState(true); // "asc" for ascending, "desc" for descending
+
+	const _sortTicketsByPriority = (isAsc) => {
+		const mapPriority = (priority) => {
+			switch (priority) {
+				case "HIGH":
+					return 3;
+				case "MEDIUM":
+					return 2;
+				case "LOW":
+					return 1;
+				default:
+					return 0;
+			}
+		};
+
+		let sortedTickets = [...tickets].sort((a, b) => {
+			return mapPriority(a.priority) - mapPriority(b.priority);
+		});
+
+		setPaginatedTickets(isAsc ? sortedTickets : sortedTickets.reverse());
+	};
+
+	const _sortTicketsByLastUpdate = (isAsc) => {
+		let sortedTickets = [...tickets].sort((a, b) => {
+			return new Date(a.status.updatedAt) - new Date(b.status.updatedAt);
+		});
+		setPaginatedTickets(isAsc ? sortedTickets : sortedTickets.reverse());
+	};
+
+	const sortTicketsByPriority = useCallback(_sortTicketsByPriority, [
+		tickets,
+		setPaginatedTickets,
+	]);
+	const sortTicketsByLastUpdate = useCallback(_sortTicketsByLastUpdate, [
+		tickets,
+		setPaginatedTickets,
+	]);
+
+	const _handleSortBy = (label) => {
+		setSortAsc((prev) => !prev);
+		setSortColumn(label);
+
+		switch (label) {
+			case "Priority":
+				sortTicketsByPriority(sortAsc);
+				break;
+			case "Last Update":
+				sortTicketsByLastUpdate(sortAsc);
+				break;
+			default:
+				break;
+		}
+	};
+
+	const handleSortBy = useCallback(_handleSortBy, [
+		setSortColumn,
+		sortAsc,
+		sortTicketsByLastUpdate,
+		sortTicketsByPriority,
+	]);
+
+	useEffect(() => {
+		if (sortColumn === label) {
+			switch (label) {
+				case "Priority":
+					sortTicketsByPriority(sortAsc);
+					break;
+				case "Last Update":
+					sortTicketsByLastUpdate(sortAsc);
+					break;
+				default:
+					break;
+			}
+		}
+	}, [
+		tickets,
+		sortColumn,
+		label,
+		sortAsc,
+		sortTicketsByLastUpdate,
+		sortTicketsByPriority,
+	]);
+
+	const renderSortIcon = () => {
+		if (sortColumn === label) {
+			return !sortAsc ? <TriangleUpIcon /> : <TriangleDownIcon />;
+		}
+		return null;
+	};
+
+	return (
+		<Th
+			onClick={() => handleSortBy(label)}
+			textAlign={"center"}
+			cursor={"pointer"}
+			textColor={sortColumn === label ? "blue.400" : "gray.600"}>
+			{label} {renderSortIcon()}
+		</Th>
 	);
 }
 

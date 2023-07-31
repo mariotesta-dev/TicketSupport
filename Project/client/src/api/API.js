@@ -110,15 +110,12 @@ const getTicketHistory = async (ticketId) => {
 		authenticated: true,
 	});
 
-	console.log(messages, statusList);
-
 	const data = new History(messages, statusList);
 
 	return data.getHistory();
 };
 
 const sendMessage = async (message) => {
-	console.log(message);
 	const data = await rest.post({
 		endpoint: "/messages",
 		body: message,

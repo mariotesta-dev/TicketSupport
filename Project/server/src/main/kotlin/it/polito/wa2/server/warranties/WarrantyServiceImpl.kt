@@ -50,6 +50,10 @@ class WarrantyServiceImpl(private val warrantyRepository: WarrantyRepository, pr
         val response = productRepository.findById(warranty.product!!.ean).orElse(null)
             ?: throw ProductExceptions.ProductNotFoundException("Product with ean ${warranty.product?.ean} not found")
 
+        if(response.warranty != null){
+            throw WarrantyExceptions.WarrantyInvalid("Product with ${response.ean} has already been purchased")
+        }
+
         if(!warranty.endOfWarranty.isAfter(warranty.dateOfPurchase))
         {
             throw WarrantyExceptions.WarrantyInvalid("End of warranty has to be after date of purchase")

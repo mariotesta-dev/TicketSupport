@@ -15,8 +15,10 @@ import { useEffect, useState } from "react";
 import { managersAPI } from "../../api/API";
 import toast from "react-hot-toast";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 function TicketsTableExpertField({ ticket }) {
+	const navigate = useNavigate();
 	const [experts, setExperts] = useState([]);
 	const [selectedExpert, setSelectedExpert] = useState(
 		ticket.assignedTo != null
@@ -68,12 +70,20 @@ function TicketsTableExpertField({ ticket }) {
 		onClose();
 	};
 
-	const assignExpert = () => {
+	const assignExpert = async () => {
+		if (!selectedExpert) {
+			toast.error("Please select an expert");
+			return;
+		}
+
 		try {
-			managersAPI.assignTicketToExpert(ticket.id, selectedExpert.id, priority);
+			await managersAPI.assignTicketToExpert(
+				ticket.id,
+				selectedExpert.id,
+				priority
+			);
 			toast.success("Expert assigned successfully");
-			ticket.assignedTo = selectedExpert;
-			ticket.priority = priority;
+			navigate(0);
 		} catch (error) {
 			toast.error("Unable to assign expert");
 		}
@@ -99,8 +109,8 @@ function TicketsTableExpertField({ ticket }) {
 								placeholder="Search for an expert..."
 								options={experts}
 								onChange={handleExpertSelect}
-								label="Single select"
 							/>
+
 							<Select
 								placeholder="Choose a priority..."
 								options={priorityOptions}

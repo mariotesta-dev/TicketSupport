@@ -145,14 +145,10 @@ function ProductsTable({ products, filter, role }) {
 													state={{
 														product: product,
 														endOfWarranty: product.warranty
-															? converters.formatDateTime(
-																	product.warranty.endOfWarranty
-															  )
+															? product.warranty.endOfWarranty
 															: "-",
 														dateOfPurchase: product.warranty
-															? converters.formatDateTime(
-																	product.warranty.dateOfPurchase
-															  )
+															? product.warranty.dateOfPurchase
 															: "-",
 													}}>
 													<Button size={"sm"} colorScheme="blue">
