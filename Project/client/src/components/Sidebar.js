@@ -12,6 +12,7 @@ import Ticket from "../entities/Tickets";
 import { getUserRole } from "../utils/SessionUtils";
 import { useCallback, useEffect, useState } from "react";
 import { SearchIcon } from "@chakra-ui/icons";
+import Expert from "../entities/Expert";
 
 function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 	const role = getUserRole();
@@ -30,6 +31,8 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 				return Product.PRODUCT_ITEMS;
 			case "tickets":
 				return Ticket.TICKET_ITEMS;
+			case "experts":
+				return Expert.EXPERT_ITEMS;
 			default:
 				return [];
 		}
@@ -43,6 +46,8 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 				return Product.productsCallbacks.doSwitch(filter, data, searchValue);
 			case "tickets":
 				return Ticket.ticketsCallbacks.doSwitch(filter, data, searchValue);
+			case "experts":
+				return Expert.expertsCallbacks.doSwitch(filter, data, searchValue);
 			default:
 				return null;
 		}

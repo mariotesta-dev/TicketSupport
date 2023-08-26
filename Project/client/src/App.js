@@ -15,6 +15,8 @@ import ProductsDashboard from "./views/ProductsDashboard";
 import NewProduct from "./views/NewProduct";
 import PaymentView from "./views/PaymentView";
 import CreateProduct from "./views/CreateProduct";
+import ExpertsTable from "./components/experts/ExpertsTable";
+import ExpertDashboard from "./views/ExpertDashboard";
 
 const router = createBrowserRouter([
 	{
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
 			{
 				path: "warranty/:ean/payment",
 				element: <PaymentView />,
+			},
+			{
+				path: "experts",
+				element: <ExpertDashboard />,
 			},
 		],
 	},
