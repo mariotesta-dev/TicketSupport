@@ -183,6 +183,16 @@ const createProduct = async (productInsertion) => {
 	return data;
 };
 
+const createExpert = async (expertInsertion) => {
+	const data = await rest.post({
+		endpoint: "/experts",
+		body: expertInsertion,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 const subscribeProduct = async (ean, userId) => {
 	const data = await rest.put({
 		endpoint: `/warranties/${ean}/subscribe`,
@@ -229,7 +239,12 @@ export const warrantiesAPI = {
 
 export const usersAPI = { getCustomer, getExpert, getManager, updateCustomer };
 
-export const managersAPI = { getAllExpertsByExpertise, assignTicketToExpert, getAllExperts};
+export const managersAPI = {
+	getAllExpertsByExpertise,
+	assignTicketToExpert,
+	getAllExperts,
+	createExpert,
+};
 
 export const ticketsAPI = {
 	createNewTicket,

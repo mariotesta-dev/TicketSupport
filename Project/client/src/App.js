@@ -16,6 +16,7 @@ import NewProduct from "./views/NewProduct";
 import PaymentView from "./views/PaymentView";
 import CreateProduct from "./views/CreateProduct";
 import ExpertDashboard from "./views/ExpertDashboard";
+import NewExpert from "./views/NewExpert";
 
 const router = createBrowserRouter([
 	{
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
 			{
 				path: "experts",
 				element: <ExpertDashboard />,
+			},
+			{
+				path: "experts/new",
+				element: <NewExpert />,
 			},
 		],
 	},
