@@ -24,7 +24,7 @@ import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import Priority from "./Priority";
 import * as session from "../../utils/SessionUtils.js";
 
-function TicketsTable({ tickets, filter }) {
+function TicketsTable({ tickets, filter, role }) {
 	const [paginatedTickets, setPaginatedTickets] = useState();
 	const [sortColumn, setSortColumn] = useState(""); // Column to sort by
 
@@ -39,9 +39,11 @@ function TicketsTable({ tickets, filter }) {
 						<Text fontSize={"lg"} fontWeight={"bold"}>
 							{filter} tickets
 						</Text>
-						{session.isCustomer() && <PrimaryButton href={"/dashboard/tickets/new"}>
-							New Ticket
-						</PrimaryButton>}
+						{session.isCustomer() && (
+							<PrimaryButton href={"/dashboard/tickets/new"}>
+								New Ticket
+							</PrimaryButton>
+						)}
 					</Flex>
 
 					<Divider />
@@ -79,6 +81,7 @@ function TicketsTable({ tickets, filter }) {
 										tickets={tickets}
 										setPaginatedTickets={setPaginatedTickets}
 									/>
+
 									<Th textAlign={"center"}></Th>
 								</Tr>
 							</Thead>
@@ -124,17 +127,22 @@ function TicketsTable({ tickets, filter }) {
 												color={"gray.500"}>
 												{ticket.summary}
 											</Td>
-											<Td textAlign={"center"} fontSize={"14"} color={"gray.500"}>
+											<Td
+												textAlign={"center"}
+												fontSize={"14"}
+												color={"gray.500"}>
 												{ticket.category}
 											</Td>
 
 											<Td textAlign={"center"}>
 												<Status status={ticket.status.status || "OPEN"} />
 											</Td>
+
 											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
 												{converters.formatDateTime(ticket.status.updatedAt) ||
 													converters.formatDateTime(ticket.createdAt)}
 											</Td>
+
 											<Td textAlign={"center"} width={20}>
 												<Flex direction={"row"} gap={3}>
 													<Chat ticket={ticket} />
@@ -199,13 +207,6 @@ function TicketsTable({ tickets, filter }) {
 										tickets={tickets}
 										setPaginatedTickets={setPaginatedTickets}
 									/>
-									<ThSorting
-										label={"Last Update"}
-										sortColumn={sortColumn}
-										setSortColumn={setSortColumn}
-										tickets={tickets}
-										setPaginatedTickets={setPaginatedTickets}
-									/>
 									<Th textAlign={"center"}></Th>
 								</Tr>
 							</Thead>
@@ -251,7 +252,10 @@ function TicketsTable({ tickets, filter }) {
 												color={"gray.500"}>
 												{ticket.summary}
 											</Td>
-											<Td textAlign={"center"} fontSize={"14"} color={"gray.500"}>
+											<Td
+												textAlign={"center"}
+												fontSize={"14"}
+												color={"gray.500"}>
 												{ticket.category}
 											</Td>
 											<Td textAlign={"center"}>
@@ -263,10 +267,7 @@ function TicketsTable({ tickets, filter }) {
 											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
 												<Priority ticket={ticket} />
 											</Td>
-											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
-												{converters.formatDateTime(ticket.status.updatedAt) ||
-													converters.formatDateTime(ticket.createdAt)}
-											</Td>
+
 											<Td textAlign={"center"} width={20}>
 												<Flex direction={"row"} gap={3}>
 													<History ticket={ticket} />

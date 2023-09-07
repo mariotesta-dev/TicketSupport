@@ -13,14 +13,9 @@ import {
 	Button,
 } from "@chakra-ui/react";
 
-import * as converters from "../../utils/converters";
 import React, { useState } from "react";
 import Pagination from "../Pagination";
-import Warranty from "../Warranty";
 import PrimaryButton from "../PrimaryButton";
-import { Link } from "react-router-dom";
-import AddPurchase from "../AddPurchaseModal";
-import dayjs from "dayjs";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Expertise } from "../Expertise";
 
@@ -37,9 +32,7 @@ function ExpertsTable({ experts, filter }) {
 					<Text fontSize={"lg"} fontWeight={"bold"}>
 						{filter} experts
 					</Text>
-					<PrimaryButton
-						href={"/dashboard/experts/new"}
-					>
+					<PrimaryButton href={"/dashboard/experts/new"}>
 						Add Expert
 					</PrimaryButton>
 				</Flex>
@@ -71,6 +64,7 @@ function ExpertsTable({ experts, filter }) {
 								<Th textAlign={"center"}>Surname</Th>
 								<Th textAlign={"center"}>Email</Th>
 								<Th textAlign={"center"}>Expertise</Th>
+								<Th></Th>
 							</Tr>
 						</Thead>
 						<Tbody>
@@ -88,27 +82,22 @@ function ExpertsTable({ experts, filter }) {
 									<Tr key={key}>
 										<Td textAlign={"center"}>{key + 1}</Td>
 										<Td textAlign={"center"} fontSize={15} color={"gray.500"}>
-											<Text>
-												{expert.name}
-											</Text>
+											<Text>{expert.name}</Text>
 										</Td>
 										<Td textAlign={"center"} fontSize={15} color={"gray.500"}>
 											<Text>{expert.surname}</Text>
 										</Td>
 										<Td textAlign={"center"} fontSize={15} color={"gray.500"}>
-											<Text>
-												{expert.email}
-											</Text>
+											<Text>{expert.email}</Text>
 										</Td>
 										<Td textAlign={"center"}>
-												<Expertise expertise={expert.expertise} />
+											<Expertise expertise={expert.expertise} />
 										</Td>
 										<Td>
 											<Button
 												leftIcon={<HamburgerIcon />}
 												size={"sm"}
-												colorScheme="gray"
-											>
+												colorScheme="gray">
 												Tickets
 											</Button>
 										</Td>

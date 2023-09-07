@@ -1,6 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Avatar, Center, CircularProgress, Flex, Text } from "@chakra-ui/react";
-import { getDecodedJwtToken, getUserRole, isCustomer, isExpert } from "../utils/SessionUtils";
+import {
+	Avatar,
+	Center,
+	CircularProgress,
+	Flex,
+	Text,
+	Tooltip,
+} from "@chakra-ui/react";
+import {
+	getDecodedJwtToken,
+	getUserRole,
+	isCustomer,
+	isExpert,
+} from "../utils/SessionUtils";
 import { ticketsAPI } from "../api/API";
 import { toast } from "react-hot-toast";
 import * as converters from "../utils/converters";
@@ -92,14 +104,33 @@ const Messages = ({ ticket, newMessageSent, setNewMessageSent }) => {
 function DescriptionMessage({ ticket }) {
 	// Duplicated of Message if we want to customize this further more
 
-	const sender = isCustomer() ? getDecodedJwtToken().name : `${ticket.customer.name} ${ticket.customer.surname}`
+	const sender = isCustomer()
+		? getDecodedJwtToken().name
+		: `${ticket.customer.name} ${ticket.customer.surname}`;
 	const item = { text: ticket.description, sender: sender };
 
-
 	return (
-		<Flex w="100%" gap={2} alignItems={"center"} justify={isCustomer() ? "flex-end" : "flex-start"}>
-			{isExpert() && <Avatar name={item.sender} size={"sm"}></Avatar>}
-			<Flex direction={"column"} alignItems={isCustomer() ? "flex-end" : "flex-start"}>
+		<Flex
+			w="100%"
+			gap={2}
+			alignItems={"center"}
+			justify={isCustomer() ? "flex-end" : "flex-start"}>
+			{isExpert() && (
+				<Tooltip
+					p={3}
+					rounded={"xl"}
+					textAlign={"center"}
+					placement="bottom"
+					hasArrow
+					label={item.sender}
+					bg="gray.100"
+					color="black">
+					<Avatar name={item.sender} size={"sm"}></Avatar>
+				</Tooltip>
+			)}
+			<Flex
+				direction={"column"}
+				alignItems={isCustomer() ? "flex-end" : "flex-start"}>
 				<Flex
 					rounded={"xl"}
 					bg={isExpert() ? "gray.100" : "blue.300"}
@@ -111,12 +142,21 @@ function DescriptionMessage({ ticket }) {
 					<Text>{item.text}</Text>
 				</Flex>
 			</Flex>
-			{isCustomer() && <Avatar name={item.sender} size={"sm"}></Avatar>}
+			{isCustomer() && (
+				<Tooltip
+					p={3}
+					rounded={"xl"}
+					textAlign={"center"}
+					placement="bottom"
+					hasArrow
+					label={item.sender}
+					bg="blue.100"
+					color="black">
+					<Avatar name={item.sender} size={"sm"}></Avatar>
+				</Tooltip>
+			)}
 		</Flex>
 	);
-
-
-
 }
 
 function SenderMessage({ item, me }) {
@@ -137,9 +177,19 @@ function SenderMessage({ item, me }) {
 					{converters.formatDateTime(item.sentAt)}
 				</Text>
 			</Flex>
-			<Avatar
-				name={me === "customer" ? item.customer : item.expert}
-				size={"sm"}></Avatar>
+			<Tooltip
+				p={3}
+				rounded={"xl"}
+				textAlign={"center"}
+				placement="bottom"
+				hasArrow
+				label={me === "customer" ? item.customer : item.expert}
+				bg="blue.100"
+				color="black">
+				<Avatar
+					name={me === "customer" ? item.customer : item.expert}
+					size={"sm"}></Avatar>
+			</Tooltip>
 		</Flex>
 	);
 }
@@ -147,9 +197,20 @@ function SenderMessage({ item, me }) {
 function ReceiverMessage({ item, me }) {
 	return (
 		<Flex w="100%" gap={2} alignItems={"center"}>
-			<Avatar
-				name={me === "customer" ? item.expert : item.customer}
-				size={"sm"}></Avatar>
+			<Tooltip
+				p={3}
+				rounded={"xl"}
+				textAlign={"center"}
+				placement="bottom"
+				hasArrow
+				label={me === "customer" ? item.expert : item.customer}
+				bg="gray.100"
+				color="black">
+				<Avatar
+					name={me === "customer" ? item.expert : item.customer}
+					size={"sm"}></Avatar>
+			</Tooltip>
+
 			<Flex direction={"column"} alignItems={"flex-start"}>
 				<Flex
 					rounded={"xl"}

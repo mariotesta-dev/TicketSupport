@@ -43,7 +43,7 @@ function TicketDashboard() {
 				setFilter={setFilter}
 				type="tickets"
 			/>
-			<TicketsTable tickets={filteredTickets} filter={filter}/>
+			<TicketsTable tickets={filteredTickets} filter={filter} role={role} />
 		</Flex>
 	);
 }

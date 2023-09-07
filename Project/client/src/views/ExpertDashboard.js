@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
-import TicketsTable from "../components/tickets/TicketsTable";
 import Sidebar from "../components/Sidebar";
 import { useOutletContext } from "react-router-dom";
 import * as session from "../utils/SessionUtils.js";
@@ -34,7 +33,7 @@ function ExpertDashboard() {
 				setFilter={setFilter}
 				type="experts"
 			/>
-			<ExpertsTable experts={filteredExperts} filter={filter}/>
+			<ExpertsTable experts={filteredExperts} filter={filter} />
 		</Flex>
 	);
 }

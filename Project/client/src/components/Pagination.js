@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 const Pagination = ({ filter, data, setCurrentData, currentData }) => {
 	const pageNumbers = [];
 	const [currentPage, setCurrentPage] = useState(1);
-	const dataPerPage = 10;
+	const dataPerPage = 6;
 
 	useEffect(() => {
 		const indexOfLastTicket = currentPage * dataPerPage;
@@ -19,7 +19,7 @@ const Pagination = ({ filter, data, setCurrentData, currentData }) => {
 
 	useEffect(() => {
 		if (currentData && currentData.length === 0) {
-			setCurrentPage(pageNumbers.length);
+			setCurrentPage(1);
 		}
 	}, [filter, currentData, pageNumbers.length]);
 

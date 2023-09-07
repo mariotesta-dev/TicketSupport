@@ -13,7 +13,6 @@ import {
 	Button,
 } from "@chakra-ui/react";
 
-import * as converters from "../../utils/converters";
 import React, { useState } from "react";
 import Pagination from "../Pagination";
 import Warranty from "../Warranty";
@@ -73,6 +72,7 @@ function ProductsTable({ products, filter, role }) {
 								<Th textAlign={"center"}>Date of purchase</Th>
 								<Th textAlign={"center"}>End of warranty</Th>
 								<Th textAlign={"center"}>Warranty</Th>
+								<Th></Th>
 								{role.match("customer") && <Th textAlign={"center"}></Th>}
 							</Tr>
 						</Thead>
