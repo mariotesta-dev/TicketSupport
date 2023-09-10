@@ -33,7 +33,8 @@ function NewProductCard() {
 
 	const navigate = useNavigate();
 
-	const handleSubscribeProduct = async () => {
+	const handleSubscribeProduct = async (e) => {
+		e.preventDefault();
 		setLoading(true);
 		try {
 			// TODO: We need a way to get warrantyId from the EAN!!!

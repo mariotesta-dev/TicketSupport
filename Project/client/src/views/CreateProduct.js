@@ -39,7 +39,8 @@ function NewTicketCard() {
 
 	const navigate = useNavigate();
 
-	const handleCreateProduct = async () => {
+	const handleCreateProduct = async (e) => {
+		e.preventDefault();
 		setLoading(true);
 		// TODO validation
 		try {
