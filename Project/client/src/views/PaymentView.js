@@ -23,14 +23,14 @@ import { CalendarIcon } from "@chakra-ui/icons";
 import Backbutton from "../components/Backbutton";
 import { warrantiesAPI } from "../api/API";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import * as converters from "../utils/converters";
 import dayjs from "dayjs";
 //import { useOutletContext } from "react-router-dom";
 
 function PaymentView() {
-	//const [user, setUser] = useOutletContext();
+	const [user, setUser] = useOutletContext();
 	const [newExpiringRange, setNewExpiringRange] = useState("");
 
 	const [loading, setLoading] = useState(false);
@@ -129,18 +129,20 @@ function PaymentView() {
 							placeholder="Select"
 							onChange={(event) => setNewExpiringRange(event.target.value)}
 							value={newExpiringRange}>
-							<option>6 Months</option>
-							<option>1 Year</option>
-							<option>2 Years</option>
-							<option>3 Years</option>
+							<option>6 Months - €19,99</option>
+							<option>1 Year - €34,99</option>
+							<option>2 Years - €49,99</option>
+							<option>3 Years - €79,99</option>
 						</Select>
 					</FormControl>
 					<Divider my={5} />
+					<FormLabel color={"blue.500"}>Payment information</FormLabel>
 					<FormControl id="address" isRequired>
 						<FormLabel>Street address</FormLabel>
 						<Input
+							disabled
 							type="address"
-							placeholder="1234 Malnati St"
+							placeholder="Corso Duca degli Abruzzi 24"
 							value={address}
 							onChange={(event) => setAddress(event.target.value)}
 						/>
@@ -150,6 +152,7 @@ function PaymentView() {
 							<FormControl id="zipcode" isRequired>
 								<FormLabel>Zip Code</FormLabel>
 								<Input
+									disabled
 									type="text"
 									placeholder="12345"
 									value={zipCode}
@@ -161,8 +164,9 @@ function PaymentView() {
 							<FormControl id="city">
 								<FormLabel>City</FormLabel>
 								<Input
+									disabled
 									type="text"
-									placeholder="Berlin"
+									placeholder="Turin"
 									value={city}
 									onChange={(event) => setCity(event.target.value)}
 								/>
@@ -172,8 +176,9 @@ function PaymentView() {
 					<FormControl id="email" isRequired>
 						<FormLabel>Email address</FormLabel>
 						<Input
+							disabled
 							type="email"
-							placeholder="you@example.com"
+							placeholder={user.email}
 							value={email}
 							onChange={(event) => setEmail(event.target.value)}
 						/>
@@ -183,6 +188,7 @@ function PaymentView() {
 							<FormControl id="creditCardNumber" isRequired>
 								<FormLabel>Credit card number</FormLabel>
 								<Input
+									disabled
 									type="text"
 									placeholder="4320-1234-5678-9012"
 									value={creditCardNumber}
@@ -194,8 +200,11 @@ function PaymentView() {
 							<FormControl>
 								<FormLabel color={"blue.500"}>Card expiration date</FormLabel>
 								<Select
-									placeholder="Month"
-									onChange={(event) => setCardExpiringMonth(event.target.value)}
+									disabled
+									placeholder="02"
+									onChange={(event) =>
+										setCardExpiringMonth(event.target.value) || ""
+									}
 									value={cardExpiringMonth}>
 									<option>01</option>
 									<option>02</option>
@@ -216,7 +225,8 @@ function PaymentView() {
 							<FormControl mt={8}>
 								<FormLabel></FormLabel>
 								<Select
-									placeholder="Year"
+									disabled
+									placeholder="2027"
 									onChange={(event) => setCardExpiringYear(event.target.value)}
 									value={cardExpiringYear}>
 									{yearsArray.map((year, key) => (
@@ -229,8 +239,9 @@ function PaymentView() {
 					<FormControl id="nameOnCard">
 						<FormLabel>Name on card</FormLabel>
 						<Input
+							disabled
 							type="text"
-							placeholder="John Doe"
+							placeholder={user.name + " " + user.surname}
 							value={nameOnCard}
 							onChange={(event) => setNameOnCard(event.target.value)}
 						/>
@@ -246,7 +257,9 @@ function PaymentView() {
 								bg: "blue.500",
 							}}
 							isLoading={loading}>
-							Pay
+							{newExpiringRange === ""
+								? "Pay"
+								: `Pay ${newExpiringRange.split(" ")[3]}`}
 						</Button>
 					</Stack>
 				</Stack>
