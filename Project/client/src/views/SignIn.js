@@ -75,7 +75,7 @@ function SimpleCard() {
 					p={8}>
 					<Stack spacing={4}>
 						<FormControl id="email">
-							<FormLabel>Email</FormLabel>
+							<FormLabel>Email or Username</FormLabel>
 							<Input
 								type="email"
 								value={username}
