@@ -20,10 +20,17 @@ class AuthController(private val authService: AuthService) {
     }
 
     @PostMapping("/auth/signup")
-    fun signup(@RequestBody customerRegistration: AuthData.CustomerRegistration) : ResponseEntity<String> {
+    fun signup(@RequestBody customerRegistration: AuthData.CustomerRegistration) : ResponseEntity<Any> {
         val log: Logger = LoggerFactory.getLogger("logger")
         log.info("received signup request, customerRegistration = {}.", customerRegistration);
         return authService.signup(customerRegistration)
+    }
+
+    @PostMapping("/auth/expert_signup")
+    fun expertSignup(@RequestBody expertRegistration: AuthData.ExpertRegistration) : ResponseEntity<Any> {
+        val log: Logger = LoggerFactory.getLogger("logger")
+        log.info("received signup request, expertRegistration = {}.", expertRegistration);
+        return authService.expertSignup(expertRegistration)
     }
 
 

@@ -53,6 +53,17 @@ const signUp = async (userInfo) => {
 	return data;
 };
 
+const signUpExpert = async (userInfo) => {
+	const data = await rest.post({
+		baseUrl: DOMAIN_URL,
+		endpoint: `/auth/expert_signup`,
+		body: userInfo,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 const getCustomer = async (email) => {
 	const data = await rest.get({
 		endpoint: `/customers/${email}`,
@@ -227,7 +238,7 @@ const changeTicketPriority = async (ticketId, priority) => {
 	return data;
 };
 
-export const authAPI = { login, signUp };
+export const authAPI = { login, signUp, signUpExpert };
 
 export const productsAPI = { getProducts, getProduct, createProduct };
 

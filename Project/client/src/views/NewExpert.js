@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
-import { managersAPI } from "../api/API";
+import { authAPI } from "../api/API";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +39,7 @@ function NewExpertCard() {
 		setLoading(true);
 		// TODO validation
 		try {
-			await managersAPI.createExpert({
+			await authAPI.signUpExpert({
 				username: username,
 				password: password,
 				email: email,
@@ -52,7 +52,7 @@ function NewExpertCard() {
 			setInterval(() => {
 				navigate("/dashboard/experts");
 				navigate(0); //to force refresh
-			}, 500);
+			}, 1000);
 		} catch (error) {
 			toast.error(error.detail);
 		}
