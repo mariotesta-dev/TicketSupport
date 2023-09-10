@@ -70,87 +70,89 @@ function NewTicketCard() {
 	return (
 		<Center height={"full"} width={"full"}>
 			<Backbutton href="/dashboard/tickets" />
-			<Stack spacing={8} mx={"auto"} maxW={"lg"} mb={10} py={12} px={6}>
-				<Stack align={"center"}>
-					<Heading fontSize={"4xl"} textAlign={"center"}>
-						Create a new ticket
-					</Heading>
-				</Stack>
-				<Box
-					rounded={"lg"}
-					bg={useColorModeValue("white", "gray.700")}
-					boxShadow={"lg"}
-					p={8}>
-					<Stack spacing={4}>
-						<HStack>
-							<Box>
-								<FormControl w="60">
-									<FormLabel>Product</FormLabel>
-									<Select
-										placeholder="Select a product"
-										onChange={(event) =>
-											handleProductSelection(event.target.value)
-										}>
-										{user.warranties.map((warranty) => (
-											<option key={warranty.product.ean}>
-												{warranty.product.name}
-											</option>
-										))}
-									</Select>
-								</FormControl>
-							</Box>
-							<Box>
-								<FormControl id="category">
-									<FormLabel>Category</FormLabel>
-									<Select
-										placeholder="Select a category"
-										onChange={(event) => setCategory(event.target.value)}>
-										<option>INFORMATION</option>
-										<option>HARDWARE</option>
-										<option>MAINTENANCE</option>
-										<option>NETWORK</option>
-										<option>SOFTWARE</option>
-										<option>PAYMENT_ISSUES</option>
-										<option>BUG_REPORTS</option>
-										<option>OTHER</option>
-									</Select>
-								</FormControl>
-							</Box>
-						</HStack>
-						<FormControl id="summary" isRequired>
-							<FormLabel>Summary</FormLabel>
-							<Input
-								placeholder="Describe your problem in few words"
-								type="text"
-								value={summary}
-								onChange={(event) => setSummary(event.target.value)}
-							/>
-						</FormControl>
-						<FormControl id="description" isRequired>
-							<FormLabel>Description</FormLabel>
-							<Textarea
-								placeholder="Insert a description of your problem here"
-								value={description}
-								onChange={(event) => setDescription(event.target.value)}
-							/>
-						</FormControl>
-						<Stack spacing={10} pt={2}>
-							<Button
-								loadingText="Submitting"
-								size="lg"
-								bg={"blue.400"}
-								color={"white"}
-								_hover={{
-									bg: "blue.500",
-								}}
-								onClick={() => handleCreateTicket()}
-								isLoading={loading}>
-								Create a ticket
-							</Button>
-						</Stack>
+			<form onSubmit={handleCreateTicket}>
+				<Stack spacing={8} mx={"auto"} maxW={"lg"} mb={10} py={12} px={6}>
+					<Stack align={"center"}>
+						<Heading fontSize={"4xl"} textAlign={"center"}>
+							Create a new ticket
+						</Heading>
 					</Stack>
-				</Box>
-			</Stack>
+					<Box
+						rounded={"lg"}
+						bg={useColorModeValue("white", "gray.700")}
+						boxShadow={"lg"}
+						p={8}>
+						<Stack spacing={4}>
+							<HStack>
+								<Box>
+									<FormControl w="60" isRequired>
+										<FormLabel>Product</FormLabel>
+										<Select
+											placeholder="Select a product"
+											onChange={(event) =>
+												handleProductSelection(event.target.value)
+											}>
+											{user.warranties.map((warranty) => (
+												<option key={warranty.product.ean}>
+													{warranty.product.name}
+												</option>
+											))}
+										</Select>
+									</FormControl>
+								</Box>
+								<Box>
+									<FormControl id="category" isRequired>
+										<FormLabel>Category</FormLabel>
+										<Select
+											placeholder="Select a category"
+											onChange={(event) => setCategory(event.target.value)}>
+											<option>INFORMATION</option>
+											<option>HARDWARE</option>
+											<option>MAINTENANCE</option>
+											<option>NETWORK</option>
+											<option>SOFTWARE</option>
+											<option>PAYMENT_ISSUES</option>
+											<option>BUG_REPORTS</option>
+											<option>OTHER</option>
+										</Select>
+									</FormControl>
+								</Box>
+							</HStack>
+							<FormControl id="summary" isRequired>
+								<FormLabel>Summary</FormLabel>
+								<Input
+									placeholder="Describe your problem in few words"
+									type="text"
+									value={summary}
+									onChange={(event) => setSummary(event.target.value)}
+								/>
+							</FormControl>
+							<FormControl id="description" isRequired>
+								<FormLabel>Description</FormLabel>
+								<Textarea
+									placeholder="Insert a description of your problem here"
+									value={description}
+									onChange={(event) => setDescription(event.target.value)}
+								/>
+							</FormControl>
+							<Stack spacing={10} pt={2}>
+								<Button
+									type="submit"
+									loadingText="Submitting"
+									size="lg"
+									bg={"blue.400"}
+									color={"white"}
+									_hover={{
+										bg: "blue.500",
+									}}
+									isLoading={loading}>
+									Create a ticket
+								</Button>
+							</Stack>
+						</Stack>
+					</Box>
+				</Stack>
+			</form>
 		</Center>
 	);
 }

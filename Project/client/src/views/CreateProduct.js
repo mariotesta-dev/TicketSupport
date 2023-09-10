@@ -63,71 +63,73 @@ function NewTicketCard() {
 	return (
 		<Center height={"full"} width={"full"}>
 			<Backbutton href="/dashboard/products" />
-			<Stack spacing={8} mx={"auto"} maxW={"lg"} mb={10} py={12} px={6}>
-				<Stack align={"center"}>
-					<Heading fontSize={"4xl"} textAlign={"center"}>
-						Add new product(s)
-					</Heading>
-				</Stack>
-				<Box
-					rounded={"lg"}
-					bg={useColorModeValue("white", "gray.700")}
-					boxShadow={"lg"}
-					p={8}>
-					<Stack spacing={4}>
-						<Box>
-							<FormControl id="category" isRequired>
-								<FormLabel>Name</FormLabel>
-								<Input
-									placeholder="Name of the product"
-									type="text"
-									value={name}
-									onChange={(event) => setName(event.target.value)}
-								/>
-							</FormControl>
-						</Box>
-						<HStack>
-							<FormControl id="summary" isRequired>
-								<FormLabel>Brand</FormLabel>
-								<Input
-									placeholder="Brand"
-									type="text"
-									value={brand}
-									onChange={(event) => setBrand(event.target.value)}
-								/>
-							</FormControl>
-							<FormControl>
-								<FormLabel>Quantity</FormLabel>
-								<NumberInput
-									min={1}
-									max={20}
-									value={quantity}
-									onChange={(val) => setQuantity(val)}>
-									<NumberInputField />
-									<NumberInputStepper>
-										<NumberIncrementStepper />
-										<NumberDecrementStepper />
-									</NumberInputStepper>
-								</NumberInput>
-							</FormControl>
-						</HStack>
-						<Stack spacing={10} pt={2}>
-							<Button
-								loadingText="Submitting"
-								size="lg"
-								bg={"blue.400"}
-								color={"white"}
-								_hover={{
-									bg: "blue.500",
-								}}
-								onClick={() => handleCreateProduct()}
-								isLoading={loading}>
-								Add to catalogue
-							</Button>
-						</Stack>
+			<form onSubmit={handleCreateProduct}>
+				<Stack spacing={8} mx={"auto"} maxW={"lg"} mb={10} py={12} px={6}>
+					<Stack align={"center"}>
+						<Heading fontSize={"4xl"} textAlign={"center"}>
+							Add new product(s)
+						</Heading>
 					</Stack>
-				</Box>
-			</Stack>
+					<Box
+						rounded={"lg"}
+						bg={useColorModeValue("white", "gray.700")}
+						boxShadow={"lg"}
+						p={8}>
+						<Stack spacing={4}>
+							<Box>
+								<FormControl id="product_name" isRequired>
+									<FormLabel>Name</FormLabel>
+									<Input
+										placeholder="Name of the product"
+										type="text"
+										value={name}
+										onChange={(event) => setName(event.target.value)}
+									/>
+								</FormControl>
+							</Box>
+							<HStack>
+								<FormControl id="brand" isRequired>
+									<FormLabel>Brand</FormLabel>
+									<Input
+										placeholder="Brand"
+										type="text"
+										value={brand}
+										onChange={(event) => setBrand(event.target.value)}
+									/>
+								</FormControl>
+								<FormControl isRequired>
+									<FormLabel>Quantity</FormLabel>
+									<NumberInput
+										min={1}
+										max={20}
+										value={quantity}
+										onChange={(val) => setQuantity(val)}>
+										<NumberInputField />
+										<NumberInputStepper>
+											<NumberIncrementStepper />
+											<NumberDecrementStepper />
+										</NumberInputStepper>
+									</NumberInput>
+								</FormControl>
+							</HStack>
+							<Stack spacing={10} pt={2}>
+								<Button
+									type="submit"
+									loadingText="Submitting"
+									size="lg"
+									bg={"blue.400"}
+									color={"white"}
+									_hover={{
+										bg: "blue.500",
+									}}
+									isLoading={loading}>
+									Add to catalogue
+								</Button>
+							</Stack>
+						</Stack>
+					</Box>
+				</Stack>
+			</form>
 		</Center>
 	);
 }

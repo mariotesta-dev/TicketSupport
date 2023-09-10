@@ -38,6 +38,11 @@ function NewProductCard() {
 		try {
 			// TODO: We need a way to get warrantyId from the EAN!!!
 
+			if (ean.replace(/\s/g, "").length !== 13) {
+				const error = { detail: "Invalid EAN" };
+				throw error;
+			}
+
 			await warrantiesAPI.subscribeProduct(ean, user.id);
 			toast.success("Product added successfully");
 
