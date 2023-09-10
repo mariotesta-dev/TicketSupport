@@ -72,12 +72,16 @@ function PaymentView() {
 			newExpiringRange
 		);
 
-		console.log(endOfWarranty);
-		console.log(newDate);
-
 		try {
 			/* Here there should be a POST request for the actual payment, but we skip this step */
+
+			if (newExpiringRange === "") {
+				const error = { detail: "Please select a valid extension option" };
+				throw error;
+			}
+
 			await warrantiesAPI.extendWarranty(product.ean, newDate);
+
 			toast.success("Payment successful");
 			setInterval(() => {
 				navigate("/dashboard/products");

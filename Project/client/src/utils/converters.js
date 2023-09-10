@@ -5,22 +5,21 @@ function formatDateTime(dateString) {
 	const date = new Date(dateString);
 	const today = new Date();
 	const formattedTime = format(date, "HH:mm");
-  
-	if (isToday(date)) {
-	  const diffInMinutes = differenceInMinutes(today, date);
-	  if (diffInMinutes <= 60) {
-		return `${diffInMinutes} minutes ago`;
-	  } else {
-		return `Today at ${formattedTime}`;
-	  }
-	} else if (isYesterday(date)) {
-	  return `Yesterday at ${formattedTime}`;
-	} else {
-	  const formattedDate = format(date, "dd MMM yyyy");
-	  return `${formattedDate} at ${formattedTime}`;
-	}
-  }
 
+	if (isToday(date)) {
+		const diffInMinutes = differenceInMinutes(today, date);
+		if (diffInMinutes <= 60) {
+			return `${diffInMinutes} minutes ago`;
+		} else {
+			return `Today at ${formattedTime}`;
+		}
+	} else if (isYesterday(date)) {
+		return `Yesterday at ${formattedTime}`;
+	} else {
+		const formattedDate = format(date, "dd MMM yyyy");
+		return `${formattedDate} at ${formattedTime}`;
+	}
+}
 
 function addMonthsOrYears(date, newExpiringRange) {
 	let newDate = new Date(date);
@@ -34,7 +33,7 @@ function addMonthsOrYears(date, newExpiringRange) {
 
 	newDate = dayjs(newDate).format("YYYY-MM-DD");
 
-	console.log(newDate);
+	//console.log(newDate);
 
 	return newDate;
 }
