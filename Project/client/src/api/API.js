@@ -238,6 +238,15 @@ const changeTicketPriority = async (ticketId, priority) => {
 	return data;
 };
 
+const getHistoryForEvaluation = async (expertId) => {
+	const data = await rest.get({
+		endpoint: `/experts/${expertId}`,
+		authenticated: true,
+	});
+
+	return data;
+};
+
 export const authAPI = { login, signUp, signUpExpert };
 
 export const productsAPI = { getProducts, getProduct, createProduct };
@@ -265,4 +274,5 @@ export const ticketsAPI = {
 	getTicketHistory,
 	changeTicketStatus,
 	changeTicketPriority,
+	getHistoryForEvaluation,
 };

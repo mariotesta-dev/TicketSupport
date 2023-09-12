@@ -60,61 +60,63 @@ function NewProductCard() {
 	return (
 		<Center height={"full"} width={"full"} bg={"gray.50"}>
 			<Backbutton href="/dashboard/products" />
-			<Stack
-				spacing={4}
-				w={"full"}
-				maxW={"3xl"}
-				bg={useColorModeValue("white", "gray.700")}
-				rounded={"xl"}
-				boxShadow={"lg"}
-				p={10}
-				my={10}>
-				<Center>
-					<Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
-						Add a new product
-					</Heading>
-				</Center>
-				<Center
-					fontSize={{ base: "sm", sm: "md" }}
-					color={useColorModeValue("gray.800", "gray.400")}>
-					Insert the verification code you've received upon purchase to activate
-					your warranty.
-				</Center>
-
-				<FormControl>
+			<form onSubmit={handleSubscribeProduct}>
+				<Stack
+					spacing={4}
+					w={"full"}
+					maxW={"3xl"}
+					bg={useColorModeValue("white", "gray.700")}
+					rounded={"xl"}
+					boxShadow={"lg"}
+					p={10}
+					my={10}>
 					<Center>
-						<Flex gap={2} flexWrap={"wrap"} justifyContent={"center"}>
-							<PinInput value={ean} onChange={(val) => setEan(val)}>
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-								<PinInputField />
-							</PinInput>
-						</Flex>
+						<Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
+							Add a new product
+						</Heading>
 					</Center>
-				</FormControl>
-				<Stack spacing={6}>
-					<Button
-						isLoading={loading}
-						bg={"blue.400"}
-						color={"white"}
-						_hover={{
-							bg: "blue.500",
-						}}
-						onClick={() => handleSubscribeProduct()}>
-						Verify
-					</Button>
+					<Center
+						fontSize={{ base: "sm", sm: "md" }}
+						color={useColorModeValue("gray.800", "gray.400")}>
+						Insert the verification code you've received upon purchase to
+						activate your warranty.
+					</Center>
+
+					<FormControl>
+						<Center>
+							<Flex gap={2} flexWrap={"wrap"} justifyContent={"center"}>
+								<PinInput value={ean} onChange={(val) => setEan(val)}>
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+									<PinInputField />
+								</PinInput>
+							</Flex>
+						</Center>
+					</FormControl>
+					<Stack spacing={6}>
+						<Button
+							type="submit"
+							isLoading={loading}
+							bg={"blue.400"}
+							color={"white"}
+							_hover={{
+								bg: "blue.500",
+							}}>
+							Verify
+						</Button>
+					</Stack>
 				</Stack>
-			</Stack>
+			</form>
 		</Center>
 	);
 }

@@ -99,52 +99,58 @@ function HistoryDrawer({ ticket, isOpen, onClose, btnRef }) {
 				<Divider />
 
 				<DrawerBody p={10}>
-					<Flex
-						height="full"
-						gap="2"
-						w={"full"}
-						direction={"column"}
-						alignItems={"center"}>
-						{history.map((step, index) =>
-							step.type === "status" ? (
-								<Flex
-									w={"full"}
-									direction={"column"}
-									alignItems={"center"}
-									key={index}>
-									{index > 0 && (
-										<Box w={"1px"} h={"30px"} bg={"gray.400"} mb={"5px"} />
-									)}
-									<Flex
-										gap={2}
-										h={"fit-content"}
-										direction={"column"}
-										alignItems={"center"}>
-										<Status status={step.object.status} />
-										<Text fontSize={"xs"} color={"gray.500"}>
-											{converters.formatDateTime(step.object.updatedAt)}
-										</Text>
-									</Flex>
-									{index > 0 &&
-										index !== history.length - 1 &&
-										history[index + 1].type !== "status" && (
-											<Box w={"1px"} h={"30px"} bg={"gray.400"} mt={"5px"} />
-										)}
-								</Flex>
-							) : (
-								<Flex
-									w={"full"}
-									direction={"column"}
-									alignItems={"center"}
-									key={index}>
-									<Message message={step.object} />
-								</Flex>
-							)
-						)}
-					</Flex>
+					<HistoryBlock history={history} />
 				</DrawerBody>
 			</DrawerContent>
 		</Drawer>
+	);
+}
+
+export function HistoryBlock({ history }) {
+	return (
+		<Flex
+			height="full"
+			gap="2"
+			w={"full"}
+			direction={"column"}
+			alignItems={"center"}>
+			{history.map((step, index) =>
+				step.type === "status" ? (
+					<Flex
+						w={"full"}
+						direction={"column"}
+						alignItems={"center"}
+						key={index}>
+						{index > 0 && (
+							<Box w={"1px"} h={"30px"} bg={"gray.400"} mb={"5px"} />
+						)}
+						<Flex
+							gap={2}
+							h={"fit-content"}
+							direction={"column"}
+							alignItems={"center"}>
+							<Status status={step.object.status} />
+							<Text fontSize={"xs"} color={"gray.500"}>
+								{converters.formatDateTime(step.object.updatedAt)}
+							</Text>
+						</Flex>
+						{index > 0 &&
+							index !== history.length - 1 &&
+							history[index + 1].type !== "status" && (
+								<Box w={"1px"} h={"30px"} bg={"gray.400"} mt={"5px"} />
+							)}
+					</Flex>
+				) : (
+					<Flex
+						w={"full"}
+						direction={"column"}
+						alignItems={"center"}
+						key={index}>
+						<Message message={step.object} />
+					</Flex>
+				)
+			)}
+		</Flex>
 	);
 }
 

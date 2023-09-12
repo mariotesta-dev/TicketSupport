@@ -4,9 +4,7 @@ import it.polito.wa2.server.customers.CustomerExceptions
 import it.polito.wa2.server.customers.toDTO
 import it.polito.wa2.server.tickets.CategoryType
 import it.polito.wa2.server.tickets.TicketDTO
-import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTOWithoutTicket
-import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryService
-import it.polito.wa2.server.tickets.ticketStatusHistories.toDTOWithoutTicket
+import it.polito.wa2.server.tickets.ticketStatusHistories.*
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,12 +22,12 @@ class ExpertServiceImpl(val expertRepository: ExpertRepository,  private val tic
         return response.toDTO()
     }
 
-    override fun getExpertHistoriesForEvaluation(expertId: Long): List<TicketStatusHistoryDTOWithoutTicket> {
+    override fun getExpertHistoriesForEvaluation(expertId: Long): List<TicketStatusHistoryDTO> {
 
         expertRepository.findById(expertId).orElse(null)
             ?: throw ExpertExceptions.ExpertNotFoundException("Expert with id $expertId not found")
 
-        return expertRepository.getExpertHistoriesForEvaluation(expertId).map { it.toDTOWithoutTicket() }
+        return expertRepository.getExpertHistoriesForEvaluation(expertId).map { it.toDTO() }
     }
 
     override fun getAllExpertsByExpertise(expertise: String): List<ExpertDTO> {

@@ -18,6 +18,7 @@ import Pagination from "../Pagination";
 import PrimaryButton from "../PrimaryButton";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Expertise } from "../Expertise";
+import Evaluation from "../Evaluation";
 
 function ExpertsTable({ experts, filter }) {
 	const [paginatedExperts, setPaginatedExperts] = useState();
@@ -94,12 +95,7 @@ function ExpertsTable({ experts, filter }) {
 											<Expertise expertise={expert.expertise} />
 										</Td>
 										<Td>
-											<Button
-												leftIcon={<HamburgerIcon />}
-												size={"sm"}
-												colorScheme="gray">
-												Tickets
-											</Button>
+											<Evaluation expert={expert} />
 										</Td>
 									</Tr>
 								))}

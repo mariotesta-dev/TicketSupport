@@ -4,6 +4,7 @@ import it.polito.wa2.server.auth.AuthData
 import it.polito.wa2.server.auth.AuthService
 import it.polito.wa2.server.tickets.CategoryType
 import it.polito.wa2.server.tickets.TicketDTO
+import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTO
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryDTOWithoutTicket
 import it.polito.wa2.server.tickets.ticketStatusHistories.toDTO
 import jakarta.annotation.security.RolesAllowed
@@ -24,7 +25,7 @@ class ExpertController(private val expertService: ExpertService, private val aut
 
     // this method can be accessed by user whose role is manager
     @GetMapping("/API/experts/{expertId}")
-    fun getExpertHistoriesForEvaluation(@PathVariable expertId: Long) : List<TicketStatusHistoryDTOWithoutTicket> {
+    fun getExpertHistoriesForEvaluation(@PathVariable expertId: Long) : List<TicketStatusHistoryDTO> {
         return expertService.getExpertHistoriesForEvaluation(expertId)
     }
 
