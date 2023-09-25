@@ -162,7 +162,7 @@ function ProductsTable({ products, filter, role }) {
 												</Link>
 											)}
 										</Td>
-										<Td>
+										<Td textAlign={"end"}>
 											<Menu>
 												<MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
 													Tickets

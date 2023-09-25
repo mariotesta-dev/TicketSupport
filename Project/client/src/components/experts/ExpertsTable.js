@@ -94,7 +94,7 @@ function ExpertsTable({ experts, filter }) {
 										<Td textAlign={"center"}>
 											<Expertise expertise={expert.expertise} />
 										</Td>
-										<Td>
+										<Td textAlign={"end"}>
 											<Evaluation expert={expert} />
 										</Td>
 									</Tr>

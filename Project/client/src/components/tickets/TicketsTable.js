@@ -143,7 +143,7 @@ function TicketsTable({ tickets, filter, role }) {
 													converters.formatDateTime(ticket.createdAt)}
 											</Td>
 
-											<Td textAlign={"center"} width={20}>
+											<Td textAlign={"end"} width={20}>
 												<Flex direction={"row"} gap={3}>
 													<Chat ticket={ticket} />
 												</Flex>
@@ -202,6 +202,13 @@ function TicketsTable({ tickets, filter, role }) {
 									<Th textAlign={"center"}>Status</Th>
 									<ThSorting
 										label={"Priority"}
+										sortColumn={sortColumn}
+										setSortColumn={setSortColumn}
+										tickets={tickets}
+										setPaginatedTickets={setPaginatedTickets}
+									/>
+									<ThSorting
+										label={"Last Update"}
 										sortColumn={sortColumn}
 										setSortColumn={setSortColumn}
 										tickets={tickets}
@@ -267,8 +274,12 @@ function TicketsTable({ tickets, filter, role }) {
 											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
 												<Priority ticket={ticket} />
 											</Td>
+											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>
+												{converters.formatDateTime(ticket.status.updatedAt) ||
+													converters.formatDateTime(ticket.createdAt)}
+											</Td>
 
-											<Td textAlign={"center"} width={20}>
+											<Td textAlign={"end"} width={20}>
 												<Flex direction={"row"} gap={3}>
 													<History ticket={ticket} />
 												</Flex>

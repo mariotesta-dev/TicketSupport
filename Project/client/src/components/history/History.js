@@ -109,6 +109,7 @@ function HistoryDrawer({ ticket, isOpen, onClose, btnRef }) {
 export function HistoryBlock({ history }) {
 	return (
 		<Flex
+			mb={10}
 			height="full"
 			gap="2"
 			w={"full"}

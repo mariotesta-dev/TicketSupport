@@ -161,7 +161,7 @@ function TicketEvaluation({ ticket }) {
 					</Text>
 				</Stack>
 				<Stack>
-					<Text fontSize={"sm"} color={"gray.500"}>
+					<Text fontSize={"sm"} color={"gray.500"} maxW={"100px"} isTruncated>
 						{ticket.ticket[0].product.name}
 					</Text>
 					<Text mt={"-2"} mb={"2"} fontSize={"sm"} color={"gray.500"}>
