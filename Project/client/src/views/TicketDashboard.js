@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import TicketsTable from "../components/tickets/TicketsTable";
 import Sidebar from "../components/Sidebar";
-import { useOutletContext } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import * as session from "../utils/SessionUtils.js";
 import { ticketsAPI } from "../api/API.js";
 
@@ -11,6 +11,11 @@ function TicketDashboard() {
 	const role = session.getUserRole();
 	const [tickets, setTickets] = useState([]);
 	const [filter, setFilter] = useState("All");
+	const location = useLocation();
+
+	const searchQuery = location.state?.searchQuery;
+
+	console.log(location.state);
 
 	const [filteredTickets, setFilteredTickets] = useState([]);
 
@@ -42,6 +47,7 @@ function TicketDashboard() {
 				filter={filter}
 				setFilter={setFilter}
 				type="tickets"
+				searchQuery={searchQuery}
 			/>
 			<TicketsTable tickets={filteredTickets} filter={filter} role={role} />
 		</Flex>

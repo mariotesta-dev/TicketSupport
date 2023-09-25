@@ -7,7 +7,6 @@ import {
 	AccordionPanel,
 	Box,
 	Button,
-	Card,
 	Divider,
 	Drawer,
 	DrawerBody,
@@ -22,7 +21,6 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
-import { Status } from "./Status";
 import { toast } from "react-hot-toast";
 import { ticketsAPI } from "../api/API";
 import { HistoryBlock } from "./history/History";

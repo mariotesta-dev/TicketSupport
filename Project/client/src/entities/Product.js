@@ -109,7 +109,8 @@ export default class Product {
 			(product, searchValue) => {
 				return (
 					product.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-					product.brand.toLowerCase().includes(searchValue.toLowerCase())
+					product.brand.toLowerCase().includes(searchValue.toLowerCase()) ||
+					product.ean.includes(searchValue)
 				);
 			},
 		]

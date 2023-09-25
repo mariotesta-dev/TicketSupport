@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Box,
 	FormControl,
@@ -14,7 +14,7 @@ import {
 	Center,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
 import { ticketsAPI } from "../api/API";
 import toast from "react-hot-toast";
@@ -29,6 +29,9 @@ export default function NewTicket() {
 }
 
 function NewTicketCard() {
+	const location = useLocation();
+	const productName = location.state?.productName;
+
 	const [user] = useOutletContext();
 	const [loading, setLoading] = useState(false);
 	const [product, setProduct] = useState("");
@@ -68,6 +71,19 @@ function NewTicketCard() {
 		setProduct(selectedProduct);
 	};
 
+	useEffect(() => {
+		const innerHandleProductSelection = (selectedProductName) => {
+			const selectedProduct = user.warranties.find(
+				(w) => w.product.name === selectedProductName
+			);
+			setProduct(selectedProduct);
+		};
+
+		if (productName) {
+			innerHandleProductSelection(productName);
+		}
+	}, [productName, user.warranties]);
+
 	return (
 		<Center height={"full"} width={"full"}>
 			<Backbutton href="/dashboard/tickets" />
@@ -89,6 +105,7 @@ function NewTicketCard() {
 									<FormControl w="60" isRequired>
 										<FormLabel>Product</FormLabel>
 										<Select
+											defaultValue={productName ? productName : ""}
 											placeholder="Select a product"
 											onChange={(event) =>
 												handleProductSelection(event.target.value)

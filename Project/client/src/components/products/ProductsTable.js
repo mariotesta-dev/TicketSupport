@@ -11,6 +11,10 @@ import {
 	Text,
 	Flex,
 	Button,
+	Menu,
+	MenuButton,
+	MenuList,
+	MenuItem,
 } from "@chakra-ui/react";
 
 import React, { useState } from "react";
@@ -20,6 +24,7 @@ import PrimaryButton from "../PrimaryButton";
 import { Link } from "react-router-dom";
 import AddPurchase from "../AddPurchaseModal";
 import dayjs from "dayjs";
+import { AddIcon, ChevronDownIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 
 function ProductsTable({ products, filter, role }) {
 	const [paginatedProducts, setPaginatedProducts] = useState();
@@ -73,7 +78,7 @@ function ProductsTable({ products, filter, role }) {
 								<Th textAlign={"center"}>End of warranty</Th>
 								<Th textAlign={"center"}>Warranty</Th>
 								<Th></Th>
-								{role.match("customer") && <Th textAlign={"center"}></Th>}
+								<Th></Th>
 							</Tr>
 						</Thead>
 						<Tbody>
@@ -156,6 +161,32 @@ function ProductsTable({ products, filter, role }) {
 													</Button>
 												</Link>
 											)}
+										</Td>
+										<Td>
+											<Menu>
+												<MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+													Tickets
+												</MenuButton>
+
+												<MenuList>
+													{role.match("customer") && (
+														<MenuItem
+															icon={<AddIcon />}
+															as={Link}
+															to={"/dashboard/tickets/new"}
+															state={{ productName: product.name }}>
+															New Ticket
+														</MenuItem>
+													)}
+													<MenuItem
+														icon={<ExternalLinkIcon />}
+														as={Link}
+														to={"/dashboard/tickets"}
+														state={{ searchQuery: product.ean }}>
+														See all tickets
+													</MenuItem>
+												</MenuList>
+											</Menu>
 										</Td>
 									</Tr>
 								))}

@@ -14,10 +14,20 @@ import { useCallback, useEffect, useState } from "react";
 import { SearchIcon } from "@chakra-ui/icons";
 import Expert from "../entities/Expert";
 
-function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
+function Sidebar({
+	data,
+	setData,
+	filteredData,
+	filter,
+	setFilter,
+	type,
+	searchQuery,
+}) {
 	const role = getUserRole();
 	const [oldData, setOldData] = useState([]);
-	const [searchValue, setSearchValue] = useState("");
+	const [searchValue, setSearchValue] = useState(
+		searchQuery ? searchQuery : ""
+	);
 
 	useEffect(() => {
 		if (oldData.length === 0) {
@@ -94,7 +104,6 @@ function Sidebar({ data, setData, filteredData, filter, setFilter, type }) {
 										key={key}
 										onClick={() => handleFilter(item.label)}
 										color={filter === item.label ? "blue.500" : "gray.600"}
-										href="#"
 										fontWeight={filter === item.label ? "bold" : "normal"}>
 										{item.label + ` (${getDataCountForCategory(item.label)})`}
 									</Link>

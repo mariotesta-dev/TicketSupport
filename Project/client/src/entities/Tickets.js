@@ -61,7 +61,8 @@ export default class Ticket {
 						.toLowerCase()
 						.includes(searchValue.toLowerCase()) ||
 					ticket.category.toLowerCase().includes(searchValue.toLowerCase()) ||
-					ticket.summary.toLowerCase().includes(searchValue.toLowerCase())
+					ticket.summary.toLowerCase().includes(searchValue.toLowerCase()) ||
+					ticket.product.ean.includes(searchValue)
 				);
 			},
 		]
