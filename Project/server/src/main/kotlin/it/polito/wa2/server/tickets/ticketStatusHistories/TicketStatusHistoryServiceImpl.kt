@@ -1,6 +1,7 @@
 package it.polito.wa2.server.tickets.ticketStatusHistories
 
 import it.polito.wa2.server.messages.toDTO
+import it.polito.wa2.server.observability.ObservabilityUtils
 import it.polito.wa2.server.tickets.Ticket
 import it.polito.wa2.server.tickets.TicketExceptions
 import it.polito.wa2.server.tickets.TicketRepository
@@ -13,14 +14,17 @@ import kotlin.reflect.full.createInstance
 @Service
 class TicketStatusHistoryServiceImpl(
     private val ticketStatusHistoryRepository: TicketStatusHistoryRepository,
-    private val ticketRepository: TicketRepository
+    private val ticketRepository: TicketRepository,
+    private val obs: ObservabilityUtils,
 ) : TicketStatusHistoryService {
 
     private fun setStatus(status: TicketStatus, ticket: Ticket) : TicketStatusHistoryDTO {
-        val ticketHistoryRecord = TicketStatusHistory::class.createInstance()
-        ticketHistoryRecord.ticket = ticket
-        ticketHistoryRecord.status = status
-        return ticketStatusHistoryRepository.save(ticketHistoryRecord).toDTO()
+        return obs.count("ticket_status_${status.name.toLowerCase()}_counter") {
+            val ticketHistoryRecord = TicketStatusHistory::class.createInstance()
+            ticketHistoryRecord.ticket = ticket
+            ticketHistoryRecord.status = status
+            ticketStatusHistoryRepository.save(ticketHistoryRecord).toDTO()
+        }
     }
 
     private fun moveToStatus(ticket: Ticket, last: TicketStatus, next: TicketStatus) : TicketStatusHistoryDTO {

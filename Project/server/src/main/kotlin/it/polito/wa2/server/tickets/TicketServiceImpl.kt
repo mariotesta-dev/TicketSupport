@@ -1,14 +1,13 @@
 package it.polito.wa2.server.tickets
 
+import io.micrometer.core.instrument.Tag
 import it.polito.wa2.server.config.JwtUtils
-import it.polito.wa2.server.customers.CustomerExceptions
 import it.polito.wa2.server.customers.CustomerRepository
 import it.polito.wa2.server.experts.ExpertExceptions
 import it.polito.wa2.server.experts.ExpertRepository
-import it.polito.wa2.server.experts.ExpertService
-import it.polito.wa2.server.experts.ExpertServiceImpl
 import it.polito.wa2.server.messages.MessageDTO
 import it.polito.wa2.server.messages.toDTO
+import it.polito.wa2.server.observability.ObservabilityUtils
 import it.polito.wa2.server.products.ProductExceptions
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.tickets.ticketStatusHistories.*
@@ -17,6 +16,7 @@ import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import javax.annotation.Resource
 import kotlin.reflect.full.createInstance
 
 @Service
@@ -25,8 +25,10 @@ class TicketServiceImpl(
     private val ticketStatusHistoryRepository: TicketStatusHistoryRepository,
     private val expertRepository: ExpertRepository,
     private val customerRepository: CustomerRepository,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val obs: ObservabilityUtils,
 ) : TicketService {
+
 
     override fun getAllTickets(): List<TicketDTO> {
         return ticketRepository.findAll().map { ticket ->
@@ -46,7 +48,6 @@ class TicketServiceImpl(
     }
 
     override fun createNewTicket(ticket: Ticket, jwt: Jwt) : TicketDTO {
-
         val customerEmail = JwtUtils.getEmail(jwt)!!;
         val customer = customerRepository.findCustomerByEmail(customerEmail)
 
@@ -62,7 +63,10 @@ class TicketServiceImpl(
         ticketHistoryRecord.updatedAt = LocalDateTime.now()
         ticketStatusHistoryRepository.save(ticketHistoryRecord)
 
-        return newTicket.toDTO(ticketHistoryRecord.toStatus())
+
+         return obs.count("ticket_created_counter") {
+            newTicket.toDTO(ticketHistoryRecord.toStatus())
+        }
     }
 
     override fun assignTicket(ticketId: Long, assignment: TicketController.Assignment): TicketDTO {
@@ -86,8 +90,9 @@ class TicketServiceImpl(
             history.status = TicketStatus.IN_PROGRESS
             history.updatedAt = LocalDateTime.now()
             ticketStatusHistoryRepository.save(history)
-
-            return newTicket.toDTO(history.toStatus())
+            return obs.count("ticket_status_in_progress_counter") {
+                newTicket.toDTO(history.toStatus())
+            }
         } else {
             throw TicketExceptions.TicketsNotFoundException("Ticket with id $ticketId not found")
         }
