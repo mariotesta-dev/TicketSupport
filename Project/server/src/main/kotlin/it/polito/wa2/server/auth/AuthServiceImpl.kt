@@ -150,7 +150,9 @@ class AuthServiceImpl(val expertService: ExpertService, val customerService: Cus
             throw AuthExceptions.UnableToSignUpException(e.message!!)
         }
 
-        expertService.createExpert(user.toExpert())
+        val expert = user.toExpert()
+        expert.expertise = userRegistration.expertise;
+        expertService.createExpert(expert)
 
         val successMessage = "Expert created successfully"
         val responseObject: Any = object : Any() {
