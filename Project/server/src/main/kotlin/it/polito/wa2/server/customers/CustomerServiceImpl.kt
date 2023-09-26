@@ -1,9 +1,12 @@
 package it.polito.wa2.server.customers
 
+import it.polito.wa2.server.auth.AuthExceptions
 import it.polito.wa2.server.tickets.TicketDTO
 import it.polito.wa2.server.tickets.TicketRepository
 import it.polito.wa2.server.tickets.ticketStatusHistories.TicketStatusHistoryService
 import it.polito.wa2.server.tickets.toDTO
+import org.keycloak.admin.client.CreatedResponseUtil
+import org.keycloak.admin.client.KeycloakBuilder
 import org.springframework.stereotype.Service
 
 @Service
@@ -51,10 +54,33 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository, pr
             }
         }
 
+        updateCustomerKeyclock(email, customerFound, customer)
+
         customerFound.name = customer.name
         customerFound.surname = customer.surname
         customerFound.email = customer.email
         return customerRepository.save(customerFound).toDTO()
 
+    }
+
+    fun updateCustomerKeyclock(email: String, customer: Customer, newCustomer: Customer) {
+        val kc = KeycloakBuilder.builder()
+            .serverUrl("http://localhost:8080")
+            .realm("master")
+            .clientId("admin-cli")
+            .username("admin")
+            .password("admin")
+            .build();
+
+        try {
+            val users = kc.realm("ticketing").users().search(null, null, null, customer.email, 0, 1,);
+            val user = users[0]
+            user.firstName = newCustomer.name
+            user.lastName = newCustomer.surname
+            user.email = newCustomer.email
+            kc.realm("ticketing").users().get(user.id).update(user)
+        } catch (e: Exception) {
+            throw CustomerExceptions.CustomerKeyclockException(e.message!!)
+        }
     }
 }

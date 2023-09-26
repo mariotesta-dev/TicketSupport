@@ -7,4 +7,7 @@ class CustomerExceptions {
     class CustomerAlreadyExistsException(message: String) : RuntimeException(message)
 
     class CustomerEmailDoesntMatch(message: String) : RuntimeException(message)
+
+    class CustomerKeyclockException(message: String) : RuntimeException(message)
+
 }
