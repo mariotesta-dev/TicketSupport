@@ -14,7 +14,7 @@ function Expertise({ expertise }) {
 function getColorScheme(expertise) {
 	switch (expertise) {
 		case "INFORMATION":
-			return "black";
+			return "cyan";
 		case "HARDWARE":
 			return "yellow";
 		case "MAINTENANCE":
@@ -34,4 +34,4 @@ function getColorScheme(expertise) {
 	}
 }
 
-export {Expertise, getColorScheme};
+export { Expertise, getColorScheme };

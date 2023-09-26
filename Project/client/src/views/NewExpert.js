@@ -116,7 +116,6 @@ function NewExpertCard() {
 							<FormControl id="category" isRequired>
 								<FormLabel>Expertise</FormLabel>
 								<Select
-									value={expertise}
 									placeholder="Select the expertise"
 									onChange={(event) => setExpertise(event.target.value)}>
 									<option>INFORMATION</option>

@@ -135,7 +135,11 @@ function TicketsTable({ tickets, filter, role }) {
 											</Td>
 
 											<Td textAlign={"center"}>
-												<Status status={ticket.status.status || "OPEN"} />
+												{session.isCustomer() ? (
+													<Status status={ticket.status.status || "OPEN"} />
+												) : (
+													<ChangeStatusModal ticket={ticket} />
+												)}
 											</Td>
 
 											<Td textAlign={"center"} fontSize={14} color={"gray.500"}>

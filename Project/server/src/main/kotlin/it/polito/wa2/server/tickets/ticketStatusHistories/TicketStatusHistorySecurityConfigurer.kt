@@ -10,9 +10,8 @@ class TicketStatusHistorySecurityConfigurer : SecurityConfigurerInterface {
 
     override fun configure(http: HttpSecurity) {
         http.authorizeHttpRequests()
-            .requestMatchers(javax.ws.rs.HttpMethod.GET, "/API/history/**").hasRole("MANAGER")
-            .requestMatchers(javax.ws.rs.HttpMethod.PUT, "/API/history/in_progress/**").hasRole("MANAGER")
             .requestMatchers(javax.ws.rs.HttpMethod.PUT, "/API/history/**").hasAnyRole("EXPERT","MANAGER")
-
+            .requestMatchers(javax.ws.rs.HttpMethod.PUT, "/API/history/in_progress/**").hasAnyRole("EXPERT","MANAGER")
+            .requestMatchers(javax.ws.rs.HttpMethod.GET, "/API/history/**").hasRole("MANAGER")
     }
 }

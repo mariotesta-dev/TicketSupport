@@ -139,7 +139,7 @@ function DescriptionMessage({ ticket }) {
 					maxW="350px"
 					my="1"
 					p="3">
-					<Text>{item.text}</Text>
+					<Text overflowWrap={"anywhere"}>{item.text}</Text>
 				</Flex>
 			</Flex>
 			{isCustomer() && (
