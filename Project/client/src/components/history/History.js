@@ -79,6 +79,15 @@ function HistoryDrawer({ ticket, isOpen, onClose, btnRef }) {
 						<DrawerCloseButton />
 						<Stack pt={1}>
 							<Text fontSize={"sm"} color={"gray.500"}>
+								Summary:{" "}
+								<Text
+									as={"span"}
+									fontWeight={"normal"}
+									wordBreak={"break-word"}>
+									{ticket.summary}
+								</Text>
+							</Text>
+							<Text fontSize={"sm"} color={"gray.500"}>
 								Description:{" "}
 								<Text
 									as={"span"}

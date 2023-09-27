@@ -104,10 +104,6 @@ function WithSubnavigation({ NAV_ITEMS }) {
 								<Avatar size={"sm"} name={user.name} />
 							</MenuButton>
 							<MenuList>
-								<MenuItem as={"a"} href="/dashboard/settings">
-									Settings
-								</MenuItem>
-								<MenuDivider />
 								<MenuItem onClick={() => handleLogOut()}>Log out</MenuItem>
 							</MenuList>
 						</Menu>
